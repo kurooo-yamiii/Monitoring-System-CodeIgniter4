@@ -20,11 +20,7 @@
 	background-image: url(<?=base_url('assets/img/bg.png')?>);
 	background-size: cover;
 	background-repeat: no-repeat;
-	/* display: flex;
-	justify-content: center;
-	align-items: center; */
 	height: 100vh;
-	/* flex-direction: column; */
 }
 body::before{
     content: '';
