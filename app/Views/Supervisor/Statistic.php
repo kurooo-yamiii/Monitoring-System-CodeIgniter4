@@ -157,7 +157,7 @@
 	</div>
 <!-- PST REMARKS MODAL -->
 <div class="modal fade" id="RemarksModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" style="max-width: 40%;" role="document">
+		<div class="modal-dialog modal-lg" style="max-width: 45%;" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">
@@ -174,6 +174,32 @@
 				</div>
 				<div class="modal-body">
 					<div id="ReflectRemarks"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- PST PROFILE MODAL -->
+<div class="modal fade" id="ProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" style="max-width: 40%;" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">
+							<div class="logos">
+								<div class="logo-right">
+									<img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
+								</div>
+								<div>PST <span id="divProfileName" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></div>
+							</div>	
+						</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="ReflectProfile"></div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -226,7 +252,10 @@
 								<small style="margin-bottom: 3px;">Supervisor: ${info.Supervisor}</small>
 								<div class="monitor-button" style="display: flex; flex-direction: row;">
 									<button onclick="displayDashboard(${info.ID}, '${info.Name}')" class="btn btn-primary" type="button" style="margin-right: 2%;" data-target="#DashboardModal" data-toggle="modal">Monitor</button>  
-									<button onclick="displayProfile()" class="btn btn-success" type="button" style="margin-right: 2%;">
+									<button onclick="displayDTR(${info.ID}, '${info.Name}')" class="btn btn-secondary" style="margin-right: 2%;" type="button" data-target="#DTRModal" data-toggle="modal">
+										<span class="fa fa-calendar" aria-hidden="true"></span>
+									</button> 
+									<button onclick="displayProfile('${info.ID}', '${info.Name}', '${info.Section}', '${info.Program}', '${info.Contact}', '${info.Username}', '${info.Profile}', '${info.Supervisor}', '${info.Coordinator}', '${info.School}', '${info.Resource}', '${info.Division}', '${info.Grade}')" class="btn btn-success" type="button" style="margin-right: 2%;" data-target="#ProfileModal" data-toggle="modal">
 										<span class="fa fa-user" aria-hidden="true"></span>
 									</button> 
 									<button onclick="displayEvaluation(${info.ID}, '${info.Name}')" class="btn btn-warning" type="button" data-target="#EvaluationModal" data-toggle="modal">
@@ -627,4 +656,73 @@
 		$('#ReflectRemarks').text('There are no remarks for this lesson');
 		}
 	}
+
+	function displayProfile(id, name, section, program, contact, username, profile, supervisor, coordinator, school, resource, division, grade) {
+		var profileDiv = $('#ReflectProfile'); 
+		$('#divProfileName').text(name);
+		profileDiv.empty();
+		var profileImageSrc = profile ? `<?= base_url('assets/uploads/') ?>${profile}` : '<?= base_url('assets/img/default.jpeg') ?>';
+		var userProfile = $(`
+							<div class="prof-center">
+								<img class="profile-image" src="${profileImageSrc}">
+							</div>
+							<div class="indent-left">
+								<p class="prof-title">I. Profile of the Student</p>
+								<table class="prof-table">
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Name:</th>
+										<td class="profile-td" style="text-align: left !important;">${name}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Section:</th>
+										<td class="profile-td" style="text-align: left !important;">${section}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Program:</th>
+										<td class="profile-td" style="text-align: left !important;">${program}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Contact:</th>
+										<td class="profile-td" style="text-align: left !important;">${contact}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Email:</th>
+										<td class="profile-td" style="text-align: left !important;">${username}</td>
+									</tr>
+								</table>
+							</div>
+							<div class="indent-left">
+								<p class="prof-title">II. Deployment Info</p>
+								<table class="prof-table">
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Supervisor:</th>
+										<td class="profile-td" style="text-align: left !important;">${supervisor ? supervisor : 'Not Yet Deployed'}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Coordinator:</th>
+										<td class="profile-td" style="text-align: left !important;">${coordinator ? coordinator : 'Not Yet Deployed'}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">School:</th>
+										<td class="profile-td" style="text-align: left !important;">${school ? school : 'Not Yet Deployed'}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Resource:</th>
+										<td class="profile-td" style="text-align: left !important;">${resource ? resource : 'Not Yet Deployed'}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Division:</th>
+										<td class="profile-td" style="text-align: left !important;">${division ? division : 'Not Yet Deployed'}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Grade Level:</th>
+										<td class="profile-td" style="text-align: left !important;">${grade ? grade : 'Not Yet Deployed'}</td>
+									</tr>
+								</table>
+							</div>
+							</div>
+						`);
+			profileDiv.append(userProfile);
+	}
+
 </script>
