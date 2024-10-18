@@ -130,7 +130,6 @@ body::before{
             return false;		
         }
 
-        
         function successMessage(icon,message,duration){
             const Toast = Swal.mixin({
                 toast: true,
@@ -139,7 +138,6 @@ body::before{
                 timer: duration,
                 timerProgressBar: true
             })
-
             Toast.fire({
                 icon: icon,
                 title: message
