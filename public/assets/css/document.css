@@ -1,0 +1,502 @@
+body {
+    position: relative;
+	margin: 0;
+	padding: 0;
+	font-family: san-serif;
+	background-image: url(resources/bg.png);
+	background-size: cover;
+    background-repeat: no-repeat;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: auto;
+	flex-direction: column;
+}
+body::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+}
+
+  * {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+  }
+  
+  .main-section {
+    background: transparent;
+    max-width: 500px;
+    width: 90%;
+    height: 500px;
+    margin: 30px auto;
+    border-radius: 10px;
+  }
+  
+ form .add-section {
+    width: 100%;
+    background: #fff;
+    margin: 0px auto;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  form .add-section input {
+    display: block;
+    width: 95%;
+    height: 40px;
+    margin: 10px auto;
+    border: 2px solid #ccc;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 0px 5px;
+  }
+  
+  form  .add-section button {
+    display: block;
+    width: 95%;
+    height: 40px;
+    margin: 0px auto;
+    border: none;
+    outline: none;
+    background: #0088FF;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  form .add-section button:hover {
+    box-shadow: 0 2px 2px 0 #ccc, 0 2px 3px 0 #ccc;
+    opacity: 0.7;
+  }
+  
+  form .add-section button span {
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+  }
+  
+  #errorMes {
+    display: block;
+    background: #f2dede;
+    width: 95%;
+    margin: 0px auto;
+    color: rgb(139, 19, 19);
+    padding: 10px;
+    height: 35px;
+  }
+  
+  form .show-todo-section {
+    width: 100%;
+    background: #fff;
+    margin: 15px auto;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  form .todo-item {
+    width: 95%;
+    margin: 10px auto;
+    padding: 20px 10px;
+    box-shadow: 0 4px 8px 0 #ccc, 0 6px 20px 0 #ccc;
+    border-radius: 5px;
+  }
+  
+  form .todo-item h2 {
+    display: inline-block;
+    padding: 5px 0px;
+    font-size: 17px;
+    margin-left: 3%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    color: #555;
+  }
+  
+  form .todo-item small {
+    display: block;
+    width: 100%;
+    padding: 5px 0px;
+    color: #888;
+    padding-left: 30px;
+    font-size: 14px;
+    font-family: sans-serif;
+  }
+  
+  form .removee-to-do {
+    display: block;
+    float: right;
+    padding-top: 5px;
+    width: 60px;
+    height: 30px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid darkred; 
+    color:white; 
+    background-color: darkred; 
+    font-size: 15px;
+    text-align: center;
+    transition: background 1s;
+    box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.5);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    margin-right: -12px;
+  }
+  
+  form .removee-to-do:hover {
+    opacity: .7;
+    transition: 0.7s;
+  }
+
+  form .remove-to-do {
+    display: block;
+    float: right;
+    padding-top: 5px;
+    width: 60px;
+    height: 30px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid gold; 
+    color:navy; 
+    background-color: gold; 
+    font-family: sans-serif;
+    text-align: center;
+    transition: background 1s;
+    box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.5);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    margin-right: -12px;
+  }
+  
+  form .remove-to-do:hover {
+    opacity: .7;
+    transition: 0.7s;
+  }
+  
+  form .checked {
+    color: #999 !important;
+    text-decoration: line-through;
+  }
+  
+  form .todo-item input {
+    margin: 0px 5px;
+  }
+  
+  form .empty {
+    font-family: sans-serif;
+    font-size: 16px;
+    text-align: center;
+    color: #cccc;
+  }
+  html, body {
+    height: auto;
+    margin: 0;
+}
+
+
+form {
+	width: 70%;
+	border: 2px solid #ccc;
+	padding: 30px;
+	background: #fff;
+	border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   align-items: center;
+    justify-content: center;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+form img {
+  align-items: center;
+  justify-content: center;
+}
+form p {
+    margin-top: 1%;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: -10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+}
+form .accumulated {
+    margin-top: 1%;
+	justify-content: center;
+	text-align: center;
+    margin-top: -2%;
+	margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+}
+form span {
+    margin-top: 1%;
+	justify-content: center;
+	text-align: center;
+	margin-bottom: -10px;
+    font-size: 20px;
+    font-weight: 750;
+    color: navy;
+}
+
+form .ave {
+  margin-top: 1%;
+  margin-left: 4px;
+  justify-content: center;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 750;
+  color: #40754C;
+}
+
+input {
+	display: block;
+	border: 2px solid #ccc;
+	width: 95%;
+	padding: 10px;
+	margin: 10px auto;
+	border-radius: 5px;
+}
+label {
+	color: #888;
+	font-size: 18px;
+	padding: 10px;
+}
+
+button {
+  display: inline-block;
+  padding: 14px 35px;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid navy; 
+  color: #fff; 
+  background-color: navy; 
+  border-radius: 5px; 
+  margin-right: 3px;
+}
+button:hover{
+	opacity: .7;
+  transition: 0.7s;
+}
+.error {
+   background: #F2DEDE;
+   color: #A94442;
+   padding: 10px;
+   width: 95%;
+   border-radius: 5px;
+   margin: 20px auto;
+}
+
+.success {
+	background: #D4EDDA;
+	color: #40754C;
+	padding: 10px;
+	width: 95%;
+	border-radius: 5px;
+	margin: 20px auto;
+ }
+
+h1  {
+	text-align: center;
+	color: #fff;
+}
+form .linkstyle {
+    text-decoration: none;
+}
+.ca {
+	font-size: 14px;
+	display: inline-block;
+	padding: 10px;
+	text-decoration: none;
+	color: #444;
+}
+.ca:hover {
+	text-decoration: underline;
+} 
+form img{
+	width: 30%;
+    display: relative;
+	margin-bottom: 5%;
+    margin-top: 5%;
+	justify-content: center;
+    display:relative;
+}
+form .logo{
+	width: 16%;
+    display: relative;
+	margin-bottom: 6%;
+    margin-top: 5%;
+    margin-left: 41%;
+	justify-content: center;
+    display:relative;
+}
+.link-right {
+	display: flex;
+	justify-content: flex-end;
+    margin-top: -7.2%;
+    padding-bottom: 2%;
+}
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
+  }
+
+form .menu-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+
+form .menu-item:hover {
+    transform: scale(1.05);
+  }
+
+form .menu-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+
+form .menu-label {
+    font-size: 16px;
+  }
+  table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-left: 5%;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background-color: gold;
+    color: navy;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  form td .blue-button {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: #fff;
+    padding: 7px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form td .blue-button:hover {
+    background-color: #286090;
+    border-color: #204d74;
+}
+  form td .red-button {
+    background-color: #d9534f; 
+    border-color: #d9534f; 
+    color: #fff; 
+    padding: 7px 16px; 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px; 
+    cursor: pointer;
+  }
+  
+  form td .red-button:hover {
+    background-color: #c9302c; 
+    border-color: #ac2925; 
+  }
+
+  
+ 
+  form .alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  form .alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
+  
+  form .alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  form .alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+
+  form .btn-golden{
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid green; 
+    color: whitesmoke;
+    background-color: green; 
+    border-radius: 5px; 
+  }
+  
+
+form .btn-primary{
+    display: inline-block;
+    padding: 14px 25px;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid navy; 
+    color: #fff; 
+    background-color: navy; 
+    border-radius: 5px; 
+  }
+  
+  form .btn-primary:hover {
+    opacity: .7;
+    transition: 0.7s;
+  }
+  form .button-container {
+    display: flex;
+    justify-content: right;
+    margin-top: 20px; 
+    margin-right: 20px;
+}

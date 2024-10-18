@@ -1,0 +1,1038 @@
+@keyframes transition {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: arial, sans-serif;
+}
+.body {
+	display: flex;
+}
+
+/* Header Format */
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 40px;
+	background: rgb(1, 1, 72);
+	color: #fff;
+}
+/* Header Span Icon costumization */
+.header span {
+	font-size: 30px;
+	cursor: pointer;
+	color: #fff;
+}
+.header span:hover {
+	color: #127b8e;
+}
+/* =============================== */
+
+/* Use for Tittle Name of the Page */
+.u-name {
+	font-size: 20px;
+}
+.u-name b {
+	color: #e3b154;
+}
+/* =============================== */
+
+
+/* Side Bar Format */
+.side-bar {
+	width: 250px;
+	background: #041b5a;
+	height: 677px;
+	max-height: 677px;
+	transition: 500ms width;
+}
+/* Side Bar Format for the list of button */
+.side-bar ul {
+	margin-top: 20px;
+	list-style: none;
+}
+.side-bar ul li {
+	font-size: 16px;
+	padding: 12px 0px;
+	padding-left: 20px;
+	transition: 500ms background;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.side-bar ul li:hover {
+	background: rgb(1, 1, 46);
+}
+
+.side-bar ul li b a {
+	text-decoration: none;
+	color: #eee;
+	cursor: pointer;
+	letter-spacing: 1px;
+}
+
+.side-bar ul li b a i {
+	display: inline-block;
+	padding-right: 15px;
+	font-size: 23px;
+}
+
+.side-bar span {
+	display: inline-block;
+	margin-right: 15px;
+	font-size: 30px;
+}
+
+.side-bar p {
+	display: inline-block;
+}
+
+.side-bar .direction {
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+	align-items: center;
+	text-align: center;
+}
+
+/* Side Bar use format including picture and Name */
+.user-p {
+	text-align: center;
+	padding-left: 10px;
+	padding-top: 25px;
+}
+.user-p img {
+	width: 100px;
+  height: 100px;
+	border-radius: 50%;
+}
+.user-p h4 {
+	color: #ccc;
+	padding: 8px 0;
+	margin-right: 5px;
+	margin-left: 5px;
+
+}
+/* =============================== */
+
+/* Form for the body (Changing Forms) */
+.section-1 {
+	width: 100%;
+	background-image: url(resources/bg.png);
+	background-size: cover;
+  	background-repeat: no-repeat;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+.section-1 form {
+	width: 96%;
+	height: 630px;
+	border: 2px solid #ccc;
+	padding: 30px;
+	background: #fff;
+	border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   	align-items: center;
+    justify-content: center;
+	margin-top: -10px;
+	animation: transition 1s;
+	transition: ease-in-out;
+	max-width: 100%; 
+	max-height: 630px;
+    overflow-y: auto; 
+ 
+	
+}
+
+/* Dashboard and Divider */
+
+ .divider {
+	margin-top: 8px;
+	margin-bottom: 8px;
+    width: 100%;
+    height: 3px;
+    background-color: #000000;
+}
+
+.dashboard {
+	flex: 1;
+    display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+    padding: 5px;
+    background-color: #fffdfd;
+	margin-top: -20px;
+}
+
+.logos {
+	display: flex;
+	align-items: center;
+}
+
+.logo {
+	margin-left: 20px;	
+}
+
+h1 {
+	font-size: 22px;
+	padding: 12px;
+}
+
+.space {
+  height: 20px;
+  width: 100%;
+}
+
+/* Costumize Canvas and giving tittle to canvas */
+
+.eval-update {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr); 
+    height: 250px; 
+    place-items: center;
+}
+
+.canvas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    margin-top: 10px;
+}
+
+.canvas-container:hover {
+  transform: scale(1.1);
+}
+
+.canvas-container h2 {
+    margin-bottom: 10px; 
+    font-size: 18px;
+	display: flex;
+    align-items: center; 
+    justify-content: center; 
+}
+
+
+
+  /* Costumize Table of Approved DTR */
+.eval-studd {
+    display: grid;
+    padding: 20px;
+}
+
+.eval-studd h2 {
+	margin-top: -10px;
+    margin-bottom: 20px; 
+    font-size: 18px;
+}
+
+.eval-studd h3 {
+	margin-top: -10px;
+    margin-bottom: -20px; 
+    font-size: 18px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+	margin-top: 30px;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background-color: gold;
+    color: navy;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+
+#datee {
+    display: block;
+    border: 2px solid #ccc;
+    width: 40%;
+    padding: 8px;
+    margin: 5px 0; /* Adjust margin as needed */
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.sortalign {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+    margin: 0; /* Remove default margin */
+}
+
+.sortalign select {
+    margin-right: 10px; /* Adjust spacing between select and other elements */
+}
+
+#consume {
+        width: 95%;
+        }
+  /* Costumize Button Display */
+
+.btn-primary{
+    display: inline-block;
+    padding: 14px 25px;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid navy; 
+    color: #fff; 
+    background-color: navy; 
+    border-radius: 5px; 
+         margin-left: 2px;
+  }
+  
+.btn-primary:hover {
+    opacity: .7;
+    transition: 0.7s;
+  }
+.button-container {
+    display: flex;
+    justify-content: right;
+    margin-top: 20px; 
+	padding-bottom: 10px;
+}
+
+button {
+	display: inline-block;
+	padding: 14px 35px;
+	font-size: 15px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	border: 1px solid navy; 
+	color: #fff; 
+	background-color: navy; 
+	border-radius: 5px; 
+	margin-right: 3px;
+  }
+button:hover {
+	  opacity: .7;
+	transition: 0.7s;
+  }
+
+/* Time in and Time out Display */  
+
+.form-group {
+	justify-content: center;
+	text-align: center;
+	align-items: center;
+	width: 100%;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.form-but {
+	justify-content: center;
+	text-align: center;
+	align-items: center;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	display: flex;
+	flex-direction: column;
+}
+
+input {
+    display: block;
+    border: 2px solid #ccc;
+    width: 40%;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    color: #888;
+    font-size: 18px;
+    padding: 5px; 
+    width: 40%; 
+    text-align: left; 
+}
+
+#accid {
+	display: none;
+}
+
+/* For Evaluation Form */
+/* Evaluation View Table Styles */
+
+.eval-title{
+  color: whitesmoke;
+	background-color: navy;
+	margin-top: 1%;
+  font-size: 18px;
+	justify-content: left;
+	text-align: left;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 3px;
+	margin-bottom: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 400;
+  width: 100%;
+  
+}
+.custom-title-eval {
+  color: whitesmoke;
+	background-color: navy;
+	margin-top: 10%;
+  font-size: 18px;
+	justify-content: left;
+	text-align: left;
+	padding-left: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-bottom: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 400;
+}
+.custom-table-form2 {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.custom-table-row-form2 {
+  color: rgb(0, 0, 0);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  width: 80%;
+  padding: 3px;
+  text-align: left;
+}
+
+.custom-table-column-form2 {
+  padding: 3px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.custom-table-form2, .custom-table-row-form2, .custom-table-column-form2 {
+  border: none;
+  background-color: transparent; 
+}
+
+.goldview{
+  background-color: gold;
+  color: navy;
+  padding-top: 10px; 
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  margin-bottom: -14px;
+  text-align: center;
+  padding-bottom: 13px;
+}
+
+.form-group-eval-form2 {
+  border-style: solid;
+  border-top: transparent;
+  border-color: black;
+  border-width: 1px;
+  justify-content: center;
+  align-items: center;
+}
+
+.reamrks-label {
+  color: #0f0e0e;
+	font-size: 17px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 400;
+  margin: 10px auto;
+	display: inline-block;
+	vertical-align: middle;
+  margin-right: -5px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 22px;
+}
+  
+/* Announcement View Table Styles */
+
+
+.date-pin {
+  display: block;
+  float: right;
+  padding-top: 5px;
+  width: 117px;
+  height: 30px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid darkred;
+  color: white;
+  background-color: darkred;
+  font-size: 15px;
+  text-align: center;
+  transition: background 1s;
+  box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.5);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  margin-right: -12px;
+  margin-bottom: 8px;
+}
+
+.todo-item img {
+  max-width: 70%;
+  height: auto;
+  overflow: hidden;
+}
+
+form .empty {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.announce-para span {
+  margin-top: 1%;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: -10px;
+  font-size: 20px;
+  font-weight: 750;
+  color: navy;
+}
+
+.announce-para {
+  margin-top: 1%;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: -10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(0, 0, 0);
+}
+
+.post-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post-group label {
+  display: flex;
+  text-align: left;
+  margin-right: 2%;
+  margin-top: -1%;
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+#choosepost {
+  margin-left: 7%;
+}
+
+.choose-post {
+  display: flex;
+  flex-direction: row;
+}
+
+.pic-description {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  margin-right: 4%;
+}
+
+.pic-announce {
+  flex: 1;
+}
+
+
+/* Profile CSS */
+
+.profile-image {
+  max-width: 220px;
+  overflow: hidden;
+  height: 200px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border-radius: 25px;
+  border-style: solid;
+  border-color: black;
+}
+
+.prof-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.indent-left{ 
+    margin-left: 12px;
+}
+
+.prof-title {
+  color: whitesmoke;
+	background-color: navy;
+	margin-top: 1%;
+	border-radius: 5px;
+  font-size: 17px;
+	justify-content: left;
+	text-align: left;
+	margin-bottom: 10px;
+	padding-left: 5px;
+	padding-top: 3px;
+	padding-bottom: 2px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 400;
+}
+
+.prof-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.profile-th {
+  color: navy;
+	width: 32%;
+}
+
+.profile-td, .profile-th {
+  padding: 3px;
+  text-align: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 400;
+}
+
+.prof-table, .profile-th, .profile-td {
+  border: none;
+  background-color: transparent; 
+}
+
+.btn-save{
+  display: inline-block;
+  padding: 14px 25px;
+  font-size: 15px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  border-color: #2e6da4;
+  color: #fff; 
+  background-color: #337ab7; 
+  border-radius: 5px; 
+  margin-right: 27px;
+}
+
+/* Profile Edit CSS */
+
+.profile-button-box {
+  width: 43%;
+  display: flex;
+  justify-content: right;
+  margin-left: 30%;
+  margin-top: 20px;
+}
+
+.centered-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 150px;
+}
+
+.inner-container {
+	width: 150px;
+	height: 120px;
+	border: 1px solid #000;
+	border-radius: 5px;
+	text-align: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  overflow: hidden;
+}
+
+.choose {
+	border-style: none;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+  margin-left: 20px;
+  width: 100px;
+
+}
+
+/* For Evaluation Form */
+
+.eval-title{
+  color: whitesmoke;
+    background-color: navy;
+    margin-top: 1%;
+    font-size: 18px;
+    justify-content: left;
+    text-align: left;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    width: 100%;
+  
+}
+.todo-item {
+    width: 95%;
+    margin: 10px auto;
+    padding: 20px 10px;
+    box-shadow: 0 4px 8px 0 #ccc, 0 6px 20px 0 #ccc;
+    border-radius: 5px;
+  }
+  
+.todo-item h2 {
+    display: inline-block;
+    padding: 5px 0px;
+    font-size: 17px;
+    margin-left: 3%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    color: #555;
+  }
+  
+.todo-item small {
+    display: block;
+    width: 100%;
+    padding: 5px 0px;
+    color: #888;
+    padding-left: 30px;
+    font-size: 14px;
+    font-family: sans-serif;
+  }
+.removee-to-do {
+    display: block;
+    float: right;
+    padding-top: 5px;
+    width: 80px;
+    height: 30px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid darkred; 
+    color:white; 
+    background-color: darkred; 
+    font-size: 15px;
+    text-align: center;
+    transition: background 1s;
+    box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.5);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    margin-right: -12px;
+   padding-left: 10px;
+  }
+
+  .todo-item span.ave {
+    color: #4F6128;
+    font-weight: 700;
+    margin-left: 5px;
+    letter-spacing: 2px;
+    font-size: 17px;
+}
+
+.btn-save{
+display: inline-block;
+padding: 10px 15px;
+font-size: 15px;
+text-align: center;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: 400;
+text-decoration: none;
+cursor: pointer;
+border-color: #2e6da4;
+color: #fff; 
+background-color: #337ab7; 
+border-radius: 5px; 
+margin-left: 27px;
+margin-top: 8px;
+}
+
+.form-but {
+justify-content: right;
+text-align: right;
+align-items: right;
+width: 100%;
+margin-top: 20px;
+margin-bottom: 30px;
+padding-right: 2%;
+display: flex;
+}
+
+
+/* Announcement CSS */
+
+.date-pin {
+  display: block;
+  float: right;
+  padding-top: 5px;
+  width: 117px;
+  height: 30px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid darkred;
+  color: white;
+  background-color: darkred;
+  font-size: 15px;
+  text-align: center;
+  transition: background 1s;
+  box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.5);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  margin-right: -12px;
+  margin-bottom: 8px;
+}
+
+.todo-item img {
+  max-width: 70%;
+  height: auto;
+  overflow: hidden;
+}
+
+form .empty {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.announce-para span {
+  margin-top: 1%;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: -10px;
+  font-size: 20px;
+  font-weight: 750;
+  color: navy;
+}
+
+.announce-para {
+  margin-top: 1%;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: -10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(0, 0, 0);
+}
+
+.post-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post-group label {
+  display: flex;
+  text-align: left;
+  margin-right: 2%;
+  margin-top: -1%;
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+#choosepost {
+  margin-left: 7%;
+}
+
+.choose-post {
+  display: flex;
+  flex-direction: row;
+}
+
+.pic-description {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  margin-right: 4%;
+}
+
+.pic-announce {
+  flex: 1;
+}
+
+/* To - Do - List */
+
+.horizontalTodo {
+  display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#todo, #datetodo {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+#todoin {
+  width: 70%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 8px;
+    margin-right: 8px;
+}
+
+#datetodoin {
+  width: 30%;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 8px;
+  margin-right: 8px;
+}
+
+.todobut {
+  display: inline-block;
+  padding: 9px 30px;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid navy;
+  color: #fff;
+  background-color: navy;
+  border-radius: 5px;
+  margin-right: 3px;
+  height: 45px;
+  margin-top: 3px;
+
+}
+
+.todobox {
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adjust shadow as needed */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px; 
+  background-color: rgb(255, 215, 0, 0.1);
+  border-radius: 5px;
+  margin-bottom: 8px;
+}
+
+.listtodobut {
+  display: inline-block;
+  padding: 9px 30px;
+  font-size: 15px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid navy;
+  color: #fff;
+  background-color: navy;
+  border-radius: 5px;
+  margin-right: 3px;
+  height: 35px;
+  margin-top: 1px;
+}
+
+.rowtodo{
+  margin-left: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.titletodo {
+  font-weight: 500;
+    letter-spacing: 1.5px;
+}
+
+.datetodo {
+  font-size: 15px;
+    letter-spacing: 1px;
+}
+
+ /* Notifcation Design */
+
+ form .alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+form .alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+form .alert {
+  padding: 15px;
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+form .alert-error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
