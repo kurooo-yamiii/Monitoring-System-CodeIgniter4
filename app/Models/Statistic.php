@@ -78,4 +78,10 @@ class Statistic extends Model
         }
         return $scores;
 	}
+
+    public function GetAllDTR($ID) {
+        $query = "SELECT * FROM dtr WHERE AccID = $ID";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
 }

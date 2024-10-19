@@ -114,7 +114,7 @@
 	</div>
 <!-- PST EVALUATION MODAL -->
 <div class="modal fade" id="EvaluationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" style="max-width: 50%;" role="document">
+		<div class="modal-dialog modal-lg" style="max-width: 55%;" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">
@@ -143,10 +143,10 @@
 									  <th scope="col">Average</th>
 									  <th scope="col">Remarks</th>
 								  </tr>
-							  </thead>
-						   </tbody>
+							  </thead> 
+						      <tbody>
+							</tbody>
 						</table>
-				        <tbody>
 					
 				</div>
 				<div class="modal-footer">
@@ -183,7 +183,7 @@
 	</div>
 <!-- PST PROFILE MODAL -->
 <div class="modal fade" id="ProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" style="max-width: 40%;" role="document">
+		<div class="modal-dialog modal-lg" style="max-width: 30%;" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">
@@ -200,6 +200,46 @@
 				</div>
 				<div class="modal-body">
 					<div id="ReflectProfile"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- PST DTR MODAL -->
+<div class="modal fade" id="DTRModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" style="max-width: 45%;" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">
+							<div class="logos">
+								<div class="logo-right">
+									<img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
+								</div>
+								<div>DTR of PST <span id="divDTRName" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></div>
+							</div>	
+						</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+				<table class="table table-striped" id="AllDTRTable">
+							   <thead>
+								  <tr>
+									  <th scope="col">Date</th>
+									  <th scope="col">Time In</th>
+									  <th scope="col">Time Out</th>
+									  <th scope="col">Total Hours</th>
+									  <th scope="col">Current Status</th>
+								  </tr>
+							  </thead> 
+						      <tbody>
+							</tbody>
+						</table>
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -559,8 +599,8 @@
                      {
                         extend: "pdfHtml5",
                         className: 'btn btn-danger',
-						text: `PST ${name} Evaluation`,
-                        title: `${name}`,
+						text: `PST Evaluation`,
+                        title: `PST Evaluation`,
                         exportOptions: {
                                 columns: [0,1,2,3,4,5,6]
                         },
@@ -572,8 +612,8 @@
                     {
                         extend: "copyHtml5",
                         className: 'btn btn-primary',
-						text: `PST ${name} Evaluation`,
-                        title: `${name}`,
+						text: `PST Evaluation`,
+                        title: `PST Evaluation`,
                         exportOptions: {
                                 columns: [0,1,2,3,4,5,6]
                         },
@@ -586,7 +626,7 @@
                         extend: "excelHtml5",
                         className: 'btn btn-success',
                         text: 'Excel',
-						title: `PST ${name} Evaluation`,
+						title: `PST Evaluation`,
                         exportOptions: {
                                 columns: [0,1,2,3,4,5,6]
                         },
@@ -598,7 +638,7 @@
                         extend: "csvHtml5",
                         className: 'btn btn-warning',
                         text: 'CSV',
-						title: `PST ${name} Evaluation`,
+						title: `PST Evaluation`,
                         exportOptions: {
                                 columns: [0,1,2,3,4,5,6]
                         },
@@ -724,5 +764,116 @@
 						`);
 			profileDiv.append(userProfile);
 	}
+
+	function displayDTR(id, name) {
+		$('#divDTRName').text(name);
+		var table = $('#AllDTRTable').DataTable({
+            ordering: false,
+            responsive: true,
+            retrieve: true,
+			pageLength: 5,
+			dom: '<"row"<"col-md-6"B><"col-md-6"f>>' + 
+             '<"row"<"col-md-12"tr>>' + 
+             '<"row"<"col-md-5"i><"col-md-7"p>>', 
+                 buttons: [
+                     {
+                        extend: "pdfHtml5",
+                        className: 'btn btn-danger',
+						text: `PDF`,
+                        title: `PST DTR`,
+                        exportOptions: {
+							columns: [0, 1, 2, 3, 4],
+							format: {
+								body: function (data, row, column, node) {
+									return $(node).text(); 
+								}
+							}
+						},
+						
+						customize: function (doc) {
+							doc.pageOrientation = 'portrait'; 
+							if (doc.content[0].table) {
+								doc.content[0].table.widths = ['20%', '20%', '20%', '20%', '20%'];
+							}
+						},
+						init: function(api, node, config) {
+							$(node).removeClass('dt-button buttons-pdf buttons-html5');
+						}
+					},
+                    {
+                        extend: "copyHtml5",
+                        className: 'btn btn-primary',
+						text: `PST DTR`,
+                        title: `PST DTR`,
+                        exportOptions: {
+                                columns: [0,1,2,3,4]
+                        },
+                        text: 'Copy',
+                        init: function(api, node, config) {
+                           $(node).removeClass('dt-button buttons-copy buttons-html5')
+                        }
+                    },
+                    {
+                        extend: "excelHtml5",
+                        className: 'btn btn-success',
+                        text: 'Excel',
+						title: `PST DTR`,
+                        exportOptions: {
+                                columns: [0,1,2,3,4]
+                        },
+                        init: function(api, node, config) {
+                           $(node).removeClass('dt-button buttons-excel buttons-html5')
+                        }
+                    },
+                    {
+                        extend: "csvHtml5",
+                        className: 'btn btn-warning',
+                        text: 'CSV',
+						title: `PST DTR`,
+                        exportOptions: {
+                                columns: [0,1,2,3,4]
+                        },
+                        init: function(api, node, config) {
+                           $(node).removeClass('dt-button buttons-csv buttons-html5')
+                        }
+					}
+				]
+			});
+
+            $.ajax({
+            type: 'GET', 
+            url: '<?= site_url('SupervisorController/GetPSTDTR') ?>', 
+			data: {
+				ID: id
+			},
+            dataType: 'json',
+            success: function(response) {    
+                table.clear().draw();
+                    const res = response.data;
+                        if (res.length > 0) {
+                            res.forEach(function(info) {
+								const date = new Date(info.Date);
+								const options = { year: 'numeric', month: 'long', day: 'numeric' };
+								const formattedDate = date.toLocaleString('en-US', options);
+
+                                var rowData = $(`<tr >
+                                <td>${formattedDate}</td>
+                                <td>${info.TimeIn}</td>
+								<td>${info.TimeOut}</td>
+								<td>${info.TotalHrs}</td>
+								<td>${info.Status}</td>
+                                </tr>
+                                `);  
+                        table.row.add(rowData);
+                        });
+                    table.draw();
+                }
+            },
+            error: function(error) {
+              console.log(error);
+            }
+            });
+	}
+
 
 </script>

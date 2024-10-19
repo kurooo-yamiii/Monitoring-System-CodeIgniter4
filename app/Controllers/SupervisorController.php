@@ -406,4 +406,10 @@ class SupervisorController extends BaseController
         $data = $this->Statistic->GetAllPSTEvaluation($ID);
         return $this->response->setJSON(['data' => $data]);
     }
+
+    public function GetPSTDTR() {
+        $ID = $this->request->getVar(index: 'ID');
+        $data = $this->Statistic->GetAllDTR($ID);
+        return $this->response->setJSON(['data' => $data]);
+    }
 }
