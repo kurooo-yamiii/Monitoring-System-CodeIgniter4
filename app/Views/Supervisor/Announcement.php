@@ -1,16 +1,5 @@
-<form>
-    	<!-- Chosen CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+<form id="announcement">
     
-	<!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
-    
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
-
 <div class="dashboard">
 		<p class="announce-para">Announcement <span> PST Deployment</span></p>
 		<div class="logos">
@@ -154,25 +143,6 @@
     </div>
     </div>
 </form>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
-
-	<!-- Bootstrap Bundle (includes Popper) -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-	<!-- DataTables JS -->
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-
-	<!-- DataTables Buttons JS -->
-	<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-	<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.flash.min.js"></script>
-	<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-	<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-	<script src="<?=base_url('assets/sweetalert2/dist/sweetalert2.all.js')?>"></script>
 
 <script>
         $(document).ready(function() {

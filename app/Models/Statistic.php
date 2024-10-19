@@ -84,4 +84,20 @@ class Statistic extends Model
         $builder = $this->db->query($query);
         return $builder->getResult();
     }
+
+    public function GetSearchData($search) {
+        $query = "SELECT * FROM student WHERE Resource != '' AND (Name LIKE '%$search%' OR Program LIKE '%$search%' OR School LIKE '%$search%' OR Section LIKE '%$search%')";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
+
+    public function FetchByMajor($major) {
+        if($major == 'FetchAll'){
+            $query = "SELECT * FROM student WHERE Resource != ''";
+        }else{
+            $query = "SELECT * FROM student WHERE Resource != '' AND (Program LIKE '%$major%')";
+        }
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
 }

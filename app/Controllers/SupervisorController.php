@@ -43,6 +43,35 @@ class SupervisorController extends BaseController
         $this->Statistic = new Statistic();
         helper('utility');
 	}
+
+    public function PreviewDashboard() {
+        return view('Supervisor/Dashboard');
+    }
+
+    public function PreviewPST() {
+        return view('Supervisor/PSTAccount');
+    }
+
+    public function PreviewRT() {
+        return view('Supervisor/RTAccount');
+    }
+
+    public function PreviewDeployment() {
+        return view('Supervisor/Deployment');
+    }
+
+    public function PreviewAnnouncement() {
+        return view('Supervisor/Announcement');
+    }
+
+    public function PreviewProfile() {
+        return view('Supervisor/Profile');
+    }
+
+    public function PreviewStatistic() {
+        return view('Supervisor/Statistic');
+    }
+
     public function index()
     {
         $supervisorID = $this->session->get('ID');
@@ -411,5 +440,22 @@ class SupervisorController extends BaseController
         $ID = $this->request->getVar(index: 'ID');
         $data = $this->Statistic->GetAllDTR($ID);
         return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function SearchDeployedPST() {
+        $search = $this->request->getVar(index: 'search');
+        $data = $this->Statistic->GetSearchData($search);
+        return $this->response->setJSON($data);
+    }
+
+    public function SearchByMajor() {
+        $major = $this->request->getVar(index: 'major');
+        $data = $this->Statistic->FetchByMajor($major);
+        return $this->response->setJSON($data);
+    }
+
+    public function logout() {
+        $this->session->destroy();
+        return view('Login');
     }
 }

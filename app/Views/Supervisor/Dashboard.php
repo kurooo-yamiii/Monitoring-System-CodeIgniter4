@@ -1,21 +1,6 @@
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
-
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.flash.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   
 <form id="dashboard">
       <div class="dashboard">
-        <h1>Dashboard</h1>
+       <p class="announce-para">Dashboard - Welcome Back Supervisor <span>  <?php echo $_SESSION['Name']?> !!!</span></p>
 
         <div class="logos">
             <div class="logo">
@@ -72,8 +57,6 @@
             </div>
         </div>
     </div>
-
-    
 
 <script>
      var table;

@@ -467,23 +467,6 @@ margin: 0 5px;
 
 /* Costumize Button Display */
 
-.btn-primary{
-  display: inline-block;
-  padding: 14px 25px;
-  font-size: 15px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid navy; 
-  color: #fff; 
-  background-color: navy; 
-  border-radius: 5px; 
-}
-
-.btn-primary:hover {
-  opacity: .7;
-  transition: 0.7s;
-}
 .button-container {
   display: flex;
   justify-content: right;

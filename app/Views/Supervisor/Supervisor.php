@@ -9,62 +9,30 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Supervisor <?php echo $_SESSION['Name']; ?></title>
 <link rel="icon" href="<?=base_url('assets/img/cedlogo.png')?>" type="image/x-icon">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+      <!-- Chosen CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      
+      <!-- DataTables CSS -->
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
+      
+      <!-- Font Awesome CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 	
 	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/superviui.css')?>">
   <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/supervimedia.css')?>">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-   <!-- Font Awesome CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 
 </head>
 <body>
+
     <style>
-        #studentList{
-            display: none;
-        }
-        #studentadd{
-            display: none;
-        }
-        #teachList{
-            display: none;
-        }
-        #professoradd{
-            display: none;
-        }
-        #pstDeployment{
-          display:none;
-        }
-        #teachDeployment{
-          display: none;
-        }
-        #statisticForm{
-          display: none;
-        }
-        #statEval{
-          display: none;
-        }
-       
-        #statboard{
-            display: none;
-        }
-        #evalRemarks{
-            display: none;
-        }
-        #announcement{
-            display: none;
-        }
-        #profile{
-          display: none;
-        }
-        #profileupdate{
-          display: none;
-        }
-        #profilestud {
-          display: none;
-        }
-       
         .section-1 {
           padding: 20px;
           width: 100%;
@@ -77,12 +45,13 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
           flex-direction: column;
         }
     </style>
+
 	<header class="header">
   <h2 class="u-name">RIZAL<b> TECHNOLOGICAL UNIVERSITY</b>
 		</h2>
     <div class="dashboardstats">
-    <span onclick="refStatForm()" class="material-icons-outlined">bar_chart</span>
-		<span onclick="refreshDashboard()" class="material-icons-outlined">home</span>
+    <span onclick="loadView('PreviewStatistic')" class="material-icons-outlined">bar_chart</span>
+		<span onclick="loadView('PreviewDashboard')" class="material-icons-outlined">home</span>
       </div>
 	</header>
 	<div class="body">
@@ -100,7 +69,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 			</div>
 			<ul>
 				<li id="studlistbut">
-					<b onclick="refreshStudList()">
+					<b onclick="loadView('PreviewPST')">
 					<a style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-graduation-cap" aria-hidden="true"></i>PST ACCOUNT</p>
 					</a>
@@ -108,7 +77,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				</li>
 
 				<li id="teachlistbut">
-					<b onclick="refreshTeachList()">
+					<b onclick="loadView('PreviewRT')">
 					<a style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-users" aria-hidden="true"></i>RT ACCOUNT</p>
 					</a>
@@ -116,7 +85,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				</li>
 
         <li id="deploybtn">
-					<b onclick="refreshDeploy()">
+					<b onclick="loadView('PreviewDeployment')">
 					<a style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-tags" aria-hidden="true"></i>DEPLOYMENT</p>
 					</a>
@@ -124,7 +93,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				</li>
 
 				<li id="annbtn">
-					<b onclick="refAnnouncement()">
+					<b onclick="loadView('PreviewAnnouncement')">
 					<a style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-bullhorn" aria-hidden="true"></i>ANNOUNCEMENT</p>
 					</a>
@@ -132,7 +101,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				</li>
 
 				<li id="accbtn">
-					<b onclick="refProfile()">
+					<b onclick="loadView('PreviewProfile')">
 					<a style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-address-card" aria-hidden="true"></i>PROFILE</p>
 					</a>
@@ -141,7 +110,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 
 				<li>
 				<b>
-					<a href="logout.php" style="text-decoration: none; color: #eee;">
+					<a href="<?= site_url("SupervisorController/logout") ?>" style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</p>
 					</a>
 					</b>
@@ -149,22 +118,60 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 			</ul>
 		</nav>
 		<section class="section-1" id="sectionsss">
-          <!-- <?= ('Supervisor/PSTAccount'); ?> -->
-           <!-- <?= ('Supervisor/Dashboard'); ?> -->
-            <!-- <?= ('Supervisor/RTAccount'); ?> -->
-             <!-- <?= ('Supervisor/Deployment'); ?> -->
-                <!-- <?= ('Supervisor/Announcement'); ?> -->
-					<!-- <?= ('Supervisor/Profile'); ?> -->
-						<!-- <?= ('Supervisor/Statistic'); ?> -->
-					
-           <?= $this->render('Supervisor/Statistic'); ?>
+       <!-- View the Fetch Here -->
 		</section>
-
-        <!-- <script src="superviui.js"></script> -->
 	</div>
 
 </body>
 </html>
+
+ <!-- jQuery -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+
+	<!-- Bootstrap Bundle (includes Popper) -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- DataTables JS -->
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+	<!-- DataTables Buttons JS -->
+	<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.flash.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+	<script src="<?=base_url('assets/sweetalert2/dist/sweetalert2.all.js')?>"></script>
+
+<script>
+      const baseUrl = '<?= site_url("SupervisorController/") ?>';
+
+      function getViewUrl(viewName) {
+          return baseUrl + viewName;
+      }
+
+      $(document).ready(function() {
+        loadView('PreviewDashboard'); 
+      });
+
+    function loadView(viewName) {
+          $('#sectionsss').empty(); 
+          const url = getViewUrl(viewName); 
+          $.ajax({
+              url: url,
+              method: 'GET',
+              success: function(response) {
+                  $('#sectionsss').append(response); 
+              },
+              error: function(error) {
+                  console.log("Error loading the view:", error);
+              }
+          });
+      }
+
+</script>
 <?php
 }else{
      header("Location: index.php");

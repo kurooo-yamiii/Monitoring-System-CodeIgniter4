@@ -1,12 +1,4 @@
-<form>
-   <!-- Chosen CSS -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" />
-   <!-- Bootstrap CSS -->
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-   <!-- DataTables CSS -->
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-   <!-- Font Awesome CSS -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" />
+<form id="statistic">
    <div class="dashboard">
    <p class="announce-para">Monitor <span> PST Progress</span></p>
    <div class="logos">
@@ -24,12 +16,12 @@
    <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
 	   <label for="statpst" class="search-input" style="margin-bottom: 0px !important;">Search:</label>
 	   <input type="text" name="statpst" id="statpst" placeholder="Enter your search term" class="search-input">
-	   <button type="button" onclick="searchStatPst()" class="search-button">Search</button>
+	   <button type="button" onclick="searchDeployed()" class="search-button">Search</button>
    </div>
       <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
          <label class="search-input" style="margin-bottom: 0px !important;">Major</label>
-            <select class="chosen-select search-input" id="School">
-                <option>Select Major</option>
+            <select class="chosen-select search-input" id="School" onchange="searchByMajor()">
+                <option value="FetchAll">All of Majors</option>
                 <option value="BSE-Math">BSE-Math</option>
 				<option value="BSE-Filipino">BSE-Filipino</option>
 				<option value="BSE-English">BSE-English</option>
@@ -46,14 +38,7 @@
    <input type="hidden" id="SupID" name="SupID">
    <div id="StatResult">
    </div>
-   <!--
-   <div class="todo-item">
-      <button class="removee-to-do" type="button">N/A</button> 
-      <h2>No PST is currently Deployed</h2>
-      <br>
-      <small>Note: If you want to deploy student kindly go to deoplyment button</small>
-   </div>
-   -->
+   
    <div id="showstats">
   
    </div>
@@ -248,23 +233,6 @@
 		</div>
 	</div>
 </form>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
-<!-- Bootstrap Bundle (includes Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables JS -->
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-<!-- DataTables Buttons JS -->
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.flash.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="<?=base_url('assets/sweetalert2/dist/sweetalert2.all.js')?>"></script>
 <script>
 	$(document).ready(function() {
 		onloadStudent();
@@ -281,6 +249,20 @@
 			dataType: 'json',
 			success: function(response) {
 				pstHolder.empty();
+				if (response.length === 0) {
+                var noDataMessage = `
+							<div class="monitor">
+								<img src="<?= base_url('assets/img/default.jpeg') ?>" id="gridpic">                                                                           
+								<span class="program">N/A</span> 
+								<h2>No Current PST Deployed</h2>
+								<small style="margin-bottom: 3px;">Note: You can deploy PST studeny by visiting the Deployment module</small>
+								<div class="monitor-button" style="display: flex; flex-direction: row;">
+									<button class="btn btn-primary" type="button" style="margin-right: 2%;">N/A</button>  
+								</div>
+							</div>
+					`;
+					pstHolder.append(noDataMessage);
+				} else {
 				response.forEach(function(info) {
 					var profileImageSrc = info.Profile ? `<?= base_url('assets/uploads/') ?>${info.Profile}` : '<?= base_url('assets/img/default.jpeg') ?>'
 					var profileCard = `
@@ -306,12 +288,130 @@
 						`;
 					pstHolder.append(profileCard);
 				});
+			}},
+			error: function(error) {
+				console.log(error);
+			}
+		});
+	}
+
+	function searchDeployed() {
+		var searchTerm = $('#statpst').val().trim();
+		var pstHolder = $('#showstats');
+		$.ajax({
+			type: 'GET',
+			url: '<?= site_url('SupervisorController/SearchDeployedPST ') ?>',
+			data: {
+				search: searchTerm
+			},
+			dataType: 'json',
+			success: function(response) {
+				pstHolder.empty();
+				if (response.length === 0) {
+                var noDataMessage = `
+							<div class="monitor">
+								<img src="<?= base_url('assets/img/default.jpeg') ?>" id="gridpic">                                                                           
+								<span class="program">N/A</span> 
+								<h2>No Current PST Matched the Information</h2>
+								<small style="margin-bottom: 3px;">Note: You can deploy PST studeny by visiting the Deployment module</small>
+								<div class="monitor-button" style="display: flex; flex-direction: row;">
+									<button class="btn btn-primary" type="button" style="margin-right: 2%;">N/A</button>  
+								</div>
+							</div>
+					`;
+					pstHolder.append(noDataMessage);
+				} else {
+				response.forEach(function(info) {
+					var profileImageSrc = info.Profile ? `<?= base_url('assets/uploads/') ?>${info.Profile}` : '<?= base_url('assets/img/default.jpeg') ?>'
+					var profileCard = `
+							<div class="monitor">
+								<img src="${profileImageSrc}" id="gridpic">                                                                           
+								<span class="program">${info.Program}</span> 
+								<h2>${info.Name}</h2>
+								<small>Section: ${info.Section}</small> 
+								<small style="margin-bottom: 3px;">Supervisor: ${info.Supervisor}</small>
+								<div class="monitor-button" style="display: flex; flex-direction: row;">
+									<button onclick="displayDashboard(${info.ID}, '${info.Name}')" class="btn btn-primary" type="button" style="margin-right: 2%;" data-target="#DashboardModal" data-toggle="modal">Monitor</button>  
+									<button onclick="displayDTR(${info.ID}, '${info.Name}')" class="btn btn-secondary" style="margin-right: 2%;" type="button" data-target="#DTRModal" data-toggle="modal">
+										<span class="fa fa-calendar" aria-hidden="true"></span>
+									</button> 
+									<button onclick="displayProfile('${info.ID}', '${info.Name}', '${info.Section}', '${info.Program}', '${info.Contact}', '${info.Username}', '${info.Profile}', '${info.Supervisor}', '${info.Coordinator}', '${info.School}', '${info.Resource}', '${info.Division}', '${info.Grade}')" class="btn btn-success" type="button" style="margin-right: 2%;" data-target="#ProfileModal" data-toggle="modal">
+										<span class="fa fa-user" aria-hidden="true"></span>
+									</button> 
+									<button onclick="displayEvaluation(${info.ID}, '${info.Name}')" class="btn btn-warning" type="button" data-target="#EvaluationModal" data-toggle="modal">
+										<span class="fa fa-print" aria-hidden="true"></span>
+									</button> 			
+								</div>
+							</div>
+						`;
+					pstHolder.append(profileCard);
+				});
+			}},
+			error: function(error) {
+				console.log(error);
+			}
+		});
+	}
+
+	function searchByMajor() {
+		var selectedMajor = $('#School').val(); 
+		var pstHolder = $('#showstats'); 
+		pstHolder.empty(); 
+		$.ajax({
+			type: 'GET',
+			url: '<?= site_url('SupervisorController/SearchByMajor') ?>',
+			data: {
+				major: selectedMajor 
+			},
+			dataType: 'json',
+			success: function(response) {
+				if (response.length === 0) {
+					var noDataMessage = `
+							<div class="monitor">
+								<img src="<?= base_url('assets/img/default.jpeg') ?>" id="gridpic">                                                                           
+								<span class="program">N/A</span> 
+								<h2>No Current PST Deployed in this Major</h2>
+								<small style="margin-bottom: 3px;">Note: You can deploy PST studeny by visiting the Deployment module</small>
+								<div class="monitor-button" style="display: flex; flex-direction: row;">
+									<button class="btn btn-primary" type="button" style="margin-right: 2%;">N/A</button>  
+								</div>
+							</div>
+					`;
+					pstHolder.append(noDataMessage);
+				} else {
+					response.forEach(function(info) {
+						var profileImageSrc = info.Profile ? `<?= base_url('assets/uploads/') ?>${info.Profile}` : '<?= base_url('assets/img/default.jpeg') ?>';
+						var profileCard = `
+							<div class="monitor">
+								<img src="${profileImageSrc}" id="gridpic">                                                                           
+								<span class="program">${info.Program}</span> 
+								<h2>${info.Name}</h2>
+								<small>Section: ${info.Section}</small> 
+								<small style="margin-bottom: 3px;">Supervisor: ${info.Supervisor}</small>
+								<div class="monitor-button" style="display: flex; flex-direction: row;">
+									<button onclick="displayDashboard(${info.ID}, '${info.Name}')" class="btn btn-primary" type="button" style="margin-right: 2%;" data-target="#DashboardModal" data-toggle="modal">Monitor</button>  
+									<button onclick="displayDTR(${info.ID}, '${info.Name}')" class="btn btn-secondary" style="margin-right: 2%;" type="button" data-target="#DTRModal" data-toggle="modal">
+										<span class="fa fa-calendar" aria-hidden="true"></span>
+									</button> 
+									<button onclick="displayProfile('${info.ID}', '${info.Name}', '${info.Section}', '${info.Program}', '${info.Contact}', '${info.Username}', '${info.Profile}', '${info.Supervisor}', '${info.Coordinator}', '${info.School}', '${info.Resource}', '${info.Division}', '${info.Grade}')" class="btn btn-success" type="button" style="margin-right: 2%;" data-target="#ProfileModal" data-toggle="modal">
+										<span class="fa fa-user" aria-hidden="true"></span>
+									</button> 
+									<button onclick="displayEvaluation(${info.ID}, '${info.Name}')" class="btn btn-warning" type="button" data-target="#EvaluationModal" data-toggle="modal">
+										<span class="fa fa-print" aria-hidden="true"></span>
+									</button>             
+								</div>
+							</div>
+						`;
+						pstHolder.append(profileCard);
+					});
+				}
 			},
 			error: function(error) {
 				console.log(error);
 			}
 		});
 	}
+
 
 	function displayDashboard(id, name) {
 		LoadStudentLineChart(id);
