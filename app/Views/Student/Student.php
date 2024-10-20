@@ -7,7 +7,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Supervisor <?php echo $_SESSION['Name']; ?></title>
+<title>PST <?php echo $_SESSION['Name']; ?></title>
 <link rel="icon" href="<?=base_url('assets/img/cedlogo.png')?>" type="image/x-icon">
 
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -25,8 +25,8 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
       <!-- Font Awesome CSS -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 	
-	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/superviui.css')?>">
-  <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/supervimedia.css')?>">
+	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/studentui.css')?>">
+  <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/stundentmedia.css')?>">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 
 </head>
@@ -50,7 +50,6 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
   <h2 class="u-name">RIZAL<b> TECHNOLOGICAL UNIVERSITY</b>
 		</h2>
     <div class="dashboardstats">
-    <span onclick="loadView('PreviewStatistic')" class="material-icons-outlined">bar_chart</span>
 		<span onclick="loadView('PreviewDashboard')" class="material-icons-outlined">home</span>
       </div>
 	</header>
@@ -65,13 +64,13 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
                      <img  src="<?=base_url('assets/img/default.jpeg')?>">
        <?php endif; ?>
 	   </div>
-       <h4>Supervisor <?php echo $_SESSION['Name']?></h4>
+       <h4>PST: <?php echo $_SESSION['Name']?></h4>
 			</div>
 			<ul>
 				<li id="studlistbut">
 					<b onclick="loadView('PreviewPST')">
 					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-graduation-cap" aria-hidden="true"></i>PST ACCOUNT</p>
+						<p><i class="fa fa-graduation-cap" aria-hidden="true"></i>DTR</p>
 					</a>
 					</b>
 				</li>
@@ -79,7 +78,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				<li id="teachlistbut">
 					<b onclick="loadView('PreviewRT')">
 					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-users" aria-hidden="true"></i>RT ACCOUNT</p>
+						<luation><i class="fa fa-users" aria-hidden="true"></i>EVALUATION</p>
 					</a>
 					</b>
 				</li>
@@ -87,7 +86,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
        		 <li id="deploybtn">
 					<b onclick="loadView('PreviewDeployment')">
 					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-tags" aria-hidden="true"></i>DEPLOYMENT</p>
+						<p><i class="fa fa-tags" aria-hidden="true"></i>ANNOUNCEMENT</p>
 					</a>
 					</b>
 				</li>
@@ -95,7 +94,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				<li id="annbtn">
 					<b onclick="loadView('PreviewAnnouncement')">
 					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-bullhorn" aria-hidden="true"></i>ANNOUNCEMENT</p>
+						<p><i class="fa fa-bullhorn" aria-hidden="true"></i>TO-DO-LIST</p>
 					</a>
 					</b>
 				</li>
@@ -146,30 +145,30 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 	<script src="<?=base_url('assets/sweetalert2/dist/sweetalert2.all.js')?>"></script>
 
 <script>
-      const baseUrl = '<?= site_url("SupervisorController/") ?>';
+    //   const baseUrl = '<?= site_url("SupervisorController/") ?>';
 
-      function getViewUrl(viewName) {
-          return baseUrl + viewName;
-      }
+    //   function getViewUrl(viewName) {
+    //       return baseUrl + viewName;
+    //   }
 
-      $(document).ready(function() {
-        loadView('PreviewDashboard'); 
-      });
+    //   $(document).ready(function() {
+    //     loadView('PreviewDashboard'); 
+    //   });
 
-    function loadView(viewName) {
-          $('#sectionsss').empty(); 
-          const url = getViewUrl(viewName); 
-          $.ajax({
-              url: url,
-              method: 'GET',
-              success: function(response) {
-                  $('#sectionsss').append(response); 
-              },
-              error: function(error) {
-                  console.log("Error loading the view:", error);
-              }
-          });
-      }
+    // function loadView(viewName) {
+    //       $('#sectionsss').empty(); 
+    //       const url = getViewUrl(viewName); 
+    //       $.ajax({
+    //           url: url,
+    //           method: 'GET',
+    //           success: function(response) {
+    //               $('#sectionsss').append(response); 
+    //           },
+    //           error: function(error) {
+    //               console.log("Error loading the view:", error);
+    //           }
+    //       });
+    //   }
 
 </script>
 <?php

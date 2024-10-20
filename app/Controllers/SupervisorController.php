@@ -3,14 +3,14 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\SupervisorModel;
-use App\Models\SVDashboard;
-use App\Models\PSTAccount;
-use App\Models\RTAccount;
-use App\Models\Deployment;
-use App\Models\Announcement;
-use App\Models\Profile;
-use App\Models\Statistic;
+use App\Models\Supervisor\SupervisorModel;
+use App\Models\Supervisor\SVDashboard;
+use App\Models\Supervisor\PSTAccount;
+use App\Models\Supervisor\RTAccount;
+use App\Models\Supervisor\Deployment;
+use App\Models\Supervisor\Announcement;
+use App\Models\Supervisor\Profile;
+use App\Models\Supervisor\Statistic;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class SupervisorController extends BaseController

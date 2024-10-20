@@ -26,7 +26,12 @@ class Login extends Model
                         ->where('Username', $username)
                         ->where('Password', $password)
                         ->get();
-            return $query->getRow();
+            $row = $query->getRow();
+            if ($row) {
+                $result = (array) $row; 
+                $result['level'] = 2; 
+                return $result;
+            }
         }
     }
 
@@ -37,7 +42,12 @@ class Login extends Model
                     ->where('Username', $username)
                     ->where('Password', $password)
                     ->get();
-        return $query->getRow();
+        $row = $query->getRow();
+        if ($row) {
+            $result = (array) $row; 
+            $result['level'] = 0; 
+            return $result;
+         }
     }
 
     private function forTeacher($username,$password){
@@ -47,7 +57,12 @@ class Login extends Model
                     ->where('Username', $username)
                     ->where('Password', $password)
                     ->get();
-        return $query->getRow();
+        $row = $query->getRow();
+        if ($row) {
+            $result = (array) $row; 
+            $result['level'] = 1; 
+            return $result;
+         }
     }
 
   

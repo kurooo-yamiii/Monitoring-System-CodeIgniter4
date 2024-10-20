@@ -100,7 +100,17 @@ body::before{
               if(response.status === '200'){
                 message('success',`Welcome ${response.data.Name}!`, 1500)
                 setTimeout(function() {
-                    window.location.href = '<?= site_url('SupervisorController') ?>';
+                    switch(response.data.level) {
+                        case 0: 
+                            window.location.href = '<?= site_url('StudentController') ?>';
+                            break;
+                        case 1: 
+                            window.location.href = '<?= site_url('TeacherController') ?>';
+                            break;
+                        case 2: 
+                            window.location.href = '<?= site_url('SupervisorController') ?>';
+                            break;
+                    }
                 }, 1700);
               }else{
                message('error','Wrong Credentials', 1500)

@@ -1,109 +1,152 @@
 @keyframes transition {
-    from {
-        opacity: 0;
-        transform: translateX(100px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+      opacity: 0;
+      transform: translateX(100px);
+  }
+  to {
+      opacity: 1;
+      transform: translateX(0);
+  }
 }
+
+@keyframes slideIn {
+from {
+    opacity: 0;
+    transform: translateX(-50px); /* Start from the left */
+}
+to {
+    opacity: 1;
+    transform: translateX(0); /* End at original position */
+}
+}
+
+html, body {
+margin: 0;
+padding: 0;
+height: 100%; 
+width: 100%;  
+font-family: Arial, sans-serif; 
+}
+
+.body {
+display: flex; 
+height: 92%; 
+}
+
 * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-	font-family: arial, sans-serif;
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+font-family: arial, sans-serif;
 }
 .body {
-	display: flex;
+display: flex;
 }
 
 /* Header Format */
 .header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 15px 40px;
-	background: rgb(1, 1, 72);
-	color: #fff;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px 40px;
+height: 8%;
+background: rgb(1, 1, 72);
+color: #fff;
 }
 /* Header Span Icon costumization */
 .header span {
-	font-size: 30px;
-	cursor: pointer;
-	color: #fff;
+font-size: 30px;
+cursor: pointer;
+color: #fff;
 }
 .header span:hover {
-	color: #127b8e;
+color: #127b8e;
 }
+
+.dashboardstats {
+  width: 5.5%;
+  display: flex;
+  justify-content: space-between;
+}
+
 /* =============================== */
 
 /* Use for Tittle Name of the Page */
 .u-name {
-	font-size: 20px;
+font-size: 20px;
 }
 .u-name b {
-	color: #e3b154;
+color: #e3b154;
 }
 /* =============================== */
 
-
 /* Side Bar Format */
 .side-bar {
-	width: 250px;
-	background: #041b5a;
-	height: 677px;
-	max-height: 677px;
-	transition: 500ms width;
+background: #041b5a;
+display: flex;
+flex-direction: column; /* Stack items vertically */
+padding: 0; /* Remove default padding */
 }
-/* Side Bar Format for the list of button */
+
 .side-bar ul {
-	margin-top: 20px;
-	list-style: none;
+margin: 0; /* Remove default margin */
+padding: 0; /* Remove default padding */
+list-style: none; /* Remove bullets */
 }
+
 .side-bar ul li {
-	font-size: 16px;
-	padding: 12px 0px;
-	padding-left: 20px;
-	transition: 500ms background;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+font-size: 13px;
+padding: 5px 0; /* Top and bottom padding */
+transition: 500ms background;
+text-align: left; /* Align text to the left */
+display: flex;
+align-items: center; /* Center items vertically */
+padding-left: 20px; /* Add left padding for spacing */
+height: 60px; /* Adjust height as needed */
 }
+
 .side-bar ul li:hover {
-	background: rgb(1, 1, 46);
+background: rgb(1, 1, 46);
+}
+
+.side-bar ul li b {
+display: block; /* Make the block clickable */
+width: 100%; /* Ensure the b element takes full width */
 }
 
 .side-bar ul li b a {
-	text-decoration: none;
-	color: #eee;
-	cursor: pointer;
-	letter-spacing: 1px;
+text-decoration: none;
+color: #eee;
+cursor: pointer;
+letter-spacing: 1px;
+display: flex; /* Use flexbox for alignment */
+align-items: center; /* Center icon and text vertically */
+height: 100%; /* Make anchor take full height */
+padding: 0 10px; /* Add horizontal padding */
 }
 
 .side-bar ul li b a i {
-	display: inline-block;
-	padding-right: 15px;
-	font-size: 23px;
+display: inline-block;
+padding-right: 15px; /* Space between icon and text */
+font-size: 23px;
+line-height: 1; /* Adjust line height for better vertical alignment */
+}
+
+.sidebar i {
+margin-top: 10px !important;
 }
 
 .side-bar span {
-	display: inline-block;
-	margin-right: 15px;
-	font-size: 30px;
+display: inline-block;
+margin-right: 15px;
+font-size: 30px;
 }
 
 .side-bar p {
-	display: inline-block;
+display: inline-block;
+margin: 0; /* Remove default margin */
 }
 
-.side-bar .direction {
-	display: flex;
-	flex-direction: row;
-	justify-content: left;
-	align-items: center;
-	text-align: center;
-}
 
 /* Side Bar use format including picture and Name */
 .user-p {
@@ -117,44 +160,14 @@
 	border-radius: 50%;
 }
 .user-p h4 {
-	color: #ccc;
-	padding: 8px 0;
-	margin-right: 5px;
-	margin-left: 5px;
-
+	  padding: 10px 20px;
+    color: #ccc;
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 18px;
 }
 /* =============================== */
 
-/* Form for the body (Changing Forms) */
-.section-1 {
-	width: 100%;
-	background-image: url(resources/bg.png);
-	background-size: cover;
-  	background-repeat: no-repeat;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-}
-.section-1 form {
-	width: 96%;
-	height: 630px;
-	border: 2px solid #ccc;
-	padding: 30px;
-	background: #fff;
-	border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-   	align-items: center;
-    justify-content: center;
-	margin-top: -10px;
-	animation: transition 1s;
-	transition: ease-in-out;
-	max-width: 100%; 
-	max-height: 630px;
-    overflow-y: auto; 
- 
-	
-}
 
 /* Dashboard and Divider */
 

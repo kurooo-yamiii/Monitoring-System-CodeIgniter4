@@ -32,10 +32,10 @@ class Home extends BaseController
         $data = $this->Login->CallStudent($username, $password);
         if ($data) {
             $this->session->set([
-                'ID' => $data->ID,
-                'Name' => $data->Name,
-                'Username' => $data->Username,
-                'Password' => $data->Password
+                'ID' => $data['ID'],
+                'Name' => $data['Name'],
+                'Username' => $data['Username'],
+                'Password' => $data['Password']
             ]);
             return $this->response->setJSON(['status' => '200', 'data' => $data]);
         } else {

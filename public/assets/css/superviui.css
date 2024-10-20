@@ -161,11 +161,11 @@ height: 100px;
 border-radius: 50%;
 }
 .user-p h4 {
-padding: 10px 20px;
-color: #ccc;
-margin-right: 5px;
-margin-left: 5px;
-font-size: 18px;
+  padding: 10px 20px;
+  color: #ccc;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 18px;
 }
 
 /* =============================== */
@@ -473,24 +473,6 @@ margin: 0 5px;
   margin-top: 20px; 
 }
 
-/* button {
-display: inline-block;
-padding: 14px 3px;
-font-size: 15px;
-text-align: center;
-text-decoration: none;
-cursor: pointer;
-border: 1px solid navy; 
-color: #fff; 
-background-color: navy; 
-border-radius: 5px; 
-margin-right: 3px;
-}
-
-button:hover {
-  opacity: .7;
-transition: 0.7s;
-} */
 
 form td .blue-button {
   background-color: #337ab7;
