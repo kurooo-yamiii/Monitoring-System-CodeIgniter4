@@ -26,7 +26,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 	
 	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/studentui.css')?>">
-  <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/stundentmedia.css')?>">
+  <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/studentmedia.css')?>">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 
 </head>
@@ -109,7 +109,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 
 				<li>
 				<b>
-					<a href="<?= site_url("SupervisorController/logout") ?>" style="text-decoration: none; color: #eee;">
+					<a href="<?= site_url("StudentController/logout") ?>" style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</p>
 					</a>
 					</b>
@@ -145,35 +145,36 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 	<script src="<?=base_url('assets/sweetalert2/dist/sweetalert2.all.js')?>"></script>
 
 <script>
-    //   const baseUrl = '<?= site_url("SupervisorController/") ?>';
 
-    //   function getViewUrl(viewName) {
-    //       return baseUrl + viewName;
-    //   }
+      const baseUrl = '<?= site_url("StudentController/") ?>';
 
-    //   $(document).ready(function() {
-    //     loadView('PreviewDashboard'); 
-    //   });
+      function getViewUrl(viewName) {
+          return baseUrl + viewName;
+      }
 
-    // function loadView(viewName) {
-    //       $('#sectionsss').empty(); 
-    //       const url = getViewUrl(viewName); 
-    //       $.ajax({
-    //           url: url,
-    //           method: 'GET',
-    //           success: function(response) {
-    //               $('#sectionsss').append(response); 
-    //           },
-    //           error: function(error) {
-    //               console.log("Error loading the view:", error);
-    //           }
-    //       });
-    //   }
+      $(document).ready(function() {
+        loadView('PreviewDashboard'); 
+      });
+
+    function loadView(viewName) {
+          $('#sectionsss').empty(); 
+          const url = getViewUrl(viewName); 
+          $.ajax({
+              url: url,
+              method: 'GET',
+              success: function(response) {
+                  $('#sectionsss').append(response); 
+              },
+              error: function(error) {
+                  console.log("Error loading the view:", error);
+              }
+          });
+      }
 
 </script>
 <?php
 }else{
-     header("Location: index.php");
+    site_url('StudentController/logout');
      exit();
 }
 ?>

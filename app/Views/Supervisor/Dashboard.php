@@ -22,8 +22,8 @@
                 </div>
             </div>
             <div class="row-total">
-                <p class="total-row-space">RTU PST: </p>
-                <h2 id="firstOverall"><!-- Total Number of Student --></h2>
+                <p class="total-row-space">RTU PST: 
+                <span id="firstOverall" style="margin-left: 5px; color: navy; font-weight: 700;"></span></p>
             </div>
         </div>
 
@@ -34,8 +34,8 @@
                 </div>
             </div>
             <div class="row-total">
-                <p class="total-row-space">RTU Pasig Coop-Teacher: </p>
-                <h2 id="secondOverall"> <!-- Total Number of Pasig Teacher --> </h2>
+                <p class="total-row-space">RTU Pasig Coop-Teacher: 
+                <span id="secondOverall" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
             </div>
         </div>
 
@@ -46,8 +46,8 @@
                 </div>
             </div>
             <div class="row-total">
-                <p class="total-row-space">RTU Mandaluyong Coop-Teacher: </p>
-                <h2 id="thirdOverall">  <!-- Total Number of  Mandaluyong Teacher --> </h2>
+                <p class="total-row-space">RTU Mandaluyong Coop-Teacher: 
+                <span id="thirdOverall" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
             </div>
         </div>
         <!-- Creation of Pie Chart -->

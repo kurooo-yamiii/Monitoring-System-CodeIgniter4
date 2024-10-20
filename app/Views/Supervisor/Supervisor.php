@@ -174,7 +174,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 </script>
 <?php
 }else{
-     header("Location: index.php");
+	site_url( 'SupervisorController/logout');
      exit();
 }
 ?>

@@ -64,7 +64,6 @@ color: #127b8e;
 }
 
 .dashboardstats {
-  width: 5.5%;
   display: flex;
   justify-content: space-between;
 }
@@ -147,6 +146,23 @@ display: inline-block;
 margin: 0; /* Remove default margin */
 }
 
+/* Form for the body (Changing Forms) */
+
+.section-1 form {
+  width: 96%;
+  flex: 1;
+  border: 2px solid #ccc;
+  padding: 30px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+  animation: transition 1s;
+  transition: ease-in-out;
+  max-width: 100%;
+  overflow-y: auto;
+}
 
 /* Side Bar use format including picture and Name */
 .user-p {
@@ -259,22 +275,23 @@ h1 {
     font-size: 18px;
 }
 
+
 table {
-    width: 100%;
-    border-collapse: collapse;
-	margin-top: 30px;
-  }
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px !important;
+}
 
-  th, td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-  }
-
-  th {
-    background-color: gold;
-    color: navy;
-  }
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center !important;
+  font-size: 14px !important;
+}
+th {
+  background-color: navy;
+  color: whitesmoke;
+}
 
   tr:nth-child(even) {
     background-color: #f2f2f2;
