@@ -412,6 +412,11 @@
 		});
 	}
 
+	function formatDate(dateString) {
+		const date = new Date(dateString);
+		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		return date.toLocaleDateString('en-US', options);
+	}
 
 	function displayDashboard(id, name) {
 		LoadStudentLineChart(id);
@@ -439,9 +444,10 @@
 				const res = response.data;
 				if (res.length > 0) {
 					res.forEach(function(info) {
+						const formattedDate = formatDate(info.Date);
 						var rowData = $(`
 									<tr>
-										  <td>${info.Date}</td>
+										  <td>${formattedDate}</td>
 										  <td>${info.TimeIn}</td>
 										  <td>${info.TimeOut}</td>
 										  <td>${info.TotalHrs}</td>

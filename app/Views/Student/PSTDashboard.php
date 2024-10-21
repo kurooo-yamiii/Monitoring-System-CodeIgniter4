@@ -44,6 +44,12 @@
 </form>
 <script>
 
+	(function() {
+    const charts = {
+        barChart: null,
+        lineChart: null
+    };
+
     $(document).ready(function() {
         var id = $('#id').val();
         var name = $('#name').val();
@@ -52,8 +58,12 @@
 		LoadStudentBarChart(id);
       });
 
-    let barChart;
-	let lineChart;
+	function formatDate(dateString) {
+		const date = new Date(dateString);
+		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		return date.toLocaleDateString('en-US', options);
+	}
+
 
 	function displayDashboard(id, name) {
 		$('#divForPSTName').text(name);
@@ -79,9 +89,10 @@
 				const res = response.data;
 				if (res.length > 0) {
 					res.forEach(function(info) {
+						const formattedDate = formatDate(info.Date);
 						var rowData = $(`
 									<tr>
-										  <td>${info.Date}</td>
+										  <td>${formattedDate}</td>
 										  <td>${info.TimeIn}</td>
 										  <td>${info.TimeOut}</td>
 										  <td>${info.TotalHrs}</td>
@@ -110,13 +121,14 @@
 			},
 			dataType: 'json',
 			success: function(response) {
-				if (barChart) {
-					barChart.destroy();
-				}
+
+				if (charts.barChart) {
+					charts.barChart.destroy();
+            	}
 
 				var ctx = document.getElementById('varChart').getContext('2d');
 
-				barChart = new Chart(ctx, {
+				charts.barChart = new Chart(ctx, {
 					type: 'bar',
 					data: {
 						labels: response.labels,
@@ -231,16 +243,15 @@
 			},
 			dataType: 'json',
 			success: function(response) {
-				if (lineChart) {
-					lineChart.destroy();
-					lineChart = null;
+				if (charts.lineChart) {
+					charts.lineChart.destroy();
 				}
 				const totalScore = response.scores.reduce((acc, score) => acc + Number(score), 0);
 				const averageScore = (totalScore / response.scores.length).toFixed(2);
 
 				$('#totalScores').text(averageScore + '%');
 				var ctx = document.getElementById('scoreChart').getContext('2d');
-				lineChart = new Chart(ctx, {
+				charts.lineChart = new Chart(ctx, {
 					type: "line",
 					data: {
 						labels: response.labels,
@@ -324,4 +335,5 @@
 			}
 		});
 	}
+})();
 </script>

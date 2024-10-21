@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Student\StudentModel;
 use App\Models\Student\PSTDashboard;
+use App\Models\Student\StudentDTR;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class StudentController extends BaseController
@@ -13,6 +14,7 @@ class StudentController extends BaseController
 	private $postRequest;
     private $StudentModel;
     private $PSTDashboard;
+    private $StudentDTR;
     protected $helper;
     protected $db;
 
@@ -23,6 +25,7 @@ class StudentController extends BaseController
         $this->postRequest = \Config\Services::request();
         $this->StudentModel = new StudentModel();
         $this->PSTDashboard = new PSTDashboard();
+        $this->StudentDTR = new StudentDTR();
         helper('utility');
 	}
     
@@ -38,6 +41,10 @@ class StudentController extends BaseController
 
     public function PreviewDashboard() {
         return view('Student/PSTDashboard');
+    }
+
+    public function PreviewDTR() {
+        return view('Student/StudentDTR');
     }
 
     public function PSTInfoChart() {
@@ -70,6 +77,21 @@ class StudentController extends BaseController
 		$ID = $this->request->getVar('ID');
         $data = $this->PSTDashboard->PSTRecentDTR($ID);
         return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function GetAllPSTDTR() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->StudentDTR->GetAllDTR($ID);
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function PublishDTR() {
+        $ID = $this->request->getVar('ID');
+        $Date = $this->request->getVar('Date');
+        $Timein = $this->request->getVar('TimeIn');
+        $Timeout = $this->request->getVar('TimeOut');
+        $data = $this->StudentDTR->CreateNewDTR($ID, $Date, $Timein, $Timeout);
+        return $this->response->setJSON($data);
     }
 
     public function logout() {
