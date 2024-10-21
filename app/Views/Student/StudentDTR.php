@@ -95,6 +95,7 @@
         var id = $('#id').val();
         var name = $('#name').val();
         displayDashboard(id, name); 
+        GetTotalHoursMinutes();
       });
 
    function formatDate(dateString) {
@@ -199,46 +200,65 @@
 		});
 	}
 
-   function AddDailyTimeRecord() {
-      var id = $('#id').val();
-      var date = $('#date').val();
-      var timein = $('#timein').val();
-      var timeout = $('#timeout').val();
-      var name = $('#name').val();
-		$.ajax({
-			type: 'POST',
-			url: '<?= site_url('StudentController/PublishDTR') ?>',
+    function GetTotalHoursMinutes() {
+        var id = $('#id').val();
+        $.ajax({
+			type: 'GET',
+			url: '<?= site_url('StudentController/TotalHourNMinutes') ?>',
 			data: {
-				ID: id,
-            Date: date,
-            TimeIn: timein,
-            TimeOut: timeout
+				ID: id
 			},
 			dataType: 'json',
 			success: function(response) {
-            message('success',`Daily Time Log is now Recorded`, 2000);
-            displayDashboard(id, name); 
+				console.log(response[0]);
 			},
 			error: function(error) {
-            message('error',`Something Went Wrong, Try Again`, 2000);
+
 			}
 		});
-   }
+    }
 
-   function message(icon,message,duration){
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: duration,
-                timerProgressBar: true
-            })
-
-            Toast.fire({
-                icon: icon,
-                title: message
-            })
-            return false;		
+    function AddDailyTimeRecord() {
+        var id = $('#id').val();
+        var date = $('#date').val();
+        var timein = $('#timein').val();
+        var timeout = $('#timeout').val();
+        var name = $('#name').val();
+            $.ajax({
+                type: 'POST',
+                url: '<?= site_url('StudentController/PublishDTR') ?>',
+                data: {
+                    ID: id,
+                Date: date,
+                TimeIn: timein,
+                TimeOut: timeout
+                },
+                dataType: 'json',
+                success: function(response) {
+                message('success',`Daily Time Log is now Recorded`, 2000);
+                $('#AddDTRModal').modal('hide');
+                displayDashboard(id, name); 
+                },
+                error: function(error) {
+                message('error',`Something Went Wrong, Try Again`, 2000);
+                }
+            });
         }
+
+    function message(icon,message,duration){
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: duration,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                    icon: icon,
+                    title: message
+                })
+                return false;		
+            }
 
 </script>

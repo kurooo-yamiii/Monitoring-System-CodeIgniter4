@@ -38,15 +38,17 @@ class StudentDTR extends Model
         if ($overallMinutes > 360) {
             $overallMinutes = 360;
         }
-    
-        $totalCurrentMinutes = $this->getCurrentTotal($ID);
-    
-        $newTotal = $totalCurrentMinutes + $overallMinutes;
+        
+        // For Cooperating Teacher Approval
+        // $totalCurrentMinutes = $this->getCurrentTotal($ID);
+        // $newTotal = $totalCurrentMinutes + $overallMinutes;
+
+        $formattedTotalTime = $this->formatMinutesToHoursAndMinutes($overallMinutes);
     
         $sql = "INSERT INTO dtr(AccID, Date, TimeIn, TimeOut, TotalHrs, Status) VALUES(?, ?, ?, ?, ?, 'Not Approved')";
-        $this->db->query($sql, [$ID, $date, $formattedTimeIn, $formattedTimeOut, "$overallMinutes minutes"]);
+        $this->db->query($sql, [$ID, $date, $formattedTimeIn, $formattedTimeOut, $formattedTotalTime]);
     
-        $this->updateTotalHours($ID, $newTotal);
+        // $this->updateTotalHours($ID, $newTotal);
     
         return ['status' => 'success', 'message' => 'DTR recorded successfully.'];
     }
@@ -62,14 +64,26 @@ class StudentDTR extends Model
         return ($hours * 60) + (int)$minutes;
     }
     
-    private function getCurrentTotal($ID) {
+    public function getCurrentTotal($ID) {
         $query = $this->db->query("SELECT Total FROM student WHERE ID = ?", [$ID]);
-        return $query->getRow()->Total ?? 0;
+        $row = $query->getRow();
+        $totalMinutes = $row && isset($row->Total) ? $row->Total : 0;
+        return $this->formatMinutesToHoursAndMinutes($totalMinutes);
     }
     
-    private function updateTotalHours($ID, $newTotal) {
-        $sql = "UPDATE student SET Total = ? WHERE ID = ?";
-        $this->db->query($sql, [$newTotal, $ID]);
+    // For Cooperating Teacher When DTR is Approved
+    // private function updateTotalHours($ID, $newTotal) {
+    //     $sql = "UPDATE student SET Total = ? WHERE ID = ?";
+    //     $this->db->query($sql, [$newTotal, $ID]);
+    // }
+
+    private function formatMinutesToHoursAndMinutes($totalMinutes) {
+        if ($totalMinutes > 360) {
+            $totalMinutes = 360;
+        }
+        $hours = floor($totalMinutes / 60);
+        $minutes = $totalMinutes % 60;
+        return "{$hours} hours and {$minutes} minutes";
     }
     
 }
