@@ -1,6 +1,6 @@
 <form>
    <div class="dashboard">
-   <p class="announce-para">Daily TIne Record of PST <span id="divForPSTName" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
+   <p class="announce-para">Daily Time Record of PST <span id="divForPSTName" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
    <div class="logos">
       <div class="logo">
          <img src="<?=base_url('assets/img/logo.png')?>" alt="Logo 1" width="50" />
@@ -185,9 +185,11 @@
 										  <td>${info.TimeIn}</td>
 										  <td>${info.TimeOut}</td>
 										  <td>${info.TotalHrs}</td>
-										  <td style="color:${info.Status === 'Not Approved' ? 'red' : 'green'};">
-											  ${info.Status}
-										  </td>
+										  <td>
+											<button style="opacity: 1; !important; font-size: 10px !important;" class="${info.Status === 'Not Approved' ? 'btn btn-secondary' : 'btn btn-success'}" disabled>
+												${info.Status}
+											</button>
+										</td>
 									</tr>
 									`);
 						table.row.add(rowData);

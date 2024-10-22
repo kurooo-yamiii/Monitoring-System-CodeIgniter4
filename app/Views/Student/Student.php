@@ -76,7 +76,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				</li>
 
 				<li id="teachlistbut">
-					<b onclick="loadView('PreviewRT')">
+					<b onclick="loadView('PreviewEvaluation')">
 					<a style="text-decoration: none; color: #eee;">
 						<luation><i class="fa fa-users" aria-hidden="true"></i>EVALUATION</p>
 					</a>
