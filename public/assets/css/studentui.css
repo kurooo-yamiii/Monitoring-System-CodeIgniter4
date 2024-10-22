@@ -64,7 +64,6 @@ color: #127b8e;
 }
 
 .dashboardstats {
-  width: 5.5%;
   display: flex;
   justify-content: space-between;
 }

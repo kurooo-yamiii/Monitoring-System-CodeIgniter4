@@ -15,7 +15,7 @@ class StudentEvaluation extends Model
     protected $allowedFields = ['Name', 'Resource', 'Program']; 
 
     public function GetAllEvaluation($ID){
-        $query = "SELECT * FROM evaluation WHERE ID = ?";
+        $query = "SELECT * FROM evaluation WHERE StudentID = ?";
         $builder = $this->db->query($query, [$ID]);
         return $builder->getResult();
     }
