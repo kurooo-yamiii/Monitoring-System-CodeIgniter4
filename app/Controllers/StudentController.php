@@ -97,7 +97,7 @@ class StudentController extends BaseController
     public function TotalHourNMinutes() {
         $ID = $this->request->getVar('ID');
         $data = $this->StudentDTR->getCurrentTotal($ID);
-        return $this->response->setJSON($data);
+        return $this->response->setJSON(['totalTime' => $data]);
     }
 
     public function logout() {

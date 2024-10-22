@@ -68,7 +68,7 @@ class StudentDTR extends Model
         $query = $this->db->query("SELECT Total FROM student WHERE ID = ?", [$ID]);
         $row = $query->getRow();
         $totalMinutes = $row && isset($row->Total) ? $row->Total : 0;
-        return $this->formatMinutesToHoursAndMinutes($totalMinutes);
+        return $this->formatOverallTime($totalMinutes);
     }
     
     // For Cooperating Teacher When DTR is Approved
@@ -81,6 +81,12 @@ class StudentDTR extends Model
         if ($totalMinutes > 360) {
             $totalMinutes = 360;
         }
+        $hours = floor($totalMinutes / 60);
+        $minutes = $totalMinutes % 60;
+        return "{$hours} hours and {$minutes} minutes";
+    }
+
+    private function formatOverallTime($totalMinutes) {
         $hours = floor($totalMinutes / 60);
         $minutes = $totalMinutes % 60;
         return "{$hours} hours and {$minutes} minutes";

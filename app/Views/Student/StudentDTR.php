@@ -32,7 +32,8 @@
 	</div>
    <div class="space"></div>
 		<div class="divider"></div>
-		  <div class="button-container">
+		  <div class="button-container" style="justify-content: space-between;">
+          <p class="announce-para">Overall Time <span id="fetchOverallTime" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
 		  		<button type="button" class="btn-shadow btn btn-warning" style="font-size: 14px;" data-target="#AddDTRModal"
                     id="CreatePST" data-toggle="modal">
                     <span class="fas fa-calendar"></span> Create Daily Log
@@ -210,10 +211,10 @@
 			},
 			dataType: 'json',
 			success: function(response) {
-				console.log(response[0]);
+                $('#fetchOverallTime').text(response.totalTime);
 			},
 			error: function(error) {
-
+                console.log(error)
 			}
 		});
     }
