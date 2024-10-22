@@ -50,7 +50,7 @@
 								<div class="logo-right">
 									<img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
 								</div>
-								<div>Create <span style="margin-left: 5px; color: navy; font-weight: 700;">Daily Time Record</span></div>
+								<div>Create<span style="margin-left: 5px; color: navy; font-weight: 700;">Daily Time Record</span></div>
 							</div>	
 						</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -236,9 +236,12 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                message('success',`Daily Time Log is now Recorded`, 2000);
-                $('#AddDTRModal').modal('hide');
-                displayDashboard(id, name); 
+                    message('success',`Daily Time Log is now Recorded`, 2000);
+                    $('#AddDTRModal').modal('hide');
+                    $('#date').val('');
+                    $('#timein').val('');
+                    $('#timeout').val('');
+                    displayDashboard(id, name); 
                 },
                 error: function(error) {
                 message('error',`Something Went Wrong, Try Again`, 2000);
@@ -262,4 +265,9 @@
                 return false;		
             }
 
+    $('#AddDTRModal').on('hidden.bs.modal', function () {
+        $('#date').val('');
+        $('#timein').val('');
+        $('#timeout').val('');
+	});
 </script>
