@@ -113,6 +113,12 @@ class StudentController extends BaseController
         return $this->response->setJSON($data);
     }
 
+    public function FetchEvaluationTable() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->StudentEvaluation->OrganizeTableEvaluation($ID);
+        return $this->response->setJSON(['data' => $data]);
+    }
+
     public function logout() {
         $this->session->destroy();
         return view('Login');

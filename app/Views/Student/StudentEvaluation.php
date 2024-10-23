@@ -37,8 +37,22 @@
                     </button>
             </div>
             <div class="modal-body">
-                
-			
+                <table class="table table-striped" id="TableforEvalPreview">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Qs1</th>
+                                    <th scope="col">Qs2</th>
+                                    <th scope="col">Qs3</th>
+                                    <th scope="col">Qs4</th>
+                                    <th scope="col">Qs5</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                </tbody>
+            </table>
+            <div class="space"></div>
             <div class="modal-footer">
                 <input type="hidden" id="ECashID">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -101,7 +115,99 @@
 
     function previewEvaluation(id, lesson) {
         $('#lessonHolder').text(lesson);
-    }
+        var table = $('#TableforEvalPreview').DataTable({
+            ordering: false,
+            responsive: true,
+            retrieve: true,
+			pageLength: 5,
+			dom: '<"row"<"col-md-6"B><"col-md-6"f>>' + 
+             '<"row"<"col-md-12"tr>>' + 
+             '<"row"<"col-md-5"i><"col-md-7"p>>', 
+                 buttons: [
+                     {
+                        extend: "pdfHtml5",
+                        className: 'btn btn-danger',
+						text: `PST Evaluation`,
+                        title: `PST Evaluation`,
+                        exportOptions: {
+                                columns: [0,1,2,3,4,5,6]
+                        },
+                        text: 'PDF',
+                         init: function(api, node, config) {
+                           $(node).removeClass('dt-button buttons-pdf buttons-html5')
+                        }
+                    },
+                    {
+                        extend: "copyHtml5",
+                        className: 'btn btn-primary',
+						text: `PST Evaluation`,
+                        title: `PST Evaluation`,
+                        exportOptions: {
+                                columns: [0,1,2,3,4,5,6]
+                        },
+                        text: 'Copy',
+                        init: function(api, node, config) {
+                           $(node).removeClass('dt-button buttons-copy buttons-html5')
+                        }
+                    },
+                    {
+                        extend: "excelHtml5",
+                        className: 'btn btn-success',
+                        text: 'Excel',
+						title: `PST Evaluation`,
+                        exportOptions: {
+                                columns: [0,1,2,3,4,5,6]
+                        },
+                        init: function(api, node, config) {
+                           $(node).removeClass('dt-button buttons-excel buttons-html5')
+                        }
+                    },
+                    {
+                        extend: "csvHtml5",
+                        className: 'btn btn-warning',
+                        text: 'CSV',
+						title: `PST Evaluation`,
+                        exportOptions: {
+                                columns: [0,1,2,3,4,5,6]
+                        },
+                        init: function(api, node, config) {
+                           $(node).removeClass('dt-button buttons-csv buttons-html5')
+                        }
+					}
+				]
+			});
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo site_url('StudentController/FetchEvaluationTable'); ?>',
+                data: {
+                    ID: id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    table.clear().draw();
+                    const res = response.data;
+                        if (res.length > 0) {
+                            res.forEach(function(info) {
+                                var rowData = $(`<tr >
+                                    <td>${info.Variable}</td>
+                                    <td>${info.Q1 ? info.Q1 : ''}</td>
+                                    <td>${info.Q2 ? info.Q2 : ''}</td>
+                                    <td>${info.Q3 ? info.Q3 : ''}</td>
+                                    <td>${info.Q4 ? info.Q4 : ''}</td>
+                                    <td>${info.Q5 ? info.Q5 : ''}</td>
+                                    <td>${info.Total}</td>
+                                </tr>
+                                `);  
+                        table.row.add(rowData);
+                        });
+                    table.draw();
+                }              
+                },
+                error: function(error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
 
     function formatDate(dateString) {
 		const date = new Date(dateString);
