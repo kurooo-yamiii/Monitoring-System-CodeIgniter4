@@ -53,6 +53,12 @@
                 </tbody>
             </table>
             <div class="space"></div>
+            <div class="space"></div>
+                <div>
+                    <p class="button-title-remarks">Remarks</p> 
+                    <textarea class="form-control" id="remarksHolder" style="margin-left: 5px; font-weight: 700;" rows="3" readonly></textarea>
+                </div>
+            <div class="space"></div>
             <div class="modal-footer">
                 <input type="hidden" id="ECashID">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -114,6 +120,7 @@
     }
 
     function previewEvaluation(id, lesson) {
+        getRemarks(id);
         $('#lessonHolder').text(lesson);
         var table = $('#TableforEvalPreview').DataTable({
             ordering: false,
@@ -208,6 +215,23 @@
                 }
             });
         }
+
+    function getRemarks(id) {
+        $.ajax({
+                type: 'POST',
+                url: '<?php echo site_url('StudentController/FetchEvaluationRemarks'); ?>',
+                data: {
+                    ID: id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $('#remarksHolder').val(response[0].Remarks === "" ? 'Currently there are no remarks for this lesson' : response[0].Remarks);
+                },
+                error: function(error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+    }    
 
     function formatDate(dateString) {
 		const date = new Date(dateString);

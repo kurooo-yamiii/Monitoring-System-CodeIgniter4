@@ -30,10 +30,14 @@ class StudentEvaluation extends Model
         UNION ALL 
         SELECT 'Correctness', d1, d2, d3, d4, d5, dT FROM evaluation WHERE ID = ? 
         UNION ALL 
-        SELECT 'Average', NULL, NULL, NULL, NULL, NULL, (SELECT Average FROM evaluation WHERE ID = ?);
-        
-            ";
+        SELECT 'Average', NULL, NULL, NULL, NULL, NULL, (SELECT Average FROM evaluation WHERE ID = ?); ";
         $builder = $this->db->query($query, [$ID, $ID, $ID, $ID, $ID]);
         return $builder->getResultArray();
+    }
+
+    public function GetEvaluationRemarks($ID) {
+        $query = "SELECT Remarks FROM evaluation WHERE ID = ?";
+        $builder = $this->db->query($query, [$ID]);
+        return $builder->getResult();
     }
 }

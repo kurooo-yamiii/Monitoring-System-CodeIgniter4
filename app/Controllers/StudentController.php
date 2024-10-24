@@ -119,6 +119,12 @@ class StudentController extends BaseController
         return $this->response->setJSON(['data' => $data]);
     }
 
+    public function FetchEvaluationRemarks() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->StudentEvaluation->GetEvaluationRemarks($ID);
+        return $this->response->setJSON($data);
+    }
+
     public function logout() {
         $this->session->destroy();
         return view('Login');
