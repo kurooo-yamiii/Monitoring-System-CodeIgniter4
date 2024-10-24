@@ -7,6 +7,7 @@ use App\Models\Student\StudentModel;
 use App\Models\Student\PSTDashboard;
 use App\Models\Student\StudentDTR;
 use App\Models\Student\StudentEvaluation;
+use App\Models\Student\StudentAnnouncement;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class StudentController extends BaseController
@@ -17,6 +18,7 @@ class StudentController extends BaseController
     private $PSTDashboard;
     private $StudentDTR;
     private $StudentEvaluation;
+    private $StudentAnnouncement;
     protected $helper;
     protected $db;
 
@@ -29,6 +31,7 @@ class StudentController extends BaseController
         $this->PSTDashboard = new PSTDashboard();
         $this->StudentDTR = new StudentDTR();
         $this->StudentEvaluation = new StudentEvaluation();
+        $this->StudentAnnouncement = new StudentAnnouncement();
         helper('utility');
 	}
     
@@ -52,6 +55,10 @@ class StudentController extends BaseController
 
     public function PreviewEvaluation() {
         return view('Student/StudentEvaluation');
+    }
+
+    public function PreviewAnnouncment() {
+        return view('Student/StudentAnnouncement');
     }
 
     public function PSTInfoChart() {
@@ -122,6 +129,11 @@ class StudentController extends BaseController
     public function FetchEvaluationRemarks() {
         $ID = $this->request->getVar('ID');
         $data = $this->StudentEvaluation->GetEvaluationRemarks($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function FetchAnnouncement() {
+        $data = $this->StudentAnnouncement->GetAllAnnouncement();
         return $this->response->setJSON($data);
     }
 

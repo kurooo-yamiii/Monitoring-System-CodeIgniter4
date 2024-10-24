@@ -84,7 +84,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				</li>
 
        		 <li id="deploybtn">
-					<b onclick="loadView('PreviewDeployment')">
+					<b onclick="loadView('PreviewAnnouncment')">
 					<a style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-tags" aria-hidden="true"></i>ANNOUNCEMENT</p>
 					</a>
