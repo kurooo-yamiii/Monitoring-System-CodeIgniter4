@@ -133,8 +133,20 @@ class StudentController extends BaseController
     }
 
     public function FetchAnnouncement() {
-        $data = $this->StudentAnnouncement->GetAllAnnouncement();
-        return $this->response->setJSON($data);
+        $id = $this->request->getVar('userId'); 
+        $announcements = $this->StudentAnnouncement->GetAllAnnouncement();
+        foreach ($announcements as &$announcement) {
+            $announcement->likesArray = !empty($announcement->LikeID) ? explode(',', $announcement->LikeID) : [];
+            $announcement->liked = in_array($id, $announcement->likesArray);
+        }
+        return $this->response->setJSON($announcements);
+    }
+
+    public function UpdateLikeStatus() {
+        $id = $this->request->getVar('id'); 
+        $userId = $this->request->getVar('userid');
+        $newLikeCount = $this->StudentAnnouncement->LikeStatusManipulate($id, $userId);
+        return $this->response->setJSON(['status' => 'success', 'likes' => $newLikeCount]);
     }
 
     public function logout() {
