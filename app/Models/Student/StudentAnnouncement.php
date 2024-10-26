@@ -26,7 +26,6 @@ class StudentAnnouncement extends Model
     }
 
     public function LikeStatusManipulate($id, $userId) {
-
         $query = "SELECT * FROM announce WHERE ID = $id";
         $builder = $this->db->query($query);
         $announcement = $builder->getRow(); 
@@ -44,9 +43,38 @@ class StudentAnnouncement extends Model
         }
     
         $likesString = implode(',', $likes);
-        $query = "UPDATE announce SET LikeID = '$likesString' WHERE ID = $id";
+    
+        $likesCount = count($likes);
+        $query = "UPDATE announce SET LikeID = '$likesString', Likes = $likesCount WHERE ID = $id";
         $this->db->query($query); 
     
-        return count($likes); 
+        return $likesCount; 
     }
+    
+    public function HeartStatusManipulate($id, $userId) {
+        $query = "SELECT * FROM announce WHERE ID = $id";
+        $builder = $this->db->query($query);
+        $announcement = $builder->getRow(); 
+    
+        if (!$announcement) {
+            return 0; 
+        }
+
+        $hearts = !empty($announcement->HeartID) ? explode(',', $announcement->HeartID) : [];
+    
+        if (in_array($userId, $hearts)) {
+            $hearts = array_diff($hearts, [$userId]); 
+        } else {
+            $hearts[] = $userId; 
+        }
+    
+        $heartsString = implode(',', $hearts);
+    
+        $heartCount = count($hearts);
+        $query = "UPDATE announce SET HeartID = '$heartsString', Heart = $heartCount WHERE ID = $id";
+        $this->db->query($query); 
+    
+        return $heartCount; 
+    }
+    
 }

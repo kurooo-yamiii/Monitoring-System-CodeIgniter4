@@ -1651,9 +1651,9 @@ width: 100% !important;
   }
 
   .like-button.active {
-    color: blue;
+    color: #3b5998; 
   }
 
   .heart-button.active {
-    color: red;
+    color: #D50032; 
   }

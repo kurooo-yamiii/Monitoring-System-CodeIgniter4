@@ -138,6 +138,9 @@ class StudentController extends BaseController
         foreach ($announcements as &$announcement) {
             $announcement->likesArray = !empty($announcement->LikeID) ? explode(',', $announcement->LikeID) : [];
             $announcement->liked = in_array($id, $announcement->likesArray);
+
+            $announcement->heartsArray = !empty($announcement->HeartID) ? explode(',', $announcement->HeartID) : [];
+            $announcement->hearted = in_array($id, $announcement->heartsArray);
         }
         return $this->response->setJSON($announcements);
     }
@@ -148,6 +151,13 @@ class StudentController extends BaseController
         $newLikeCount = $this->StudentAnnouncement->LikeStatusManipulate($id, $userId);
         return $this->response->setJSON(['status' => 'success', 'likes' => $newLikeCount]);
     }
+
+    public function UpdateHeartStatus() {
+        $id = $this->request->getVar('id'); 
+        $userId = $this->request->getVar('userid');
+        $newHeartCount = $this->StudentAnnouncement->HeartStatusManipulate($id, $userId);
+        return $this->response->setJSON(['status' => 'success', 'hearts' => $newHeartCount]);
+    }    
 
     public function logout() {
         $this->session->destroy();

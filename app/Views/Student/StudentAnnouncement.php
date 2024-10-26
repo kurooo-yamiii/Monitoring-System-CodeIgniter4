@@ -53,15 +53,34 @@
     }
 
     function toggleHeart(event) {
-        const announcement = event.target.closest('.todo-itemprof');
         const heartButton = event.target;
-        const heartCount = announcement.querySelector('.heartCount');
+        const announcementContainer = heartButton.closest('.likes-container'); 
+        const announcementId = announcementContainer.dataset.id; 
+        const heartCount = announcementContainer.querySelector('.heartCount');
+        const userId = $('#id').val();
         const hearted = heartButton.classList.toggle('active');
 
-        heartCount.textContent = hearted 
-            ? parseInt(heartCount.textContent) + 1 
-            : parseInt(heartCount.textContent) - 1;
+        $.ajax({
+            type: 'POST',
+            url: '<?= site_url('StudentController/UpdateHeartStatus') ?>',
+            data: {
+                id: announcementId,
+                userid: userId,
+            },
+            success: function(response) {
+                const data = typeof response === 'string' ? JSON.parse(response) : response;
+                heartCount.textContent = data.hearts; 
+                if (data.hearts !== heartCount.textContent && !hearted) {
+                    heartButton.classList.remove('active');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating heart status:', xhr.responseText || error);
+                heartButton.classList.toggle('active', !hearted);
+            }
+        });
     }
+
 
     function FetchAllAnnouncement() {
         const userId = $('#id').val();  
@@ -69,7 +88,7 @@
             type: 'POST', 
             url: '<?= site_url('StudentController/FetchAnnouncement') ?>',
             data: {
-                ID: userId  
+                userId: userId  
             },
             dataType: 'json',
             success: function(response) {    
@@ -94,7 +113,7 @@
                                             <span class="fa fa-thumbs-up like-button ${info.liked ? 'active' : ''}" aria-hidden="true" onclick="toggleLike(event)"></span>
                                             <span class="likeCount">${info.Likes}</span>
                                         </small>
-                                        <small>
+                                        <small class="heart-container">
                                             <span class="fa fa-heart heart-button ${info.hearted ? 'active' : ''}" aria-hidden="true" onclick="toggleHeart(event)"></span>
                                             <span class="heartCount">${info.Heart}</span>
                                         </small>
@@ -125,7 +144,7 @@
                                                     <span class="fa fa-thumbs-up like-button ${info.liked ? 'active' : ''}" aria-hidden="true" onclick="toggleLike(event)"></span>
                                                     <span class="likeCount">${info.Likes}</span>
                                                 </small>
-                                                <small>
+                                                <small class="heart-container">
                                                     <span class="fa fa-heart heart-button ${info.hearted ? 'active' : ''}" aria-hidden="true" onclick="toggleHeart(event)"></span>
                                                     <span class="heartCount">${info.Heart}</span>
                                                 </small>

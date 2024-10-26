@@ -210,10 +210,10 @@
                                         </div>
                                                 <div class="likes-container">
                                                     <small>
-                                                        <span class="fa fa-thumbs-up" aria-hidden="true"></span> ${info.Likes}
+                                                        <span class="fa fa-thumbs-up like-button" aria-hidden="true"></span> ${info.Likes}
                                                     </small>
                                                     <small>
-                                                        <span class="fa fa-heart" aria-hidden="true"></span> ${info.Heart}
+                                                        <span class="fa fa-heart heart-button" aria-hidden="true"></span> ${info.Heart}
                                                     </small>
                                                 </div>
                                              </div>            
@@ -247,10 +247,10 @@
                                                 <small>- ${info.Author}</small>
                                                 <div class="likes-container">
                                                     <small>
-                                                        <span class="fa fa-thumbs-up" aria-hidden="true"></span> ${info.Likes}
+                                                        <span class="fa fa-thumbs-up like-button" aria-hidden="true"></span> ${info.Likes}
                                                     </small>
                                                     <small>
-                                                        <span class="fa fa-heart" aria-hidden="true"></span> ${info.Heart}
+                                                        <span class="fa fa-heart heart-button" aria-hidden="true"></span> ${info.Heart}
                                                     </small>
                                                 </div>
                                             </div>

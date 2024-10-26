@@ -1628,3 +1628,11 @@ width: 100% !important;
 	align-items: center;
 	text-align: center;
 }
+
+.like-button {
+  color: #3b5998; 
+}
+
+.heart-button {
+  color: #D50032; 
+}
