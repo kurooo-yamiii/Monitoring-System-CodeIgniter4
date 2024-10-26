@@ -100,8 +100,8 @@
                             appendPost = $(`
                                 <div class="todo-itemprof">
                                     <div class="announce-delete">
-                                        <h2>${info.Title}</h2>
-                                        <p class="date-pin">${info.Date}</p> 
+                                        <h2 style="color: white;">${info.Title}</h2>
+                                        <h2 style="color: white;">${info.Date}</h2> 
                                     </div>
                                     <div style="width: 90%; margin-left: 3%;">
                                         <h2 style="font-weight: 500;">${info.Post}</h2>
@@ -125,8 +125,8 @@
                             appendPost = $(`
                                 <div class="todo-itemprof">
                                     <div class="announce-delete">
-                                        <h2>${info.Title}</h2>
-                                        <p class="date-pin">${info.Date}</p> 
+                                        <h2 style="color: white;">${info.Title}</h2>
+                                        <h2 style="color: white;">${info.Date}</h2> 
                                     </div>
                                     <br>
                                     <div class="empty">
