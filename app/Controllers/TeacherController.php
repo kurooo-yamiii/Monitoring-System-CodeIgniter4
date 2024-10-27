@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Teacher\TeacherModel;
 use App\Models\Teacher\TeacherDashboard;
+use App\Models\Teacher\ApprovalDTR;
 
 class TeacherController extends BaseController
 {
@@ -13,6 +14,7 @@ class TeacherController extends BaseController
 	private $postRequest;
     private $TeacherModel;
     private $TeacherDashboard;
+    private $ApprovalDTR;
     protected $helper;
     protected $db;
 
@@ -23,6 +25,7 @@ class TeacherController extends BaseController
         $this->postRequest = \Config\Services::request();
         $this->TeacherModel = new TeacherModel();
         $this->TeacherDashboard = new TeacherDashboard();
+        $this->ApprovalDTR = new ApprovalDTR();
         helper('utility');
 	}
     public function index()
@@ -38,6 +41,11 @@ class TeacherController extends BaseController
     public function PreviewDashboard() {
         return view('Teacher/TeacherDashboard');
     }
+
+    public function PreviewApprovalDTR() {
+        return view('Teacher/ApprovalDTR');
+    }
+
 
     public function StudentInfoChart() {
         $ID = $this->request->getVar('ID');
@@ -70,6 +78,33 @@ class TeacherController extends BaseController
         $data = $this->TeacherDashboard->StudentRecentDTR($ID);
         return $this->response->setJSON(['data' => $data]);
     }
+
+    public function GetApprovedDTR() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->ApprovalDTR->ApprovedDTR($ID);
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function GetDisapprovedDTR() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->ApprovalDTR->DisapprovedDTR($ID);
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function PSTTotalHours() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->ApprovalDTR->TotalPSTHours($ID);
+        return $this->response->setJSON(['totalTime' => $data]);
+    }
+
+    public function TimeApproved(){
+        $ID = $this->request->getVar('ID');
+        $total = $this->request->getVar('total');
+        $studID = $this->request->getVar('studID');
+        $data = $this->ApprovalDTR->ApproveTime($ID, $total, $studID);
+        return $this->response->setJSON( $data);
+    }
+
     public function logout() {
         $this->session->destroy();
         return view('Login');

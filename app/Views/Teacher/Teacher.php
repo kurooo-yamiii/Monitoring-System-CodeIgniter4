@@ -68,7 +68,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 			</div>
 			<ul>
 				<li id="studlistbut">
-					<b onclick="loadView('PreviewDTR')">
+					<b onclick="loadView('PreviewApprovalDTR')">
 					<a style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-calendar" aria-hidden="true"></i>DTR</p>
 					</a>

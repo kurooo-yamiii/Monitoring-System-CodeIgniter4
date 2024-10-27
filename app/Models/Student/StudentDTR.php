@@ -38,17 +38,11 @@ class StudentDTR extends Model
         if ($overallMinutes > 360) {
             $overallMinutes = 360;
         }
-        
-        // For Cooperating Teacher Approval
-        // $totalCurrentMinutes = $this->getCurrentTotal($ID);
-        // $newTotal = $totalCurrentMinutes + $overallMinutes;
 
         $formattedTotalTime = $this->formatMinutesToHoursAndMinutes($overallMinutes);
     
         $sql = "INSERT INTO dtr(AccID, Date, TimeIn, TimeOut, TotalHrs, Status) VALUES(?, ?, ?, ?, ?, 'Not Approved')";
         $this->db->query($sql, [$ID, $date, $formattedTimeIn, $formattedTimeOut, $formattedTotalTime]);
-    
-        // $this->updateTotalHours($ID, $newTotal);
     
         return ['status' => 'success', 'message' => 'DTR recorded successfully.'];
     }
@@ -70,12 +64,6 @@ class StudentDTR extends Model
         $totalMinutes = $row && isset($row->Total) ? $row->Total : 0;
         return $this->formatOverallTime($totalMinutes);
     }
-    
-    // For Cooperating Teacher When DTR is Approved
-    // private function updateTotalHours($ID, $newTotal) {
-    //     $sql = "UPDATE student SET Total = ? WHERE ID = ?";
-    //     $this->db->query($sql, [$newTotal, $ID]);
-    // }
 
     private function formatMinutesToHoursAndMinutes($totalMinutes) {
         if ($totalMinutes > 360) {
