@@ -25,8 +25,8 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
       <!-- Font Awesome CSS -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 	
-	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/studentui.css')?>">
-  <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/studentmedia.css')?>">
+	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/cooperatingui.css')?>">
+  <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/cooperatinmedia.css')?>">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 
 </head>
@@ -64,7 +64,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
                      <img  src="<?=base_url('assets/img/default.jpeg')?>">
        <?php endif; ?>
 	   </div>
-       <h4>PST: <?php echo $_SESSION['Name']?></h4>
+       <h4>Professor: <?php echo $_SESSION['Name']?></h4>
 			</div>
 			<ul>
 				<li id="studlistbut">
@@ -82,15 +82,6 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 					</a>
 					</b>
 				</li>
-
-       		 <li id="deploybtn">
-					<b onclick="loadView('PreviewAnnouncment')">
-					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-bullhorn" aria-hidden="true"></i>ANNOUNCEMENT</p>
-					</a>
-					</b>
-				</li>
-
 				<li id="annbtn">
 					<b onclick="loadView('PreviewToDoList')">
 					<a style="text-decoration: none; color: #eee;">
@@ -109,7 +100,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 
 				<li>
 				<b>
-					<a href="<?= site_url("StudentController/logout") ?>" style="text-decoration: none; color: #eee;">
+					<a href="<?= site_url("TeacherController/logout") ?>" style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</p>
 					</a>
 					</b>
@@ -146,7 +137,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 
 <script>
 
-      const baseUrl = '<?= site_url("StudentController/") ?>';
+      const baseUrl = '<?= site_url("TeacherController/") ?>';
 
       function getViewUrl(viewName) {
           return baseUrl + viewName;
@@ -174,7 +165,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 </script>
 <?php
 }else{
-    site_url('StudentController/logout');
+    site_url('TeacherController/logout');
      exit();
 }
 ?>

@@ -93,7 +93,7 @@ body::before{
             e.preventDefault();
             $.ajax({
             type: 'POST', 
-            url: '<?= site_url('Home/getemployees') ?>', 
+            url: '<?= site_url('Home/Authetication') ?>', 
             dataType: 'JSON',
             data: { user: $('#username').val(), pas: $('#password').val()},
             success: function(response) {

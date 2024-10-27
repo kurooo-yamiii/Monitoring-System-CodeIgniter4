@@ -14,7 +14,7 @@ class Login extends Model
     protected $useAutoIncrement = true;
     protected $allowedFields    = ['Username', 'Password', 'Name'];
 
-    public function CallStudent($username, $password){
+    public function AuthenticateUser($username, $password){
         if($this->forStudent($username,$password)){
             return $this->forStudent($username,$password);
         }elseif($this->forTeacher($username,$password)){

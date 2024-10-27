@@ -26,16 +26,17 @@ class Home extends BaseController
         return view('Login');
     }
 
-    public function getemployees() {
+    public function Authetication() {
         $username = $this->request->getVar('user');
         $password = $this->request->getVar('pas');
-        $data = $this->Login->CallStudent($username, $password);
+        $data = $this->Login->AuthenticateUser($username, $password);
         if ($data) {
             $this->session->set([
                 'ID' => $data['ID'],
                 'Name' => $data['Name'],
                 'Username' => $data['Username'],
-                'Password' => $data['Password']
+                'Password' => $data['Password'],
+                'Student' => isset($data['level']) && $data['level'] === 1 ? $data['Student'] : 'For Professor Only',
             ]);
             return $this->response->setJSON(['status' => '200', 'data' => $data]);
         } else {
