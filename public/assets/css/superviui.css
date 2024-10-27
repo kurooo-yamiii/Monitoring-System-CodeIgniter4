@@ -86,6 +86,7 @@ background: #041b5a;
 display: flex;
 flex-direction: column; /* Stack items vertically */
 padding: 0; /* Remove default padding */
+width: 15%;
 }
 
 .side-bar ul {

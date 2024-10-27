@@ -141,13 +141,6 @@
         });
     }
 
-    function hasDatePassed(dateString) {
-        const today = new Date().toISOString().split('T')[0];
-        const dueDate = new Date(dateString).toISOString().split('T')[0];
-        return dueDate < today;
-    }
-
-
     function message(icon,message,duration){
                 const Toast = Swal.mixin({
                     toast: true,

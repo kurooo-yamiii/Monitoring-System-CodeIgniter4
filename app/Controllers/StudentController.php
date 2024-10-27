@@ -9,6 +9,7 @@ use App\Models\Student\StudentDTR;
 use App\Models\Student\StudentEvaluation;
 use App\Models\Student\StudentAnnouncement;
 use App\Models\Student\ToDoList;
+use App\Models\Student\StudentProfile;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class StudentController extends BaseController
@@ -21,6 +22,7 @@ class StudentController extends BaseController
     private $StudentEvaluation;
     private $StudentAnnouncement;
     private $ToDoList;
+    private $StudentProfile;
     protected $helper;
     protected $db;
 
@@ -35,6 +37,7 @@ class StudentController extends BaseController
         $this->StudentEvaluation = new StudentEvaluation();
         $this->StudentAnnouncement = new StudentAnnouncement();
         $this->ToDoList = new ToDoList();
+        $this->StudentProfile = new StudentProfile();
         helper('utility');
 	}
     
@@ -66,6 +69,10 @@ class StudentController extends BaseController
 
     public function PreviewToDoList() {
         return view('Student/ToDoList');
+    }
+
+    public function PreviewProfile() {
+        return view('Student/StudentProfile');
     }
 
     public function PSTInfoChart() {
@@ -182,6 +189,65 @@ class StudentController extends BaseController
         } else {
             return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to update to-do item.']);
         }
+    }
+
+    public function UpdateUserProfile() {
+		try {
+			helper('url');
+
+			$id = $this->request->getVar('ID');
+			$name = $this->request->getVar('name');
+			$password = $this->request->getVar('password');
+            $program = $this->request->getVar('program');
+            $section = $this->request->getVar('section');
+            $contact = $this->request->getVar('contact');
+			$file = $this->request->getFile('img');
+
+			if (empty($id) || empty($name) || empty($password)) {
+				return $this->response->setStatusCode(400)->setJSON(['message' => 'Name, ID, and password are required.']);
+			}
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 2 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+				$newName = uniqid('IMG-', true) . '.' . $file->getExtension();
+				$file->move('./assets/uploads/', $newName); 
+
+				$this->StudentProfile->UpdateUserProfile($id, $name, $password, $program, $section, $contact, $newName);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated successfully']);
+			
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+
+				$this->StudentProfile->UpdateUserProfile($id, $name, $password, $program, $section, $contact, null); 
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated without changing the image.']);
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
+	}
+
+    public function GetStudentProfile() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->StudentProfile->GetAllStudentInformation($ID);
+        return $this->response->setJSON($data);
     }
 
     public function logout() {

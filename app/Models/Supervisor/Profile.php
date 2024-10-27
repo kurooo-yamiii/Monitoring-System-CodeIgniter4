@@ -15,7 +15,7 @@ class Profile extends Model
     protected $allowedFields = ['Name', 'Password']; 
 
     public function GetSupervisorUser($UserID) {
-		 $query = "SELECT * FROM supervisor WHERE ID = $UserID";
+		$query = "SELECT * FROM supervisor WHERE ID = $UserID";
         $builder = $this->db->query($query);
         return $builder->getResult();
 	}

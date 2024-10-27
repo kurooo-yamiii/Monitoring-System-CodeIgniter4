@@ -1,4 +1,4 @@
-<form>
+<form id="profile">
 	<div class="dashboard">
 		<p class="announce-para">User <span> Profile</span></p>
 		<div class="logos">
@@ -18,11 +18,9 @@
 	
 			</div>
 	
-
-	
 	<!-- UPDATE PROFILE MODAL -->
 	<div class="modal fade" id="UpdateProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" style="max-width: 30%;" role="document">
+		<div class="modal-dialog modal-lg" style="max-width: 38%;" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">
@@ -57,12 +55,28 @@
 						  <label>NAME</label>
 						  <input type="text" class="form-control" id="NameUser">
 					</div>
-					<div class="space"></div>
-					<div class="col-md-12">
+                    <div class="space"></div>
+                    <div class="row" style="padding: 0px 15px;">
+                    <div class="col-md-6">
+						  <label>SECTION</label>
+						  <input type="text" class="form-control" id="SectionUser">
+					</div>
+                    <div class="col-md-6">
+						  <label>PROGRAM</label>
+						  <input type="text" class="form-control" id="ProgramUser">
+					</div>
+                    </div>
+                    <div class="space"></div>
+                    <div class="row" style="padding: 0px 15px;">
+                    <div class="col-md-6">
+						  <label>CONTACT</label>
+						  <input type="text" class="form-control" id="ContactUser">
+					</div>
+					<div class="col-md-6">
 						  <label>PASSWORD</label>
 						  <input type="text" class="form-control" id="PassUser">
 					</div>
-					
+                    </div>
 				</div>
 				<div class="modal-footer" style="margin-top: 5%;">
 					<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearInformation()">Close</button>
@@ -72,7 +86,7 @@
 		</div>
 	</div>
 </form>
-    <script>
+<script>
 	
 	  $(function () {
 		GetProfileUser();
@@ -82,7 +96,7 @@
 			var userID = $('#UserId').val().trim(); 
 			$.ajax({
 				type: 'POST',
-				url: '<?php echo site_url('SupervisorController/GetUserProfile'); ?>',
+				url: '<?php echo site_url('StudentController/GetStudentProfile'); ?>',
 				data: { ID: userID },
 				success: function(response) {
 					var userDiv = $('#FetchUser'); 
@@ -94,15 +108,27 @@
 						
 						var newProfile = $(`<img src="${profileImageSrc}" alt="Profile Image">`);
 						var modifyUser = $(`
-							<div class="prof-center">
+                        <div class="prof-center">
 								<img class="profile-image" src="${profileImageSrc}">
 							</div>
 							<div class="indent-left">
-								<p class="prof-title">Supervisor Profile</p>
+								<p class="prof-title">I. Profile</p>
 								<table class="prof-table">
 									<tr>
 										<th class="profile-th" style="text-align: left !important;">Name:</th>
 										<td class="profile-td" style="text-align: left !important;">${user.Name}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Section:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.Section}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Program:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.Program}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Contact:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.Contact}</td>
 									</tr>
 									<tr>
 										<th class="profile-th" style="text-align: left !important;">Email:</th>
@@ -110,10 +136,40 @@
 									</tr>
 								</table>
 							</div>
+							<div class="indent-left">
+								<p class="prof-title">II. Deployment Info</p>
+								<table class="prof-table">
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Supervisor:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.Supervisor ? user.Supervisor : ''}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Coordinator:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.Coordinator ? user.Coordinator  : ''}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">School:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.School ? user.School : ''}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Resource:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.Resource ? user.Resource : ''}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Division:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.Division ? user.Division : ''}</td>
+									</tr>
+									<tr>
+										<th class="profile-th" style="text-align: left !important;">Grade Level:</th>
+										<td class="profile-td" style="text-align: left !important;">${user.Grade ? user.Grade  : ''}</td>
+									</tr>
+								</table>
+							</div>
+							</div>
 							<div class="space"></div>
 							<div class="divider"></div>
 							<div class="button-container">
-								<a class="btn btn-primary" data-toggle="modal" data-target="#UpdateProfile" onclick="constructUpdate('${user.Name}', '${user.Password}')">Update Profile</a>
+								<a class="btn btn-primary" data-toggle="modal" data-target="#UpdateProfile" onclick="constructUpdate('${user.Name}', '${user.Password}', '${user.Program}', '${user.Section}', '${user.Contact}')">Update Profile</a>
 							</div>
 						`);
 						userDiv.append(modifyUser);
@@ -126,11 +182,14 @@
 			});
 		}
 
-		function UpdateUserProfile(e) {
+        function UpdateUserProfile(e) {
 			var formData = new FormData();
 			
 			formData.append('name', document.getElementById('NameUser').value);
 			formData.append('password', document.getElementById('PassUser').value);
+            formData.append('section', document.getElementById('SectionUser').value);
+            formData.append('program', document.getElementById('ProgramUser').value);
+            formData.append('contact', document.getElementById('ContactUser').value);
 			formData.append('ID', document.getElementById('ID').value);
 
 			var imgInput = document.getElementById('updatePic');
@@ -141,7 +200,7 @@
 			e.preventDefault();
 			$.ajax({
 				type: 'POST',
-				url: '<?php echo site_url('SupervisorController/UpdateUserProfile'); ?>',
+				url: '<?php echo site_url('StudentController/UpdateUserProfile'); ?>',
 				data: formData,
 				contentType: false, 
 				processData: false, 
@@ -149,6 +208,7 @@
 						$('#FetchUser').empty();
 					    GetProfileUser(); 
 						$('#UpdateProfile').modal('hide'); 
+                        ClearInformation();
 						message('success', 'Profile Updated Successfully', 2000); 
 				},
 				error: function(xhr) {
@@ -166,13 +226,16 @@
 			});
 		}
 
-		function ClearInformation() {
+        function ClearInformation() {
 			$('#updatePicPrev').attr('src', '').hide();
 		}
 
-		function constructUpdate(name, password) {
+		function constructUpdate(name, password, program, section, contact) {
 			$('#NameUser').val(name);
 			$('#PassUser').val(password);
+            $('#ProgramUser').val(program);
+            $('#SectionUser').val(section);
+            $('#ContactUser').val(contact);
 		}
 
 		document.getElementById('updatePic').addEventListener('change', function(event) {
@@ -193,8 +256,8 @@
 				preview.style.display = 'none';
 			}
 		});
-		
-		 function message(icon,message,duration){
+
+        function message(icon,message,duration){
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -209,5 +272,5 @@
             })
             return false;		
         }
-		
-    </script>
+    
+</script>
