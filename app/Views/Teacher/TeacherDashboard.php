@@ -1,6 +1,6 @@
 <form>
    <div class="dashboard">
-   <p class="announce-para">Welcome Back Professor <span id="divForPSTName" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
+   <p class="announce-para">Welcome Back Professor <span id="divForPSTName" style="margin-left: 5px; color: rgba(100, 50, 30, 0.7); font-weight: 700;"> </span></p>
    <div class="logos">
       <div class="logo">
          <img src="<?=base_url('assets/img/logo.png')?>" alt="Logo 1" width="50" />
@@ -17,7 +17,7 @@
    <input type="text" name="studentid" id="studentid" value="<?php echo $_SESSION['Student']; ?>" hidden>
    <div class="eval-update">
 						<div class="canvas-container">
-							<h2 style=" font-family: 'Helvetica', 'Arial', sans-serif;"> Evaluation Statistic Total average of <span style="margin-left: 5px; color: navy; font-weight: 700;" id="totalScores"></span></h2>
+							<h2 style=" font-family: 'Helvetica', 'Arial', sans-serif;"> Evaluation Statistic Total average of <span style="margin-left: 5px; color: rgba(100, 50, 30, 0.7); font-weight: 700;" id="totalScores"></span></h2>
 							<canvas id="scoreChart" width="550" height="200"></canvas>
 					    </div>
 						<div class="canvas-container">
@@ -26,7 +26,7 @@
 						</div>
 					</div>  
 					<div class="eval-studd">
-						<h2 style=" font-family: 'Helvetica', 'Arial', sans-serif;">Recent <span style="color: navy; font-weight: 700;"> Daily Time Record</span></h2>
+						<h2 style=" font-family: 'Helvetica', 'Arial', sans-serif;">Recent <span style="color: rgba(100, 50, 30, 0.7); font-weight: 700;"> Daily Time Record</span></h2>
 						<table class="table table-striped" id="TableForDTR">
 							   <thead>
 								  <tr>
@@ -137,34 +137,34 @@
 					data: {
 						labels: response.labels,
 						datasets: [{
-								label: 'Conciseness',
-								data: response.aT,
-								backgroundColor: 'rgba(0, 123, 255, 0.7)',
-								borderColor: 'rgba(0, 123, 255, 1)',
-								borderWidth: 3
-							},
-							{
-								label: 'Clearness',
-								data: response.bT,
-								backgroundColor: 'rgba(40, 167, 69, 0.7)',
-								borderColor: 'rgba(40, 167, 69, 1)',
-								borderWidth: 3
-							},
-							{
-								label: 'Clarity',
-								data: response.cT,
-								backgroundColor: 'rgba(255, 193, 7, 0.7)',
-								borderColor: 'rgba(255, 193, 7, 1)',
-								borderWidth: 3
-							},
-							{
-								label: 'Correctness',
-								data: response.dT,
-								backgroundColor: 'rgba(220, 53, 69, 0.7)',
-								borderColor: 'rgba(220, 53, 69, 1)',
-								borderWidth: 3
-							}
-						]
+						label: 'Conciseness',
+						data: response.aT,
+						backgroundColor: 'rgba(140, 90, 40, 0.7)', 
+						borderColor: 'rgba(140, 90, 40, 1)',
+						borderWidth: 3
+					},
+					{
+						label: 'Clearness',
+						data: response.bT,
+						backgroundColor: 'rgba(210, 180, 140, 0.7)', 
+						borderColor: 'rgba(210, 180, 140, 1)',
+						borderWidth: 3
+					},
+					{
+						label: 'Clarity',
+						data: response.cT,
+						backgroundColor: 'rgba(255, 225, 180, 0.7)', 
+						borderColor: 'rgba(255, 225, 180, 1)',
+						borderWidth: 3
+					},
+					{
+						label: 'Correctness',
+						data: response.dT,
+						backgroundColor: 'rgba(100, 50, 30, 0.7)', 
+						borderColor: 'rgba(100, 50, 30, 1)',
+						borderWidth: 3
+					}
+				]
 					},
 					options: {
 						responsive: false,
@@ -262,8 +262,8 @@
 						datasets: [{
 							label: 'Evaluation Scores',
 							data: response.scores,
-							borderColor: 'rgba(0, 0, 128, 1)',
-							backgroundColor: 'rgba(0, 0, 128, 0.1)',
+							borderColor: 'rgba(140, 90, 40, 1)', 
+							backgroundColor: 'rgba(140, 90, 40, 0.1)', 
 							borderWidth: 5,
 							fill: true,
 						}]

@@ -50,7 +50,7 @@ justify-content: space-between;
 align-items: center;
 padding: 15px 40px;
 height: 8%;
-background: rgb(1, 1, 72);
+background: rgb(84, 42, 25);
 color: #fff;
 }
 /* Header Span Icon costumization */
@@ -81,7 +81,7 @@ color: #e3b154;
 
 /* Side Bar Format */
 .side-bar {
-background: #041b5a;
+background: rgba(100, 50, 30);
 display: flex;
 flex-direction: column; /* Stack items vertically */
 padding: 0; /* Remove default padding */
@@ -106,7 +106,7 @@ height: 60px; /* Adjust height as needed */
 }
 
 .side-bar ul li:hover {
-background: rgb(1, 1, 46);
+background: rgba(150, 75, 45, 1);
 }
 
 .side-bar ul li b {
@@ -323,7 +323,7 @@ th, td {
   font-size: 14px !important;
 }
 th {
-  background-color: navy;
+  background-color: rgba(100, 50, 30);
   color: whitesmoke;
 }
 
