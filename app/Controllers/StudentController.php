@@ -8,6 +8,7 @@ use App\Models\Student\PSTDashboard;
 use App\Models\Student\StudentDTR;
 use App\Models\Student\StudentEvaluation;
 use App\Models\Student\StudentAnnouncement;
+use App\Models\Student\ToDoList;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class StudentController extends BaseController
@@ -19,6 +20,7 @@ class StudentController extends BaseController
     private $StudentDTR;
     private $StudentEvaluation;
     private $StudentAnnouncement;
+    private $ToDoList;
     protected $helper;
     protected $db;
 
@@ -32,6 +34,7 @@ class StudentController extends BaseController
         $this->StudentDTR = new StudentDTR();
         $this->StudentEvaluation = new StudentEvaluation();
         $this->StudentAnnouncement = new StudentAnnouncement();
+        $this->ToDoList = new ToDoList();
         helper('utility');
 	}
     
@@ -59,6 +62,10 @@ class StudentController extends BaseController
 
     public function PreviewAnnouncment() {
         return view('Student/StudentAnnouncement');
+    }
+
+    public function PreviewToDoList() {
+        return view('Student/ToDoList');
     }
 
     public function PSTInfoChart() {
@@ -158,6 +165,24 @@ class StudentController extends BaseController
         $newHeartCount = $this->StudentAnnouncement->HeartStatusManipulate($id, $userId);
         return $this->response->setJSON(['status' => 'success', 'hearts' => $newHeartCount]);
     }    
+
+    public function FetchAllTodoList() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->ToDoList->GetAllTodoList($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function UpdateToDoStatus(){
+        $ID = $this->request->getVar('ID');
+        $ItemID = $this->request->getVar('ItemID');
+        $result = $this->ToDoList->UpdateStatusTodoList($ID, $ItemID);
+
+        if ($result === "Success") {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'To-do item updated successfully.']);
+        } else {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to update to-do item.']);
+        }
+    }
 
     public function logout() {
         $this->session->destroy();

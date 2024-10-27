@@ -92,7 +92,7 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
 				</li>
 
 				<li id="annbtn">
-					<b onclick="loadView('PreviewAnnouncement')">
+					<b onclick="loadView('PreviewToDoList')">
 					<a style="text-decoration: none; color: #eee;">
 						<p><i class="fa fa-bullhorn" aria-hidden="true"></i>TO-DO-LIST</p>
 					</a>
