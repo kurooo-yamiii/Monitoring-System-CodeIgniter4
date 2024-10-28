@@ -72,7 +72,7 @@
 					var profileImage = $('#profileHandler');
 					response.forEach(function (user) {
 						var profileImageSrc = user.Profile ? `<?= base_url('assets/uploads/') ?>${user.Profile}` : '<?= base_url('assets/img/default.jpeg') ?>';
-						
+						var signatoryImage = user.Signature ? `<?= base_url('assets/signatory/') ?>${user.Signature}` : '<?= base_url('assets/img/tooltip.jpeg') ?>';
 						profileImage.empty();
 						
 						var newProfile = $(`<img src="${profileImageSrc}" alt="Profile Image">`);
@@ -80,7 +80,8 @@
                         <div class="prof-center">
 								<img class="profile-image" src="${profileImageSrc}">
 							</div>
-							<div class="indent-left">
+							<div class="row-profile-signatory">
+							<div class="indent-left" style="flex: 2; margin-right: 10px;">
 								<p class="prof-title">I. Professor Profile</p>
 								<table class="prof-table">
 									<tr>
@@ -112,6 +113,17 @@
 										<td class="profile-td" style="text-align: left !important;">${user.Coordinator}</td>
 									</tr>
 								</table>
+							</div>
+							<div class="indent-left" style="flex: 1; display: flex; flex-direction: column; justify-content: center; margin-top: 4px;">
+								<p class="prof-title">II. Signatory</p>
+								<table class="prof-table" style="flex-grow: 1;">
+								<tr>
+									<td style="display: flex; justify-content: center; align-items: center; height: 100%;">
+										<img class="signatory-image" src="${signatoryImage}" alt="Signatory Image">
+									</td>
+								</tr>
+								</table>
+							</div>
 							</div>
 							<div class="space"></div>
 							<div class="divider"></div>
@@ -156,7 +168,7 @@
 		function UpdateSignatory(e) {
 			e.preventDefault();
 			var formData = new FormData();
-			formData.append('ID', document.getElementById('ID').value);
+			formData.append('ID', document.getElementById('UserId').value);
 			var imgInput = document.getElementById('updateSignature');
 			if (imgInput.files.length > 0) {
 				formData.append('img', imgInput.files[0]);
@@ -189,5 +201,22 @@
 				}
 			});
 		}
+
+		function message(icon,message,duration){
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: duration,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                    icon: icon,
+                    title: message
+                })
+                return false;		
+            }
+
 
 </script>

@@ -136,7 +136,7 @@ class TeacherController extends BaseController
         return $this->response->setJSON($data);
     }
 
-    public function UpdateUserProfile() {
+    public function UpdateProfessorSignatory() {
 		try {
 			helper('url');
 			$file = $this->request->getFile('img');

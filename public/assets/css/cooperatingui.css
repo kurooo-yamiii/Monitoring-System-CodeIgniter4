@@ -1323,6 +1323,16 @@ object-fit: cover;
 
 /* Supervisor Profile */
 
+.row-profile-signatory{
+  display: flex;
+  flex-direction: row;
+}
+
+.signatory-image{
+  width: auto;
+  height: 80px;
+}
+
 .profile-image {
 max-width: 220px;
 overflow: hidden;

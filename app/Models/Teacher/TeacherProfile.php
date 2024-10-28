@@ -32,7 +32,7 @@ class TeacherProfile extends Model
         return $builder->getResult();
     }
 
-    public function UpdateUserProfile($newName, $id){
+    public function UpdateUserSignatory($newName, $id){
         $query = "UPDATE teacher SET Signature = '$newName' WHERE ID = $id";
         return $this->db->query($query);
     }
