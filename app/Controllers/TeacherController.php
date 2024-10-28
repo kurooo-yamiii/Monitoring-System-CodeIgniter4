@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Teacher\TeacherModel;
 use App\Models\Teacher\TeacherDashboard;
 use App\Models\Teacher\ApprovalDTR;
+use App\Models\Teacher\TeacherProfile;
 
 class TeacherController extends BaseController
 {
@@ -15,6 +16,7 @@ class TeacherController extends BaseController
     private $TeacherModel;
     private $TeacherDashboard;
     private $ApprovalDTR;
+    private $TeacherProfile;
     protected $helper;
     protected $db;
 
@@ -26,6 +28,7 @@ class TeacherController extends BaseController
         $this->TeacherModel = new TeacherModel();
         $this->TeacherDashboard = new TeacherDashboard();
         $this->ApprovalDTR = new ApprovalDTR();
+        $this->TeacherProfile = new TeacherProfile();
         helper('utility');
 	}
     public function index()
@@ -44,6 +47,10 @@ class TeacherController extends BaseController
 
     public function PreviewApprovalDTR() {
         return view('Teacher/ApprovalDTR');
+    }
+
+    public function PreviewProfile() {
+        return view('Teacher/TeacherProfile');
     }
 
 
@@ -104,6 +111,69 @@ class TeacherController extends BaseController
         $data = $this->ApprovalDTR->ApproveTime($ID, $total, $studID);
         return $this->response->setJSON( $data);
     }
+
+    public function TimeDisapproved(){
+        $ID = $this->request->getVar('ID');
+        $total = $this->request->getVar('total');
+        $studID = $this->request->getVar('studID');
+        $data = $this->ApprovalDTR->DisapproveTime($ID, $total, $studID);
+        return $this->response->setJSON( $data);
+    }
+
+    public function DeleteDTR() {
+        $ID = $this->request->getVar('ID');
+        $total = $this->request->getVar('total');
+        $studID = $this->request->getVar('studID');
+        $status = $this->request->getVar('status');
+        $data = $this->ApprovalDTR->DeleteSelectedDTR($ID, $total, $studID, $status);
+        return $this->response->setJSON($data);
+    }
+
+    public function GetProfessorProfile() {
+        $ID = $this->request->getVar('ID');
+        $studID = $this->request->getVar('studID');
+        $data = $this->TeacherProfile->GetAllProfessorInformation($ID, $studID);
+        return $this->response->setJSON($data);
+    }
+
+    public function UpdateUserProfile() {
+		try {
+			helper('url');
+			$file = $this->request->getFile('img');
+            $id = $this->request->getVar('ID');
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 2 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+				$newName = uniqid('IMG-', true) . '.' . $file->getExtension();
+				$file->move('./assets/signatory/', $newName); 
+
+				$this->TeacherProfile->UpdateUserSignatory($newName, $id);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated successfully']);
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
+	}
 
     public function logout() {
         $this->session->destroy();

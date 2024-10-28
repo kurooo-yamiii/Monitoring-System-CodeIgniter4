@@ -1347,7 +1347,7 @@ text-align: center;
 
 .prof-title {
 color: whitesmoke;
-background-color: navy;
+background-color: rgba(100, 50, 30);
 margin-top: 1%;
 border-radius: 5px;
 font-size: 17px;

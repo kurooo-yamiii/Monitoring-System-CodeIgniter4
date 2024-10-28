@@ -52,6 +52,33 @@ class ApprovalDTR extends Model
         return ['status' => 'success', 'newTotal' => $newTotal];
     }
 
+    public function DisapproveTime($ID, $total, $studID){
+        $totalMinutes = $this->convertToMinutes($total);
+        $totalCurrentMinutes = $this->getCurrentTotal($studID);
+        $newTotal = $totalCurrentMinutes - $totalMinutes;
+
+        $this->updateTotalHours($studID, $newTotal);
+
+        $sql = "UPDATE dtr SET Status = 'Not Approved' WHERE ID = ?";
+        $this->db->query($sql, [$ID]);
+
+        return ['status' => 'success', 'newTotal' => $newTotal];
+    }
+
+    public function DeleteSelectedDTR($ID, $total, $studID, $status){
+        
+        if($status === 'Approved'){
+            $totalMinutes = $this->convertToMinutes($total);
+            $totalCurrentMinutes = $this->getCurrentTotal($studID);
+            $newTotal = $totalCurrentMinutes - $totalMinutes;
+    
+            $this->updateTotalHours($studID, $newTotal);
+        }
+
+        $query = "DELETE FROM dtr WHERE ID = ?";
+        return $this->db->query($query, [$ID]);
+    }
+
     private function updateTotalHours($ID, $newTotal) {
         $sql = "UPDATE student SET Total = ? WHERE ID = ?";
         $this->db->query($sql, [$newTotal, $ID]);

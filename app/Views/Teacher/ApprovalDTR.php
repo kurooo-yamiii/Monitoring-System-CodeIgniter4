@@ -186,8 +186,8 @@
 												${info.Status}
 											</button>
 										</td>
-                                        <td><a href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Name}');"type="button" class="red-button" data-target="#DeletePST" data-toggle="modal"><span class="fas fa-trash"></span></a> 
-                                        <a href="javascript:void(0);" onclick="resetPassword(event, ${info.ID});"
+                                        <td><a href="javascript:void(0);" onclick="deleteDTR(${info.ID}, '${info.TotalHrs}', '${info.Status}');" type="button" class="red-button" data-target="#DeletePST" data-toggle="modal"><span class="fas fa-trash"></span></a> 
+                                        <a href="javascript:void(0);" onclick="disapproveDTR(${info.ID}, '${info.TotalHrs}');"
                                             class="btn btn-warning"><span class="fa fa-thumbs-down"></span></a>
                                         </td>
 									</tr>
@@ -306,7 +306,7 @@
 												${info.Status}
 											</button>
 										</td>
-                                        <td><a href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Name}');"type="button" class="red-button" data-target="#DeletePST" data-toggle="modal"><span class="fas fa-trash"></span></a> 
+                                        <td><a href="javascript:void(0);" onclick="deleteDTR(${info.ID}, '${info.TotalHrs}', '${info.Status}');" type="button" class="red-button" data-target="#DeletePST" data-toggle="modal"><span class="fas fa-trash"></span></a> 
                                         <a href="javascript:void(0);" onclick="approveDTR(${info.ID}, '${info.TotalHrs}');"
                                             class="btn btn-success"><span class="fa fa-thumbs-up"></span></a>
                                         </td>
@@ -336,6 +336,54 @@
 			dataType: 'json',
 			success: function(response) {
                 message('success',`Daily Time Log Approved`, 2000);
+                displayDashboard();
+                ModalDissaproved();
+                GetTotalHoursMinutes();
+			},
+			error: function(error) {
+				console.log(error);
+			}
+        })
+    }
+
+    function disapproveDTR(id, total) {
+        var studID = $('#studentID').val();
+        $.ajax({
+			type: 'GET',
+			url: '<?= site_url('TeacherController/TimeDisapproved') ?>',
+			data: {
+				ID: id,
+                total: total,
+                studID: studID
+			},
+			dataType: 'json',
+			success: function(response) {
+                message('success',`Daily Time Log Disapproved`, 2000);
+                displayDashboard();
+                ModalDissaproved();
+                GetTotalHoursMinutes();
+			},
+			error: function(error) {
+				console.log(error);
+			}
+        })
+    }
+
+    function deleteDTR(id, total, status){
+        var studID = $('#studentID').val();
+        $.ajax({
+			type: 'GET',
+			url: '<?= site_url('TeacherController/DeleteDTR') ?>',
+			data: {
+				ID: id,
+                total: total,
+                studID: studID,
+                status: status,
+			},
+			dataType: 'json',
+			success: function(response) {
+                console.log(response);
+                message('success',`Daily Time Log Deleted`, 2000);
                 displayDashboard();
                 ModalDissaproved();
                 GetTotalHoursMinutes();
