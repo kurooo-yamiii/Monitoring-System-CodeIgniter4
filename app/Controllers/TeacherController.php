@@ -175,6 +175,60 @@ class TeacherController extends BaseController
 		}
 	}
 
+    public function UpdateUserProfile() {
+		try {
+			helper('url');
+
+			$id = $this->request->getVar('ID');
+			$name = $this->request->getVar('name');
+			$password = $this->request->getVar('password');
+            $school = $this->request->getVar('school');
+            $division = $this->request->getVar('division');
+            $grade = $this->request->getVar('grade');
+            $coordinator = $this->request->getVar('coor');
+			$file = $this->request->getFile('img');
+
+			if (empty($id) || empty($name) || empty($password)) {
+				return $this->response->setStatusCode(400)->setJSON(['message' => 'Name, ID, and password are required.']);
+			}
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 2 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+				$newName = uniqid('IMG-', true) . '.' . $file->getExtension();
+				$file->move('./assets/uploads/', $newName); 
+
+				$this->TeacherProfile->UpdateUserProfile($id, $name, $password, $school, $division, $grade, $coordinator, $newName);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated successfully']);
+			
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+
+				$this->TeacherProfile->UpdateUserProfile($id, $name, $password, $school, $division, $grade, $coordinator, null); 
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated without changing the image.']);
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
+	}
+
     public function logout() {
         $this->session->destroy();
         return view('Login');

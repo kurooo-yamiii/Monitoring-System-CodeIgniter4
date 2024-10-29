@@ -36,4 +36,13 @@ class TeacherProfile extends Model
         $query = "UPDATE teacher SET Signature = '$newName' WHERE ID = $id";
         return $this->db->query($query);
     }
+
+    public function UpdateUserProfile($id, $name, $password, $school, $division, $grade, $coordinator, $newName){
+        if($newName){
+            $query = "UPDATE teacher SET Name = '$name', Password = '$password', School = '$school', Division = '$division', Grade = '$grade', Coordinator = '$coordinator',  Profile = '$newName' WHERE ID = $id";
+        }else{
+            $query = "UPDATE teacher SET Name = '$name', Password = '$password' , School = '$school', Division = '$division', Grade = '$grade', Coordinator = '$coordinator' WHERE ID = $id";
+        }
+        return $this->db->query($query);
+    }
 }
