@@ -15,7 +15,7 @@ class ApprovalDTR extends Model
     protected $allowedFields = ['Name', 'Resource', 'Program']; 
 
     public function ApprovedDTR($ID) {
-        $query = "SELECT * FROM dtr WHERE AccID = $ID AND Status = 'Approved' ORDER BY ID DESC";
+        $query = "SELECT * FROM dtr WHERE AccID = $ID AND NOT Status = 'Not Approved' ORDER BY ID DESC";
         $builder = $this->db->query($query);
         return $builder->getResult();
     }
@@ -39,17 +39,30 @@ class ApprovalDTR extends Model
         return "{$hours} hours and {$minutes} minutes";
     }
 
-    public function ApproveTime($ID, $total, $studID){
+    public function ApproveTime($ID, $total, $studID) {
         $totalMinutes = $this->convertToMinutes($total);
         $totalCurrentMinutes = $this->getCurrentTotal($studID);
         $newTotal = $totalCurrentMinutes + $totalMinutes;
-
+    
         $this->updateTotalHours($studID, $newTotal);
-
-        $sql = "UPDATE dtr SET Status = 'Approved' WHERE ID = ?";
-        $this->db->query($sql, [$ID]);
-
+    
+        $isSignatory = $this->CheckSignatory($ID);
+        if ($isSignatory !== null) {
+            $sql = "UPDATE dtr SET Status = 'Signed' WHERE ID = ?";
+            $this->db->query($sql, [$ID]);
+        } else {
+            $sql = "UPDATE dtr SET Status = 'Approved' WHERE ID = ?";
+            $this->db->query($sql, [$ID]);
+        }
+    
         return ['status' => 'success', 'newTotal' => $newTotal];
+    }
+
+    private function CheckSignatory($ID) {
+        $sql = "SELECT Signature FROM teacher WHERE ID = ?";
+        $query = $this->db->query($sql, [$ID]);
+        $result = $query->fetchColumn();
+        return $result !== false ? $result : null;
     }
 
     public function DisapproveTime($ID, $total, $studID){

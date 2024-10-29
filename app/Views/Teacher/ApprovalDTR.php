@@ -25,7 +25,7 @@
 						<th scope="col">Time In</th>
 						<th scope="col">Time Out</th>
 						<th scope="col">Total Hours</th>
-						<th scope="col">Status</th>
+						<th scope="col">Signatory</th>
                         <th scope="col">Action</th>
 					</tr>
 				  </thead>
@@ -71,7 +71,7 @@
                                         <th scope="col">Time In</th>
                                         <th scope="col">Time Out</th>
                                         <th scope="col">Total Hours</th>
-                                        <th scope="col">Status</th>
+                                        <th scope="col">Signatory</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -181,10 +181,15 @@
 										  <td>${info.TimeIn}</td>
 										  <td>${info.TimeOut}</td>
 										  <td>${info.TotalHrs}</td>
-										  <td>
-											<button style="opacity: 1; !important; font-size: 10px !important;" class="${info.Status === 'Not Approved' ? 'btn btn-secondary' : 'btn btn-success'}" disabled>
-												${info.Status}
-											</button>
+                                          <td style="width: 50px; height: 50px;">
+                                            ${info.Status === 'Approved' || info.Status === 'Not Approved' ? 
+                                                `<button style="opacity: 1 !important; font-size: 10px !important;" 
+                                                        class="${info.Status === 'Not Approved' ? 'btn btn-secondary' : 'btn btn-success'}" disabled>
+                                                    ${info.Status}
+                                                </button>` 
+                                                : 
+                                                `<img src="<?= base_url('assets/signatory/') ?>${info.Status}" alt="Signatory"  style="width: 100%; height: 100%; object-fit: contain;">`
+                                            }
 										</td>
                                         <td><a href="javascript:void(0);" onclick="deleteDTR(${info.ID}, '${info.TotalHrs}', '${info.Status}');" type="button" class="red-button" data-target="#DeletePST" data-toggle="modal"><span class="fas fa-trash"></span></a> 
                                         <a href="javascript:void(0);" onclick="disapproveDTR(${info.ID}, '${info.TotalHrs}');"
