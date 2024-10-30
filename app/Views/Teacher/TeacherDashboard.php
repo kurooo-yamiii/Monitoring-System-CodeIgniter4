@@ -99,9 +99,13 @@
 										  <td>${info.TimeOut}</td>
 										  <td>${info.TotalHrs}</td>
 										  <td>
-											<button style="opacity: 1; !important; font-size: 10px !important;" class="${info.Status === 'Not Approved' ? 'btn btn-secondary' : 'btn btn-success'}" disabled>
-												${info.Status}
-											</button>
+										  <button 
+											style="opacity: 1 !important; font-size: 10px !important;" 
+											class="${info.Status === 'Not Approved' ? 'btn btn-secondary' : 'btn btn-success'}" 
+											disabled
+											>
+											${info.Status === 'Not Approved' ? 'Not Approved' : 'Approved'}
+										</button>
 										</td>
 									</tr>
 									`);

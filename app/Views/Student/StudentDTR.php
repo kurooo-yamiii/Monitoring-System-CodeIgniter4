@@ -185,10 +185,15 @@
 										  <td>${info.TimeIn}</td>
 										  <td>${info.TimeOut}</td>
 										  <td>${info.TotalHrs}</td>
-										  <td>
-											<button style="opacity: 1; !important; font-size: 10px !important;" class="${info.Status === 'Not Approved' ? 'btn btn-secondary' : 'btn btn-success'}" disabled>
-												${info.Status}
-											</button>
+										  <td style="width: 50px; height: 50px;">
+                                            ${info.Status === 'Approved' || info.Status === 'Not Approved' ? 
+                                                `<button style="opacity: 1 !important; font-size: 10px !important;" 
+                                                        class="${info.Status === 'Not Approved' ? 'btn btn-secondary' : 'btn btn-success'}" disabled>
+                                                    ${info.Status}
+                                                </button>` 
+                                                : 
+                                                `<img src="<?= base_url('assets/signatory/') ?>${info.Status}" alt="Signatory"  style="width: 100%; height: 100%; object-fit: contain;">`
+                                            }
 										</td>
 									</tr>
 									`);
