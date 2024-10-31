@@ -60,8 +60,10 @@
                                 <label for="img" id="plab2">Img: </label>
                                 <input type="file" name="img" id="choosepost" />
                             </div>
-                            <button class="btn btn-primary" onclick="postAnnouncement()" type="button">Post</button>
-                       
+                        </div>
+                    <div class="modal-footer" style="margin-top: 5%;">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" onclick="postAnnouncement()" type="button">Post</button>
                     </div>
                </div>
             </div>
@@ -105,8 +107,10 @@
                                 <label for="img" id="plab2">Img: </label>
                                 <input type="file" name="img" id="upchoosepost" />
                             </div>
-                            <button class="btn btn-primary" onclick="updateAnnouncement()" type="button">Update</button>
-                       
+                    </div>
+                    <div class="modal-footer" style="margin-top: 5%;">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" onclick="updateAnnouncement()" type="button">Update</button>
                     </div>
                </div>
             </div>
