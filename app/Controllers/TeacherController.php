@@ -8,6 +8,7 @@ use App\Models\Teacher\TeacherModel;
 use App\Models\Teacher\TeacherDashboard;
 use App\Models\Teacher\ApprovalDTR;
 use App\Models\Teacher\TeacherProfile;
+use App\Models\Teacher\ToDoProf;
 
 class TeacherController extends BaseController
 {
@@ -17,6 +18,7 @@ class TeacherController extends BaseController
     private $TeacherDashboard;
     private $ApprovalDTR;
     private $TeacherProfile;
+    private $ToDoProf;
     protected $helper;
     protected $db;
 
@@ -29,6 +31,7 @@ class TeacherController extends BaseController
         $this->TeacherDashboard = new TeacherDashboard();
         $this->ApprovalDTR = new ApprovalDTR();
         $this->TeacherProfile = new TeacherProfile();
+        $this->ToDoProf = new ToDoProf();
         helper('utility');
 	}
     public function index()
@@ -53,6 +56,9 @@ class TeacherController extends BaseController
         return view('Teacher/TeacherProfile');
     }
 
+    public function PreviewToDoList() {
+        return view('Teacher/ToDoProf');
+    }
 
     public function StudentInfoChart() {
         $ID = $this->request->getVar('ID');
@@ -228,6 +234,24 @@ class TeacherController extends BaseController
 			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
 		}
 	}
+
+    public function FetchAllTodoList() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->ToDoProf->GetAllTodoList($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function AddNewToDo() {
+        $ID = $this->request->getVar('ID');
+        $Lesson = $this->request->getVar('Lesson');
+        $Date = $this->request->getVar('Date');
+        $result = $this->ToDoProf->CreateNewToDo($ID, $Lesson, $Date);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Success']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong']);
+        }
+    }
 
     public function logout() {
         $this->session->destroy();
