@@ -1,3 +1,9 @@
+<?php 
+if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
+    header("Location: " . site_url("TeacherController/logout"));
+    exit();
+}
+?>
 <form>
    <div class="dashboard">
    <p class="announce-para">Welcome Back Professor <span id="divForPSTName" style="margin-left: 5px; color: rgba(100, 50, 30, 0.7); font-weight: 700;"> </span></p>
