@@ -22,8 +22,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 
    <div class="divider"></div>
    <div class="button-container">
-		  		<button type="button" class="btn-shadow btn btn-primary" style="font-size: 14px;" data-target="#CreateTodo"
-                    id="CreatePST" data-toggle="modal">
+		  		<button type="button" class="btn-shadow btn btn-primary" style="font-size: 14px;" data-target="#AddNewEval"
+                    id="CreatePST" onclick="openAddEvaluation()" data-toggle="modal">
                     <span class="fas fa-plus"></span> Add New Evaluation
                 </button>
 			</div>
@@ -71,13 +71,320 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                     <textarea class="form-control" id="remarksHolder" style="margin-left: 5px; font-weight: 700;" rows="3" readonly></textarea>
                 </div>
             <div class="space"></div>
+            </div>
             <div class="modal-footer">
-                <input type="hidden" id="ECashID">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
-
+        </div>
     </div>
  </div>
+
+ <!-- Add Evaluation Modal -->
+<div class="modal fade" id="AddNewEval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"  style="max-width: 60%; max-height: 80%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+							<div class="logos">
+								<div class="logo-right">
+									<img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
+								</div>
+								<div>Create New <span id="lessonHolder" style="margin-left: 5px; color: rgba(100, 50, 30); font-weight: 700;"> Evaluation</span></div>
+							</div>	
+						</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+            <div class="modal-navigation">
+                <button class="nav-button" type="button" onclick="showSection('firstSet', this)">I. Lesson Proper</button>
+                <button class="nav-button" type="button" onclick="showSection('secondSet', this)">II. Mastery of the Lesson</button>
+                <button class="nav-button" type="button" onclick="showSection('thirdSet', this)">III. Lesson Plan</button>
+                <button class="nav-button" type="button" onclick="showSection('fourthSet', this)">IV. Conduct of Assessment</button>
+                <button class="nav-button" type="button" onclick="showSection('fifthSet', this)">V. Remarks</button>
+            </div>
+                <div class="space"></div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label for="date">Lesson</label>
+                        <input type="text" class="form-control" id="lesson" name="lesson" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="date">Date</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                </div>
+                <div class="form-group-eval-form2 set-group" id="firstSet" style="display: none;">
+                    <table class="custom-table-form2">
+                        <p class="eval-title">I. Lesson Proper</p>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">1. Ensures that all of the concepts and topic are explained in an understandable manner.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="a1" name="a1" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">2. Uses techniques and strategies to keep students engaged and interested.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="a2" name="a2" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">3. Provides real-life or relatable examples to reinforce lesson content.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="a3" name="a3" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">4. Encourages student participation and responds to questions effectively.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="a4" name="a4" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">5. Balances the lessons flow, ensuring its neither rushed nor too slow.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="a5" name="a5" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="form-group-eval-form2 set-group" id="secondSet" style="display:none;">
+                    <table class="custom-table-form2">
+                        <p class="eval-title">II. Mastery of the Lesson</p>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">1. Demonstrates in-depth understanding of the subject.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="b1" name="b1" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">2. Responds accurately and confidently to students' questions.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="b2" name="b2" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">3. Presents information logically and cohesively.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="b3" name="b3" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">4. Adjusts teaching methods based on student responses and understanding.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="b4" name="b4" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">5. Incorporates supplementary materials to enhance learning.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="b5" name="b5" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="form-group-eval-form2 set-group" id="thirdSet" style="display:none;">
+                    <table class="custom-table-form2">
+                        <p class="eval-title">III. Lesson Plan</p>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">1. Outlines clear and achievable learning objectives.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="c1" name="c1" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">2. Designs interactive and meaningful activities related to lesson content.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="c2" name="c2" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">3. Plans appropriate assessments that align with lesson objectives.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="c3" name="c3" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">4. Allocates time effectively for each part of the lesson.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="c4" name="c4" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">5. Includes varied teaching strategies to cater to different learning styles.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="c5" name="c5" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="form-group-eval-form2 set-group" id="fourthSet" style="display:none;">
+                    <table class="custom-table-form2">
+                        <p class="eval-title">IV Conduct of Assessment</p>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">1. Ensures assessments reflect the lesson objectives.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="d1" name="d1" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">2. Provides clear, understandable instructions for assessments.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="d2" name="d2" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">3. Uses unbiased and accurate grading criteria.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="d3" name="d3" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">4. Offers constructive feedback that promotes student growth.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="d4" name="d4" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="custom-tr-form2">
+                            <th class="custom-table-row-form2">5. Ensures assessments accurately gauge student understanding of the material.</th>
+                            <td class="custom-table-column-form2">
+                                <select id="d5" name="d5" class="custom-select" required>
+                                    <option value="1">Not Observed</option>
+                                    <option value="2">Unsatisfactory</option>
+                                    <option value="3">Needs Improvement</option>
+                                    <option value="4">Satisfactory</option>
+                                    <option value="5">Very Satisfactory</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="fifthSet" class="set-group" style="display:none;">
+                    <p class="prof-title">Remarks</p> 
+                    <textarea class="form-control" id="remarks" style="margin-left: 5px; font-weight: 700;" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
  </div>
 
 </form>
@@ -86,6 +393,31 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
      $(document).ready(function() {
         PDOEvaluation()
       });
+
+      function openAddEvaluation() {
+        const firstSection = document.getElementById('firstSet');
+        firstSection.style.display = 'block';
+
+        const firstButton = document.querySelector('.nav-button');
+        firstButton.classList.add('active');
+    }
+
+    function showSection(sectionId, button) {
+        const sections = document.querySelectorAll('.set-group');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+
+        const selectedSection = document.getElementById(sectionId);
+        selectedSection.style.display = 'block';
+
+        const buttons = document.querySelectorAll('.nav-button');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        button.classList.add('active');
+    }
 
       function PDOEvaluation() {
         const id = $('#id').val();

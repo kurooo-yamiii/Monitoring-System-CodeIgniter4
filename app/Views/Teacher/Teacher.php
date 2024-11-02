@@ -27,7 +27,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
       <!-- Font Awesome CSS -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 	
-	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/cooperatingui.css')?>">
+	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/resourceui.css')?>">
   <link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/cooperatinmedia.css')?>">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 
