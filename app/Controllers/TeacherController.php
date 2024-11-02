@@ -9,6 +9,7 @@ use App\Models\Teacher\TeacherDashboard;
 use App\Models\Teacher\ApprovalDTR;
 use App\Models\Teacher\TeacherProfile;
 use App\Models\Teacher\ToDoProf;
+use App\Models\Teacher\ProfEvaluation;
 
 class TeacherController extends BaseController
 {
@@ -19,6 +20,7 @@ class TeacherController extends BaseController
     private $ApprovalDTR;
     private $TeacherProfile;
     private $ToDoProf;
+    private $ProfEvaluation;
     protected $helper;
     protected $db;
 
@@ -32,6 +34,7 @@ class TeacherController extends BaseController
         $this->ApprovalDTR = new ApprovalDTR();
         $this->TeacherProfile = new TeacherProfile();
         $this->ToDoProf = new ToDoProf();
+        $this->ProfEvaluation = new ProfEvaluation();
         helper('utility');
 	}
     public function index()
@@ -58,6 +61,10 @@ class TeacherController extends BaseController
 
     public function PreviewToDoList() {
         return view('Teacher/ToDoProf');
+    }
+
+    public function PreviewEvaluation() {
+        return view('Teacher/ProfEvaluation');
     }
 
     public function StudentInfoChart() {
@@ -251,6 +258,24 @@ class TeacherController extends BaseController
         } else {
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong']);
         }
+    }
+
+    public function PSTEvaluation() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->ProfEvaluation->GetAllEvaluation($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function FetchEvaluationTable() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->ProfEvaluation->OrganizeTableEvaluation($ID);
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function FetchEvaluationRemarks() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->ProfEvaluation->GetEvaluationRemarks($ID);
+        return $this->response->setJSON($data);
     }
 
     public function logout() {
