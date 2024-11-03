@@ -139,28 +139,28 @@
 					data: {
 						labels: response.labels,
 						datasets: [{
-								label: 'Conciseness',
+								label: 'Lesson Proper',
 								data: response.aT,
 								backgroundColor: 'rgba(0, 123, 255, 0.7)',
 								borderColor: 'rgba(0, 123, 255, 1)',
 								borderWidth: 3
 							},
 							{
-								label: 'Clearness',
+								label: 'Mastery',
 								data: response.bT,
 								backgroundColor: 'rgba(40, 167, 69, 0.7)',
 								borderColor: 'rgba(40, 167, 69, 1)',
 								borderWidth: 3
 							},
 							{
-								label: 'Clarity',
+								label: 'Lesson Plan',
 								data: response.cT,
 								backgroundColor: 'rgba(255, 193, 7, 0.7)',
 								borderColor: 'rgba(255, 193, 7, 1)',
 								borderWidth: 3
 							},
 							{
-								label: 'Correctness',
+								label: 'Asessment',
 								data: response.dT,
 								backgroundColor: 'rgba(220, 53, 69, 0.7)',
 								borderColor: 'rgba(220, 53, 69, 1)',
@@ -188,7 +188,7 @@
 								labels: {
 									font: {
 										family: 'Arial',
-										size: 13,
+										size: 12,
 										weight: 'bold'
 									}
 								}

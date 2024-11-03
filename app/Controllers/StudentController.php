@@ -89,7 +89,7 @@ class StudentController extends BaseController
 		$scores = $this->PSTDashboard->PSTBarScores($ID);
 
 		$labels = array_map(function($value) {
-			return 'Evaluation ' . $value;
+			return 'Lesson ' . $value;
 		}, range(1, count($scores['aT'])));
 
 		echo json_encode([

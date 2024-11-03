@@ -54,11 +54,10 @@
             </table>
             <div class="space"></div>
             <div class="space"></div>
-                <div>
+                <div style="margin-bottom: 10px;">
                     <p class="button-title-remarks">Remarks</p> 
                     <textarea class="form-control" id="remarksHolder" style="margin-left: 5px; font-weight: 700;" rows="3" readonly></textarea>
                 </div>
-            <div class="space"></div>
             <div class="modal-footer">
                 <input type="hidden" id="ECashID">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

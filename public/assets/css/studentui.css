@@ -294,8 +294,8 @@ background-color: #ffffff;
 }
 
 .eval-studd h2 {
-margin-top: -10px;
-  margin-bottom: 20px; 
+  margin-top: -10px;
+  margin-bottom: 5px; 
   font-size: 18px;
 }
 
@@ -1052,7 +1052,7 @@ justify-content: center;
     display: block !important;
     box-sizing: border-box !important;
     height: 200px !important;
-    width: 500px !important;
+    width: auto !important;
 }
 
 .canvas-container:hover {
@@ -1497,6 +1497,7 @@ margin-top: 3px;
 }
 
 .todobox {
+  font-size: 13px;
 width: 100%;
 height: 50px;
 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adjust shadow as needed */
@@ -1531,6 +1532,12 @@ margin-top: 1px;
   flex-direction: row;
   width: 70%;
   justify-content: space-between;
+  align-items: center;
+}
+
+.date-container {
+  width: 40%;
+  text-align: center;
 }
 
 .listtodobut2{
@@ -1547,7 +1554,7 @@ margin-top: 1px;
 }
 
 .datetodo {
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 1px;
   margin-top: 17px;
 }

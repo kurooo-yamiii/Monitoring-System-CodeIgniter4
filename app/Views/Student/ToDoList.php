@@ -63,12 +63,15 @@
                     `);
                 } else {
                     response.forEach(function(list) {
+                        const formattedDate = formatDate(list.Date);
                         let hasPassed = hasDatePassed(list.Date);
                         let todoHTML = `<div class="todobox" style="background-color: ${list.Checked === '1' ? 'rgba(144, 238, 144, 0.3)' : hasPassed ? 'rgba(255, 99, 71, 0.3)' : 'rgba(173, 216, 230, 0.3)'};">`;
 
                         todoHTML += `<div class="rowtodo">
                                         <p class="titletodo">${list.Checked === '1' ? '<span style="text-decoration: line-through;">' + list.Title + '</span>' : list.Title}</p>
-                                        <p class="datetodo">${list.Date}</p>
+                                        <div class="date-container">
+                                            <p class="datetodo">${formattedDate}</p>
+                                        </div>
                                     </div>`;
 
                         if (list.Checked === '1') {
@@ -140,6 +143,12 @@
             }
         });
     }
+
+    function formatDate(dateString) {
+		const date = new Date(dateString);
+		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		return date.toLocaleDateString('en-US', options);
+	}
 
     function message(icon,message,duration){
                 const Toast = Swal.mixin({
