@@ -278,6 +278,28 @@ class TeacherController extends BaseController
         return $this->response->setJSON($data);
     }
 
+    public function CreateEvaluation() {
+        $data = $this->request->getVar('data');
+        $result = $this->ProfEvaluation->EvaluationCreation($data);
+
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'Evaluation Recorded Successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Unknown Error Occure, Try Again']);
+        }
+    }
+
+    public function UpdateEvaluation() {
+        $data = $this->request->getVar('data');
+        $result = $this->ProfEvaluation->UpdatingEvaluation($data);
+
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'Evaluation Updated Successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Unknown Error Occure, Try Again']);
+        }
+    }
+
     public function logout() {
         $this->session->destroy();
         return redirect()->to(base_url());

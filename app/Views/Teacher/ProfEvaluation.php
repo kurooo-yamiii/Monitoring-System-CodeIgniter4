@@ -79,7 +79,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
     </div>
  </div>
 
- <!-- Add Evaluation Modal -->
+ <!-- Add & Update Evaluation Modal -->
 <div class="modal fade" id="AddNewEval" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"  style="max-width: 60%; max-height: 80%;" role="document">
         <div class="modal-content">
@@ -92,11 +92,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 								<div>Create New <span id="lessonHolder" style="margin-left: 5px; color: rgba(100, 50, 30); font-weight: 700;"> Evaluation</span></div>
 							</div>	
 						</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" onclick="ClearAllField()" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
             </div>
             <div class="modal-body">
+            <input type="text" name="EvalID" id="EvalID" hidden>
             <div class="modal-navigation">
                 <button class="nav-button" type="button" onclick="showSection('firstSet', this)">I. Lesson Proper</button>
                 <button class="nav-button" type="button" onclick="showSection('secondSet', this)">II. Mastery of the Lesson</button>
@@ -381,7 +382,9 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="ClearAllField()" data-dismiss="modal">Close</button>
+                <button type="button" id="addButton" class="btn btn-primary" onclick="AddEvaluation()">Create Evaluation</button>
+                <button type="button" id="updateButton" class="btn btn-primary" onclick="UpdateEvaluation()">Update Evaluation</button>
             </div>
         </div>
     </div>
@@ -390,6 +393,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 </form>
 
 <script>
+
      $(document).ready(function() {
         PDOEvaluation()
       });
@@ -400,6 +404,11 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 
         const firstButton = document.querySelector('.nav-button');
         firstButton.classList.add('active');
+
+        const upButton = document.getElementById('updateButton');
+        const adButton = document.getElementById('addButton');
+        upButton.style.display = 'none';
+        adButton.style.display = 'block';
     }
 
     function showSection(sectionId, button) {
@@ -419,6 +428,102 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
         button.classList.add('active');
     }
 
+    function AddEvaluation() {
+
+        var firstSet = {
+            a1: $('#a1').val(),
+            a2: $('#a2').val(),
+            a3: $('#a3').val(),
+            a4: $('#a4').val(),
+            a5: $('#a5').val(),
+        }
+
+        var secondSet = {
+            b1: $('#b1').val(),
+            b2: $('#b2').val(),
+            b3: $('#b3').val(),
+            b4: $('#b4').val(),
+            b5: $('#b5').val(),
+        }
+
+        var thirdSet = {
+            c1: $('#c1').val(),
+            c2: $('#c2').val(),
+            c3: $('#c3').val(),
+            c4: $('#c4').val(),
+            c5: $('#c5').val(),
+        }
+
+        var fourthSet = {
+            d1: $('#d1').val(),
+            d2: $('#d2').val(),
+            d3: $('#d3').val(),
+            d4: $('#d4').val(),
+            d5: $('#d5').val(),
+        }
+
+        var info = {
+            id: $('#id').val(),
+            lesson: $('#lesson').val(),
+            date: $('#date').val(),
+            remarks: $('#remarks').val(),
+        }
+
+        var data = {
+            firstSet: firstSet,
+            secondSet: secondSet,
+            thirdSet: thirdSet,
+            fourthSet: fourthSet,
+            info: info,
+        }
+        
+        $.ajax({
+                type: 'POST',
+                url: '<?php echo site_url('TeacherController/CreateEvaluation'); ?>',
+                data: {
+                    data: data
+                },
+                dataType: 'json',
+                success: function(response) {
+					PDOEvaluation(); 
+					$('#AddNewEval').modal('hide'); 
+                    ClearAllField();
+					message('success', 'Evaluation Succesfully Added', 2000); 
+                },
+                error: function(error) {
+                    message('error', 'Something Went Wrong, Try  Again', 2000); 
+                }
+            });
+    }
+
+    function ClearAllField() {
+        $('#lesson').val('');
+        $('#date').val('');
+        $('#remarks').val('');
+
+        const dropdownGroups = ['#firstSet', '#secondSet', '#thirdSet', '#fourthSet', '#fifthSet'];
+        dropdownGroups.forEach(group => {
+            const elements = document.querySelectorAll(`${group} select`);
+            elements.forEach(select => {
+                select.selectedIndex = 0;
+            });
+        });
+
+        const sections = document.querySelectorAll('.set-group');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+
+        const buttons = document.querySelectorAll('.nav-button');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+    }
+
+    $('#AddNewEval').on('hide.bs.modal', function () {
+        ClearAllField();
+    });
+
       function PDOEvaluation() {
         const id = $('#id').val();
         $('#EvalResult').empty();
@@ -433,6 +538,15 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 if (response && response.length > 0) {
                     response.forEach(function(info) {
                         const formattedDate = formatDate(info.Date);
+
+                        const scores = {
+                            a1: info.a1, b1: info.b1, c1: info.c1, d1: info.d1,
+                            a2: info.a2, b2: info.b2, c2: info.c2, d2: info.d2,
+                            a3: info.a3, b3: info.b3, c3: info.c3, d3: info.d3,
+                            a4: info.a4, b4: info.b4, c4: info.c4, d4: info.d4,
+                            a5: info.a5, b5: info.b5, c5: info.c5, d5: info.d5
+                        };
+
                         var appendEvaluation = $(` 
                             <div class="todo-itemprof">
                             <div style=" display: flex;
@@ -446,8 +560,9 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                                </div>
                                <div style="width: auto;">
                                 <button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Name}');"type="button" class="btn btn-danger" data-target="#DeletePST" data-toggle="modal"><span class="fas fa-trash"></span></button> 
-                                <button href="javascript:void(0);" onclick="resetPassword(event, ${info.ID});"
-                                        class="btn btn-primary"><span class="fas fa-redo"></span></button>
+                                <button type="button" onclick="updateConstruct('${encodeURIComponent(JSON.stringify(scores))}', ${info.ID}, '${info.Lesson}', '${info.Date}', '${info.Remarks}')" class="btn btn-primary">
+                                    <span class="fas fa-redo"></span>
+                                </button>
                                 <button onclick="previewEvaluation(${info.ID}, '${info.Lesson}')" class="btn btn-warning" type="button" data-target="#PrevEval"
                                     id="PreviewEvaluation" data-toggle="modal"><span class="fas fa-eye"></span></button> 
                                </div>
@@ -472,6 +587,105 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             }
         });
     }
+
+    function updateConstruct(scoreString, id, lesson, date, remarks) {
+        try {
+        const scores = JSON.parse(decodeURIComponent(scoreString));
+
+        $('#lesson').val(lesson);
+        $('#date').val(date);
+        $('#remarks').val(remarks);
+        $('#EvalID').val(id);
+
+        for (const key in scores) {
+            if (scores.hasOwnProperty(key)) {
+                $('#' + key).val(scores[key]);
+            }
+        }
+
+        const firstSection = document.getElementById('firstSet');
+        firstSection.style.display = 'block';
+
+        const firstButton = document.querySelector('.nav-button');
+        firstButton.classList.add('active');
+
+        const upButton = document.getElementById('updateButton');
+        const adButton = document.getElementById('addButton');
+        upButton.style.display = 'block';
+        adButton.style.display = 'none';
+
+        $('#AddNewEval').modal('show');
+    } catch (error) {
+        console.error('Error parsing scores:', error);
+    }
+    }
+
+    function UpdateEvaluation() {
+        var firstSet = {
+            a1: $('#a1').val(),
+            a2: $('#a2').val(),
+            a3: $('#a3').val(),
+            a4: $('#a4').val(),
+            a5: $('#a5').val(),
+        }
+
+        var secondSet = {
+            b1: $('#b1').val(),
+            b2: $('#b2').val(),
+            b3: $('#b3').val(),
+            b4: $('#b4').val(),
+            b5: $('#b5').val(),
+        }
+
+        var thirdSet = {
+            c1: $('#c1').val(),
+            c2: $('#c2').val(),
+            c3: $('#c3').val(),
+            c4: $('#c4').val(),
+            c5: $('#c5').val(),
+        }
+
+        var fourthSet = {
+            d1: $('#d1').val(),
+            d2: $('#d2').val(),
+            d3: $('#d3').val(),
+            d4: $('#d4').val(),
+            d5: $('#d5').val(),
+        }
+
+        var info = {
+            id: $('#EvalID').val(),
+            lesson: $('#lesson').val(),
+            date: $('#date').val(),
+            remarks: $('#remarks').val(),
+        }
+
+        var data = {
+            firstSet: firstSet,
+            secondSet: secondSet,
+            thirdSet: thirdSet,
+            fourthSet: fourthSet,
+            info: info,
+        }
+        
+        $.ajax({
+                type: 'POST',
+                url: '<?php echo site_url('TeacherController/UpdateEvaluation'); ?>',
+                data: {
+                    data: data
+                },
+                dataType: 'json',
+                success: function(response) {
+					PDOEvaluation(); 
+					$('#AddNewEval').modal('hide'); 
+                    ClearAllField();
+					message('success', 'Evaluation Succesfully Updated', 2000); 
+                },
+                error: function(error) {
+                    message('error', 'Something Went Wrong, Try  Again', 2000); 
+                }
+            });
+    } 
 
     function previewEvaluation(id, lesson) {
         getRemarks(id);
@@ -592,5 +806,21 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 		const options = { year: 'numeric', month: 'long', day: 'numeric' };
 		return date.toLocaleDateString('en-US', options);
 	}
+
+    function message(icon,message,duration){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: duration,
+            timerProgressBar: true
+        })
+
+        Toast.fire({
+            icon: icon,
+            title: message
+        })
+        return false;		
+    }
 
 </script>
