@@ -147,28 +147,28 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 					data: {
 						labels: response.labels,
 						datasets: [{
-						label: 'Conciseness',
+						label: 'Lesson Proper',
 						data: response.aT,
 						backgroundColor: 'rgba(140, 90, 40, 0.7)', 
 						borderColor: 'rgba(140, 90, 40, 1)',
 						borderWidth: 3
 					},
 					{
-						label: 'Clearness',
+						label: 'Mastery',
 						data: response.bT,
 						backgroundColor: 'rgba(210, 180, 140, 0.7)', 
 						borderColor: 'rgba(210, 180, 140, 1)',
 						borderWidth: 3
 					},
 					{
-						label: 'Clarity',
+						label: 'Lesson Plan',
 						data: response.cT,
 						backgroundColor: 'rgba(255, 225, 180, 0.7)', 
 						borderColor: 'rgba(255, 225, 180, 1)',
 						borderWidth: 3
 					},
 					{
-						label: 'Correctness',
+						label: 'Asessment',
 						data: response.dT,
 						backgroundColor: 'rgba(100, 50, 30, 0.7)', 
 						borderColor: 'rgba(100, 50, 30, 1)',
@@ -196,7 +196,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 								labels: {
 									font: {
 										family: 'Arial',
-										size: 13,
+										size: 12,
 										weight: 'bold'
 									}
 								}

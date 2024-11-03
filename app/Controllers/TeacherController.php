@@ -81,7 +81,7 @@ class TeacherController extends BaseController
 		$scores = $this->TeacherDashboard->StudentBarScores($ID);
 
 		$labels = array_map(function($value) {
-			return 'Evaluation ' . $value;
+			return 'Lesson ' . $value;
 		}, range(1, count($scores['aT'])));
 
 		echo json_encode([
@@ -299,6 +299,16 @@ class TeacherController extends BaseController
             echo json_encode(['status' => 'error', 'message' => 'Unknown Error Occure, Try Again']);
         }
     }
+
+    public function DeleteEvaluation(){
+        $ID = $this->request->getVar('ID');
+        $result = $this->ProfEvaluation->DeletionEvaluation($ID);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Evaluation Deleted.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
+        }
+    } 
 
     public function logout() {
         $this->session->destroy();

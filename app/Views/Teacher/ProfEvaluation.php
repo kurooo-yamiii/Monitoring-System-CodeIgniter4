@@ -66,11 +66,10 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             </table>
             <div class="space"></div>
             <div class="space"></div>
-                <div>
+                <div style="margin-bottom: 10px;">
                     <p class="button-title-remarks">Remarks</p> 
                     <textarea class="form-control" id="remarksHolder" style="margin-left: 5px; font-weight: 700;" rows="3" readonly></textarea>
                 </div>
-            <div class="space"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -390,6 +389,37 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
     </div>
  </div>
 
+ <!-- Delete Modal -->
+<div class="modal fade" id="DeletePST" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+							<div class="logos">
+								<div class="logo-right">
+									<img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
+								</div>
+								<div>Delete PST <span style="margin-left: 5px; color: rgba(100, 50, 30); font-weight: 700;"> Evaluation</span></div>
+							</div>	
+						</h5>
+                    <button type="button" class="close" data-dismiss="modal" onclick="ClearAllField()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="DelId" hidden>
+                <p>Are you sure you want to delete <span id="DelName" style="color: red;"></span> Evaluation?</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="ECashID">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="SaveUser" onclick="DeleteEvaluation(event)">Delete Evaluation</button>
+            </div>
+
+    </div>
+ </div>
+ </div>
+
 </form>
 
 <script>
@@ -559,7 +589,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                                     <small>Date: ${formattedDate}</small> 
                                </div>
                                <div style="width: auto;">
-                                <button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Name}');"type="button" class="btn btn-danger" data-target="#DeletePST" data-toggle="modal"><span class="fas fa-trash"></span></button> 
+                                <button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Lesson}');"type="button" class="btn btn-danger" data-target="#DeletePST" data-toggle="modal"><span class="fas fa-trash"></span></button> 
                                 <button type="button" onclick="updateConstruct('${encodeURIComponent(JSON.stringify(scores))}', ${info.ID}, '${info.Lesson}', '${info.Date}', '${info.Remarks}')" class="btn btn-primary">
                                     <span class="fas fa-redo"></span>
                                 </button>
@@ -587,6 +617,30 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             }
         });
     }
+
+    function deleteQues(id, name) {
+		$('#DelId').val(id);
+		$('#DelName').text(name.toUpperCase());
+	}
+
+    function DeleteEvaluation(e){
+		e.preventDefault();
+		$.ajax({
+            type: 'POST', 
+            url: '<?= site_url('TeacherController/DeleteEvaluation') ?>',
+			data: { ID: $('#DelId').val() }, 
+            dataType: 'json',
+            success: function(response) {    
+				message('success',`Evaluation Succesfully Removed`, 2000);
+				PDOEvaluation();
+				$('#DeletePST').modal('hide');
+            },
+            error: function(error) {
+				message('error',`Something Went Wrong, Try Again`, 2000);
+            }
+        });
+	}
+
 
     function updateConstruct(scoreString, id, lesson, date, remarks) {
         try {

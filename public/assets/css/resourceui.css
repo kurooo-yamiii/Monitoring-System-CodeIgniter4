@@ -1050,7 +1050,7 @@
       display: block !important;
       box-sizing: border-box !important;
       height: 200px !important;
-      width: 500px !important;
+      width: auto !important;
   }
   
   .canvas-container:hover {

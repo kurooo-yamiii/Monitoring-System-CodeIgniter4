@@ -127,4 +127,9 @@ class ProfEvaluation extends Model
         return ($total / 25) * 100; 
     }
 
+    public function DeletionEvaluation($ID) {
+        $query = "DELETE FROM evaluation WHERE ID = $ID";
+        return $this->db->query($query);
+    }
+
 }
