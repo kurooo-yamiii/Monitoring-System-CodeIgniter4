@@ -295,7 +295,7 @@
   
   .eval-studd h2 {
   margin-top: -10px;
-    margin-bottom: 20px; 
+    margin-bottom: 5px; 
     font-size: 18px;
   }
   
@@ -1539,6 +1539,7 @@
   background-color: rgb(220 215 189 / 30%);
   border-radius: 5px;
   margin-bottom: 8px;
+  font-size: 13px;
   }
   
   .listtodobut {
@@ -1563,7 +1564,13 @@
     flex-direction: row;
     width: 70%;
     justify-content: space-between;
+    align-items: center;
   }
+
+  .date-container {
+    width: 40%;
+    text-align: center;
+}
   
   .listtodobut2{
     font-weight: 500;
@@ -1579,7 +1586,7 @@
   }
   
   .datetodo {
-    font-size: 15px;
+    font-size: 13px;
     letter-spacing: 1px;
     margin-top: 17px;
   }
