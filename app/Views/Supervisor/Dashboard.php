@@ -21,14 +21,14 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
     <div class="divider"></div>
 
     <div class="card-container">
-        <div class="card3">
+        <div class="card">
             <div class="chart-container">
                 <div class="bar" id="chart">
                 <!-- Print my Student TeacherBar Graph -->
                 </div>
             </div>
             <div class="row-total">
-                <p class="total-row-space">RTU PST: 
+                <p class="total-row-space">RTU Pre-Service Teacher: 
                 <span id="firstOverall" style="margin-left: 5px; color: navy; font-weight: 700;"></span></p>
             </div>
         </div>
@@ -40,12 +40,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 </div>
             </div>
             <div class="row-total">
-                <p class="total-row-space">RTU Pasig Coop-Teacher: 
+                <p class="total-row-space">RTU Pasig Cooperating Teacher: 
                 <span id="secondOverall" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
             </div>
         </div>
 
-        <div class="card">
+        <div class="card3">
             <div class="chart-container">
                 <div class="bar" id="chart2">
                     <!-- Print Mandaluyong Teacher Bar Graph Bar Graph (3) -->
@@ -54,12 +54,6 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             <div class="row-total">
                 <p class="total-row-space">RTU Mandaluyong Coop-Teacher: 
                 <span id="thirdOverall" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
-            </div>
-        </div>
-        <!-- Creation of Pie Chart -->
-        <div class="card2">
-            <div class="piehcart-justify">
-                <canvas id="myPieChart" width="400" height="400"></canvas> <!-- Pie Chart  -->
             </div>
         </div>
     </div>
@@ -244,6 +238,13 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 
     <div class="eval-studd">
         <h3>Recent Deployed PST</h3>
+         <div class="card-container">
+         <!-- Creation of Pie Chart -->
+         <div class="card2">
+            <div class="piehcart-justify">
+                <canvas id="myPieChart" width="400" height="400"></canvas> <!-- Pie Chart  -->
+            </div>
+        </div>
 			<table class="table table-striped" id="getFetchRecent">
 			  <thead>
 			    <tr>
@@ -257,6 +258,6 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 			  <tbody>
 			  </tbody>
             </table>
+         </div>
     </div>
-	
 </form>

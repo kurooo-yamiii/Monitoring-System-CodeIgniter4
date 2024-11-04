@@ -86,7 +86,7 @@ background: #041b5a;
 display: flex;
 flex-direction: column; /* Stack items vertically */
 padding: 0; /* Remove default padding */
-width: 15%;
+width: auto;
 }
 
 .side-bar ul {
@@ -236,14 +236,14 @@ width: 100%;
 
 .card-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between cards */
   margin: 20px; 
 }
 
-.card {
-  width: 27.5%;
-  height: 250px;
-background-color: #ffffff;
+.card, .card3 {
+  flex: 1; /* Allow each card to grow equally */
+  height: 250px; /* Fixed height */
+  background-color: #ffffff;
   border: 1px solid #ddd;
   padding: 20px;
   display: flex;
@@ -252,26 +252,27 @@ background-color: #ffffff;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
+  margin-right: 10px; /* Space between cards */
 }
 
 .card3 {
-  width: 20%;
-  height: 250px;
-background-color: #ffffff;
-  border: 1px solid #ddd;
-  padding: 20px;
+  margin-right: 0; /* Remove right margin from the last card */
+}
+
+.chart-container {
+  flex-grow: 1; /* Allow chart container to take up available space */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  justify-content: center; /* Center chart inside */
+}
+
+.bar {
+  width: 100%; /* Make sure bar takes full width */
 }
 
 .card2 {
-  width: 24%;
+  width: 22%;
   height: 250px;
-background-color: #ffffff;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   padding: 20px;
   display: flex;
@@ -371,19 +372,17 @@ align-items: center;
 margin-top: 5px;
 }
 
-#chart {
-display: flex;
+#chart, #chart2, #chart3 {
+  display: flex;
   justify-content: center;
+  flex-grow: 1; /* Allow the charts to grow and take up space */
+  width: 100%; /* Make sure the container is full width */
 }
 
-#chart2 {
-display: flex;
-  justify-content: center;
-}
 
-#chart3 {
-display: flex;
-  justify-content: center;
+.bar-chart {
+  flex-grow: 1; /* Each bar chart will take equal space */
+  width: 100%; /* Ensure charts are full width */
 }
 
 .piehcart-justify{
@@ -405,28 +404,36 @@ background-color: #2ecc71; /* Green */
 background-color: #f39c12; /* Orange */
 }
 
+#chart .label, #chart2 .label, #chart3 .label {
+  background-color: inherit; /* Use the chart's background color */
+  font-size: 13px;
+  width: 100%; /* Make labels take full width */
+  text-align: center; /* Center text within the label */
+  padding: 5px 0; /* Add some vertical padding for better appearance */
+}
+
 #chart .label {
-background-color: #e74c3c; /* Red */
-font-size: 13px;
+  background-color: #e74c3c; /* Red */
 }
 
 #chart2 .label {
-background-color: #2ecc71; /* Green */
-font-size: 13px;
+  background-color: #2ecc71; /* Green */
 }
 
 #chart3 .label {
-background-color: #f39c12; /* Orange */
-font-size: 13px;
+  background-color: #f39c12; /* Orange */
 }
 
 .category-label {
-text-align: center;
-padding-top: 5px;
-font-size: 9px;
-background-color: white !important;
-color: black !important; /* Use !important to ensure it overrides other styles */
-font-weight: 500;
+  width: auto !important; /* Make labels take full width */
+  text-align: center !important; /* Center text within the label */
+  padding: 5px 0; /* Add vertical padding for better appearance */
+  font-size: 9px; /* Set font size */
+  background-color: white !important; /* Ensure background color is white */
+  color: black !important; /* Use !important to ensure it overrides other styles */
+  font-weight: 500; /* Set font weight */
+  box-sizing: border-box; /* Include padding in width calculation */
+  border: none;
 }
 
 /* Style for the first label at the top */
@@ -434,17 +441,6 @@ font-weight: 500;
 color: white; /* Set the font color to white for the first label */
 }
 
-.chart-container {
-width: 100%;
-border-style: none;
-overflow: hidden;
-height: auto;
-margin-bottom: 10px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-}
 
 .bar-container {
 display: flex;
