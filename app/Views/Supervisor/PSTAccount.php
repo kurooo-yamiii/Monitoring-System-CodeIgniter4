@@ -1,3 +1,9 @@
+<?php 
+if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
+    header("Location: " . site_url("SupervisorController/logout"));
+    exit();
+}
+?>
 <form id="pst">
 	<div class="dashboard">
 

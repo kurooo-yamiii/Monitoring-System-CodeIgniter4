@@ -1,3 +1,9 @@
+<?php 
+if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
+    header("Location: " . site_url("SupervisorController/logout"));
+    exit();
+}
+?>
 <form id="dashboard">
       <div class="dashboard">
        <p class="announce-para">Dashboard - Welcome Back Supervisor <span>  <?php echo $_SESSION['Name']?> !!!</span></p>

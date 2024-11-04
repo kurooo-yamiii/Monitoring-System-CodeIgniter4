@@ -252,7 +252,7 @@ class StudentController extends BaseController
 
     public function logout() {
         $this->session->destroy();
-        return view('Login');
+        return redirect()->to(base_url());
     }
 
 }

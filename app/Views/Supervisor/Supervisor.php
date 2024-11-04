@@ -1,6 +1,8 @@
 <?php 
-if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
-
+if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
+    header("Location: " . site_url("SupervisorController/logout"));
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -172,9 +174,4 @@ if (isset($_SESSION['ID']) && isset($_SESSION['Name'])) {
       }
 
 </script>
-<?php
-}else{
-	site_url( 'SupervisorController/logout');
-     exit();
-}
-?>
+

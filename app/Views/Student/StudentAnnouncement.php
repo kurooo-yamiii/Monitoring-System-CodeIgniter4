@@ -1,3 +1,9 @@
+<?php 
+if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
+    header("Location: " . site_url("StudentController/logout"));
+    exit();
+}
+?>
 <form>
 <div class="dashboard">
 		<p class="announce-para">Announcement <span> PST Deployment</span></p>
