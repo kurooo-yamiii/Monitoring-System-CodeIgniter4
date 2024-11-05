@@ -122,7 +122,7 @@
   display: flex; /* Use flexbox for alignment */
   align-items: center; /* Center icon and text vertically */
   height: 100%; /* Make anchor take full height */
-  padding: 0 10px; /* Add horizontal padding */
+  padding: 0 25px; /* Add horizontal padding */
   }
   
   .side-bar ul li b a i {
@@ -165,7 +165,7 @@
     color: #ccc;
     margin-right: 5px;
     margin-left: 5px;
-    font-size: 18px;
+    font-size: 16px;
   }
   
   /* =============================== */

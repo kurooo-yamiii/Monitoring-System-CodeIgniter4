@@ -102,7 +102,7 @@ transition: 500ms background;
 text-align: left; /* Align text to the left */
 display: flex;
 align-items: center; /* Center items vertically */
-padding-left: 20px; /* Add left padding for spacing */
+padding: 0; /* Add left padding for spacing */
 height: 60px; /* Adjust height as needed */
 }
 
@@ -123,7 +123,7 @@ letter-spacing: 1px;
 display: flex; /* Use flexbox for alignment */
 align-items: center; /* Center icon and text vertically */
 height: 100%; /* Make anchor take full height */
-padding: 0 10px; /* Add horizontal padding */
+padding: 0px 25px; /* Add horizontal padding */
 }
 
 .side-bar ul li b a i {
@@ -166,7 +166,7 @@ border-radius: 50%;
   color: #ccc;
   margin-right: 5px;
   margin-left: 5px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* =============================== */
@@ -235,14 +235,25 @@ width: 100%;
 /* Supervisor Dashboard */
 
 .card-container {
+  padding: 10px 0px;
   display: flex;
   justify-content: space-between; /* Space between cards */
-  margin: 20px; 
+  gap: 10px; /* Additional spacing between cards */
+  margin: 0 auto; /* Center the container if needed */
+  width: 100%; /* Ensure the container uses full width */
+}
+
+.card-container2 {
+  display: flex;
+  justify-content: space-between; /* Space between cards */
+  gap: 10px; /* Additional spacing between cards */
+  margin: 0 auto; /* Center the container if needed */
+  width: 100%; /* Ensure the container uses full width */
 }
 
 .card, .card3 {
   flex: 1; /* Allow each card to grow equally */
-  height: 250px; /* Fixed height */
+  height: 247px; /* Fixed height */
   background-color: #ffffff;
   border: 1px solid #ddd;
   padding: 20px;
@@ -268,10 +279,24 @@ width: 100%;
 .bar {
   width: 100%; /* Make sure bar takes full width */
 }
-
 .card2 {
-  width: 22%;
-  height: 250px;
+  flex: 1; /* Take up one part of the space */
+  height: 247px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  /* Remove margin-right here since we’re using gap in .card-container */
+}
+
+.card4 {
+  flex: 4; /* Take up three parts of the space */
+  height: 247px;
   background-color: #ffffff;
   border: 1px solid #ddd;
   padding: 20px;
@@ -287,12 +312,17 @@ width: 100%;
   transform: scale(1.1);
 }
 
+.card4:hover {
+  transform: scale(1.05); /* Slightly smaller scale */
+}
+
+
 
 
 /* Costumize Table of Approved DTR */
 .eval-studd {
-  display: grid;
-  padding: 20px;
+  padding-top: 12px;
+  width: 100%;
 }
 
 .eval-studd h2 {
@@ -309,7 +339,7 @@ margin-top: -10px;
 
 .total-row-space{
   font-family: 'Helvetica', 'Arial', sans-serif !important;
-  font-size: 18px !important;
+  font-size: 14px !important;
 }
 
 table {
@@ -386,10 +416,10 @@ margin-top: 5px;
 }
 
 .piehcart-justify{
-display: flex;
-justify-content: center; 
-align-items: center; 
-padding: 15px 25px; 
+  width: 100% !important; /* Let the canvas fill the container without overflow */
+  height: auto !important; /* Maintain aspect ratio */
+  max-width: 200px; /* Set a maximum width for the canvas */
+  max-height: 200px
 }
 
 #chart .bar {
@@ -427,13 +457,15 @@ background-color: #f39c12; /* Orange */
 .category-label {
   width: auto !important; /* Make labels take full width */
   text-align: center !important; /* Center text within the label */
-  padding: 5px 0; /* Add vertical padding for better appearance */
-  font-size: 9px; /* Set font size */
+  padding: 5px 5px !important; /* Add vertical padding for better appearance */
+  font-size: 9px !important; /* Set font size */
   background-color: white !important; /* Ensure background color is white */
   color: black !important; /* Use !important to ensure it overrides other styles */
   font-weight: 500; /* Set font weight */
-  box-sizing: border-box; /* Include padding in width calculation */
-  border: none;
+  box-sizing: border-box;  /* Remove any border */
+  outline: none !important; /* Remove outline if any */
+  box-shadow: none !important; /* Remove any shadow that might appear like a border */
+  border: none !important;
 }
 
 /* Style for the first label at the top */
@@ -447,6 +479,9 @@ display: flex;
 flex-direction: column;
 align-items: center;
 text-align: center;
+border: none;
+outline: none;
+box-shadow: none;
 }
 
 .bar-category {

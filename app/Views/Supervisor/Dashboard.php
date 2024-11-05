@@ -237,27 +237,28 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
  </script>
 
     <div class="eval-studd">
-        <h3>Recent Deployed PST</h3>
-         <div class="card-container">
+         <div class="card-container2">
          <!-- Creation of Pie Chart -->
          <div class="card2">
             <div class="piehcart-justify">
                 <canvas id="myPieChart" width="400" height="400"></canvas> <!-- Pie Chart  -->
             </div>
         </div>
+        <div class="card4">
 			<table class="table table-striped" id="getFetchRecent">
 			  <thead>
 			    <tr>
 			      <th scope="col">Name</th>
 			      <th scope="col">Program</th>
 				  <th scope="col">Section</th>
-				  <th scope="col">Resurce Teacher</th>
+				  <th scope="col">Cooperating</th>
 				  <th scope="col">Supervisor</th>
 			    </tr>
 			  </thead>
 			  <tbody>
 			  </tbody>
             </table>
+            </div>
          </div>
     </div>
 </form>

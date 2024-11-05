@@ -101,7 +101,7 @@ transition: 500ms background;
 text-align: left; /* Align text to the left */
 display: flex;
 align-items: center; /* Center items vertically */
-padding-left: 20px; /* Add left padding for spacing */
+padding: 0; /* Add left padding for spacing */
 height: 60px; /* Adjust height as needed */
 }
 
@@ -122,7 +122,7 @@ letter-spacing: 1px;
 display: flex; /* Use flexbox for alignment */
 align-items: center; /* Center icon and text vertically */
 height: 100%; /* Make anchor take full height */
-padding: 0 10px; /* Add horizontal padding */
+padding: 0 25px; /* Add horizontal padding */
 }
 
 .side-bar ul li b a i {
@@ -165,7 +165,7 @@ border-radius: 50%;
   color: #ccc;
   margin-right: 5px;
   margin-left: 5px;
-  font-size: 18px;
+  font-size: 16px !important;
 }
 
 /* =============================== */
