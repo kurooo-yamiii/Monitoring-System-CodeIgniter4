@@ -2,7 +2,8 @@
 
 A web-based platform designed to manage students, teachers, and supervisors in a school or educational institution. The system provides different levels of access, depending on the user's role (Supervisor, Teacher, and Student). The Supervisor has the most authority to manage the system, followed by the Teacher and then the Student.
 
-Table of Contents
+## Table of Contents
+
     Project Overview
     Features
     Technology Stack
@@ -12,7 +13,8 @@ Table of Contents
     Contributing
     License
     Project Overview
-This system is designed to handle three types of users:
+    
+## This system is designed to handle three types of users:
 
 Supervisor:
 The highest-level user in the system. Supervisors have full control over the students and teachers. They can:
