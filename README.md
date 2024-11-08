@@ -1,4 +1,4 @@
-Student and Teacher Management System
+# Student and Teacher Management System
 
 A web-based platform designed to manage students, teachers, and supervisors in a school or educational institution. The system provides different levels of access, depending on the user's role (Supervisor, Teacher, and Student). The Supervisor has the most authority to manage the system, followed by the Teacher and then the Student.
 
