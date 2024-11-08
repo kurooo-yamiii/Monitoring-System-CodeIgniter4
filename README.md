@@ -151,4 +151,4 @@ Here’s a quick overview of the folder structure:
       This project is licensed under the MIT License – see the LICENSE file for details.
 
 # End of README
-    This README.md provides an overview of the system, its features, and the technologies used, and it offers guidance on installation and usage. Make sure to update any project-specific details, like repository links or specific database configurations, as needed.
+This README.md provides an overview of the system, its features, and the technologies used, and it offers guidance on installation and usage. Make sure to update any project-specific details, like repository links or specific database configurations, as needed.
