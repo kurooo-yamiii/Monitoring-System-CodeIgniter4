@@ -15,6 +15,7 @@ A web-based platform designed to manage students, teachers, and supervisors in a
     Project Overview
     
 ## This system is designed to handle three types of users:
+**This is pre-release code and should not be used in production sites.**
 
 Supervisor:
 The highest-level user in the system. Supervisors have full control over the students and teachers. They can:
