@@ -69,9 +69,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
        <h4>PST: <?php echo $_SESSION['Name']?></h4>
 			</div>
 			<ul>
+				<li class="menutitle">
+					<p class="menu-spacing">RECORDS / DTR</p>
+				</li>
 				<li id="studlistbut">
 					<b onclick="loadView('PreviewDTR')">
-					<a style="text-decoration: none; color: #eee;">
+					<a>
 						<p><i class="fa fa-calendar" aria-hidden="true"></i>DTR</p>
 					</a>
 					</b>
@@ -79,23 +82,21 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 
 				<li id="teachlistbut">
 					<b onclick="loadView('PreviewEvaluation')">
-					<a style="text-decoration: none; color: #eee;">
+					<a>
 						<luation><i class="fa fa-file-text" aria-hidden="true"></i>EVALUATION</p>
 					</a>
 					</b>
 				</li>
 
-       		 <li id="deploybtn">
-					<b onclick="loadView('PreviewAnnouncment')">
-					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-bullhorn" aria-hidden="true"></i>ANNOUNCEMENT</p>
-					</a>
+				<li id="annbtn">
+					<b onclick="loadView('PreviewAnnouncement')">
+					<a><i class="fa fa-bullhorn size-icon" aria-hidden="true"></i>ANNOUNCEMENT</a>
 					</b>
 				</li>
 
 				<li id="annbtn">
 					<b onclick="loadView('PreviewToDoList')">
-					<a style="text-decoration: none; color: #eee;">
+					<a>
 						<p><i class="fa fa-list" aria-hidden="true"></i>TO-DO-LIST</p>
 					</a>
 					</b>
@@ -103,15 +104,32 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 
 				<li id="accbtn">
 					<b onclick="loadView('PreviewProfile')">
-					<a style="text-decoration: none; color: #eee;">
+					<a>
 						<p><i class="fa fa-address-card" aria-hidden="true"></i>PROFILE</p>
 					</a>
 					</b>
 				</li>
-
+				<li class="menutitle">
+					<p class="menu-spacing">FINAL DEMO / REQUIREMENTS</p>
+				</li>
+				<li id="accbtn">
+					<b onclick="loadView('PreviewProfile')">
+						<a><i class="fa fa-book size-icon" aria-hidden="true"></i>LESSON PLAN</a>
+					</b>
+				</li>
+				<li id="accbtn">
+					<b onclick="loadView('PreviewProfile')">
+						<a><i class="fa fa-file-text size-icon" aria-hidden="true"></i>FINAL DEMO</a>
+					</b>
+				</li>
+				<li id="accbtn">
+					<b onclick="loadView('PreviewProfile')">
+						<a><i class="fa fa-list-ul size-icon" aria-hidden="true"></i>REQUIREMENTS</a>
+					</b>
+				</li>
 				<li>
 				<b>
-					<a href="<?= site_url("StudentController/logout") ?>" style="text-decoration: none; color: #eee;">
+					<a href="<?= site_url("StudentController/logout") ?>">
 						<p><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</p>
 					</a>
 					</b>

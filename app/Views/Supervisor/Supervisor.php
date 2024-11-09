@@ -57,68 +57,72 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
       </div>
 	</header>
 	<div class="body">
-		<nav class="side-bar">
-			<div class="user-p">
-			<div id="profileHandler"> 
-      <?php if (!empty($images)) : ?>
-       <?php $profileImage = $images['Profile']; ?>
-       <img src="<?= base_url('assets/uploads/' .  $profileImage) ?>">	
-       <?php else : ?>
-                     <img  src="<?=base_url('assets/img/default.jpeg')?>">
-       <?php endif; ?>
-	   </div>
-       <h4>Supervisor <?php echo $_SESSION['Name']?></h4>
+	<nav class="side-bar">
+		<div class="user-p">
+			<div id="profileHandler">
+				<?php if (!empty($images)) : ?>
+					<?php $profileImage = $images['Profile']; ?>
+					<img src="<?= base_url('assets/uploads/' . $profileImage) ?>"> 
+				<?php else : ?>
+					<img src="<?=base_url('assets/img/default.jpeg')?>">
+				<?php endif; ?>
 			</div>
-			<ul>
-				<li id="studlistbut">
-					<b onclick="loadView('PreviewPST')">
-					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-graduation-cap" aria-hidden="true"></i>PST ACCOUNT</p>
-					</a>
-					</b>
-				</li>
-
-				<li id="teachlistbut">
-					<b onclick="loadView('PreviewRT')">
-					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-users" aria-hidden="true"></i>RT ACCOUNT</p>
-					</a>
-					</b>
-				</li>
-
-       		 <li id="deploybtn">
-					<b onclick="loadView('PreviewDeployment')">
-					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-tags" aria-hidden="true"></i>DEPLOYMENT</p>
-					</a>
-					</b>
-				</li>
-
-				<li id="annbtn">
-					<b onclick="loadView('PreviewAnnouncement')">
-					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-bullhorn" aria-hidden="true"></i>ANNOUNCEMENT</p>
-					</a>
-					</b>
-				</li>
-
-				<li id="accbtn">
-					<b onclick="loadView('PreviewProfile')">
-					<a style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-address-card" aria-hidden="true"></i>PROFILE</p>
-					</a>
-					</b>
-				</li>
-
-				<li>
+			<h4>Supervisor <?php echo $_SESSION['Name']?></h4>
+		</div>
+		<ul>
+			<li class="menutitle">
+				<p class="menu-spacing">MONITORING / DEPLOYMENT</p>
+			</li>
+			<li id="studlistbut">
+				<b onclick="loadView('PreviewPST')">
+					<a><i class="fa fa-graduation-cap size-icon" aria-hidden="true"></i>PST ACCOUNT</a>
+				</b>
+			</li>
+			<li id="teachlistbut">
+				<b onclick="loadView('PreviewRT')">
+					<a><i class="fa fa-users size-icon" aria-hidden="true"></i>RT ACCOUNT</a>
+				</b>
+			</li>
+			<li id="deploybtn">
+				<b onclick="loadView('PreviewDeployment')">
+					<a><i class="fa fa-tags size-icon" aria-hidden="true"></i>DEPLOYMENT</a>
+				</b>
+			</li>
+			<li id="annbtn">
+				<b onclick="loadView('PreviewAnnouncement')">
+					<a><i class="fa fa-bullhorn size-icon" aria-hidden="true"></i>ANNOUNCEMENT</a>
+				</b>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewProfile')">
+					<a><i class="fa fa-address-card size-icon" aria-hidden="true"></i>PROFILE</a>
+				</b>
+			</li>
+			<li class="menutitle">
+				<p class="menu-spacing">FINAL DEMO / REQUIREMENTS</p>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewProfile')">
+					<a><i class="fa fa-book size-icon" aria-hidden="true"></i>LESSON PLAN</a>
+				</b>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewProfile')">
+					<a><i class="fa fa-file-text size-icon" aria-hidden="true"></i>FINAL DEMO</a>
+				</b>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewProfile')">
+					<a><i class="fa fa-list-ul size-icon" aria-hidden="true"></i>REQUIREMENTS</a>
+				</b>
+			</li>
+			<li>
 				<b>
-					<a href="<?= site_url("SupervisorController/logout") ?>" style="text-decoration: none; color: #eee;">
-						<p><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</p>
-					</a>
-					</b>
-				</li>
-			</ul>
-		</nav>
+					<a href="<?= site_url("SupervisorController/logout") ?>"><i class="fa fa-sign-out size-icon" aria-hidden="true"></i>LOGOUT</a>
+				</b>
+			</li>
+		</ul>
+	</nav>
 		<section class="section-1" id="sectionsss">
        <!-- View the Fetch Here -->
 		</section>
