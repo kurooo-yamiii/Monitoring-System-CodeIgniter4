@@ -25,7 +25,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	
    		 </div>
 
-<!-- Update Signatory Modal -->		 
+<!-- UPDATE SIGNATORY MODAL -->		 
 	<div class="modal fade" id="UpdateSignatory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg" style="max-width: 38%;" role="document">
 			<div class="modal-content">
@@ -208,8 +208,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 							<div class="space"></div>
 							<div class="divider"></div>
 							<div class="button-container">
-								<a class="btn btn-primary" style="background-color: rgba(100, 50, 30) !important; border-color: rgba(100, 50, 30) !important; margin-right: 8px;" data-toggle="modal" data-target="#UpdateProfile" onclick="constructUpdate('${user.Name}', '${user.Password}', '${user.School}', '${user.Division}', '${user.Grade}', '${user.Coordinator}')">Update Profile</a>
-								<a class="btn btn-primary" style="background-color: rgba(100, 50, 30) !important; border-color: rgba(100, 50, 30) !important;" data-toggle="modal" data-target="#UpdateSignatory">Signatory</a>
+								<a class="btn btn-primary" style="background-color: rgba(100, 50, 30) !important; border-color: rgba(100, 50, 30) !important; margin-right: 8px;" data-toggle="modal" data-target="#UpdateProfile" onclick="constructUpdate('${user.Name}', '${user.Password}', '${user.School}', '${user.Division}', '${user.Grade}', '${user.Coordinator}', '${profileImageSrc}')">Update Profile</a>
+								<a class="btn btn-primary" style="background-color: rgba(100, 50, 30) !important; border-color: rgba(100, 50, 30) !important;" data-toggle="modal" data-target="#UpdateSignatory" onclick="FetchCurrentSignatory('${signatoryImage}')">Signatory</a>
 							</div>
 						`);
 						userDiv.append(modifyUser);
@@ -241,7 +241,20 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 			}
 		});
 
-		function constructUpdate(Name, Password, School, Dvision, Grade, Coordinator) {
+		function FetchCurrentSignatory(sigURL) {
+			if(sigURL !== ''){
+                const imagePreview = document.getElementById('updateSignaturePrev');
+                imagePreview.src = sigURL;
+                imagePreview.style.display = 'block'; 
+            }
+		}
+
+		function constructUpdate(Name, Password, School, Dvision, Grade, Coordinator, imgUrl) {
+			if(imgUrl !== ''){
+                const imagePreview = document.getElementById('updatePicPrev');
+                imagePreview.src = imgUrl;
+                imagePreview.style.display = 'block'; 
+            }
 			$('#NameUser').val(Name);
 			$('#PassUser').val(Password);
             $('#SchoolUser').val(School);

@@ -175,7 +175,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 							<div class="space"></div>
 							<div class="divider"></div>
 							<div class="button-container">
-								<a class="btn btn-primary" data-toggle="modal" data-target="#UpdateProfile" onclick="constructUpdate('${user.Name}', '${user.Password}', '${user.Program}', '${user.Section}', '${user.Contact}')">Update Profile</a>
+								<a class="btn btn-primary" data-toggle="modal" data-target="#UpdateProfile" onclick="constructUpdate('${user.Name}', '${user.Password}', '${user.Program}', '${user.Section}', '${user.Contact}', '${profileImageSrc}')">Update Profile</a>
 							</div>
 						`);
 						userDiv.append(modifyUser);
@@ -236,7 +236,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 			$('#updatePicPrev').attr('src', '').hide();
 		}
 
-		function constructUpdate(name, password, program, section, contact) {
+		function constructUpdate(name, password, program, section, contact, imgUrl) {
+			if(imgUrl !== ''){
+                const imagePreview = document.getElementById('updatePicPrev');
+                imagePreview.src = imgUrl;
+                imagePreview.style.display = 'block'; 
+            }
 			$('#NameUser').val(name);
 			$('#PassUser').val(password);
             $('#ProgramUser').val(program);

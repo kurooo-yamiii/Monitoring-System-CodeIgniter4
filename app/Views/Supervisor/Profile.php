@@ -28,7 +28,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	
 	<!-- UPDATE PROFILE MODAL -->
 	<div class="modal fade" id="UpdateProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" style="max-width: 30%;" role="document">
+		<div class="modal-dialog modal-lg" style="max-width: 35%;" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">
@@ -119,7 +119,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 							<div class="space"></div>
 							<div class="divider"></div>
 							<div class="button-container">
-								<a class="btn btn-primary" data-toggle="modal" data-target="#UpdateProfile" onclick="constructUpdate('${user.Name}', '${user.Password}')">Update Profile</a>
+								<a class="btn btn-primary" data-toggle="modal" data-target="#UpdateProfile" onclick="constructUpdate('${user.Name}', '${user.Password}', '${profileImageSrc}')">Update Profile</a>
 							</div>
 						`);
 						userDiv.append(modifyUser);
@@ -176,7 +176,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 			$('#updatePicPrev').attr('src', '').hide();
 		}
 
-		function constructUpdate(name, password) {
+		function constructUpdate(name, password, imgUrl) {
+			if(imgUrl !== ''){
+                const imagePreview = document.getElementById('updatePicPrev');
+                imagePreview.src = imgUrl;
+                imagePreview.style.display = 'block'; 
+            }
 			$('#NameUser').val(name);
 			$('#PassUser').val(password);
 		}
