@@ -113,7 +113,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 					<p class="menu-spacing">FINAL DEMO / REQUIREMENTS</p>
 				</li>
 				<li id="accbtn">
-					<b onclick="loadView('PreviewProfile')">
+					<b onclick="loadView('PreviewLessonPlan')">
 						<a><i class="fa fa-book size-icon" aria-hidden="true"></i>LESSON PLAN</a>
 					</b>
 				</li>
@@ -155,6 +155,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
 	<!-- DataTables Buttons JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>

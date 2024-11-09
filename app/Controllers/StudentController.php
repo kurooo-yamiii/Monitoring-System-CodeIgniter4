@@ -10,6 +10,7 @@ use App\Models\Student\StudentEvaluation;
 use App\Models\Student\StudentAnnouncement;
 use App\Models\Student\ToDoList;
 use App\Models\Student\StudentProfile;
+use App\Models\Student\StudentLP;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class StudentController extends BaseController
@@ -23,6 +24,7 @@ class StudentController extends BaseController
     private $StudentAnnouncement;
     private $ToDoList;
     private $StudentProfile;
+    private $StudentLP;
     protected $helper;
     protected $db;
 
@@ -38,6 +40,7 @@ class StudentController extends BaseController
         $this->StudentAnnouncement = new StudentAnnouncement();
         $this->ToDoList = new ToDoList();
         $this->StudentProfile = new StudentProfile();
+        $this->StudentLP = new StudentLP();
         helper('utility');
 	}
     
@@ -75,6 +78,9 @@ class StudentController extends BaseController
         return view('Student/StudentProfile');
     }
 
+    public function PreviewLessonPlan() {
+        return view('Student/StudentLP');
+    }
     public function PSTInfoChart() {
         $ID = $this->request->getVar('ID');
         $scores = $this->PSTDashboard->PSTRecentScores($ID);
@@ -254,5 +260,54 @@ class StudentController extends BaseController
         $this->session->destroy();
         return redirect()->to(base_url());
     }
+
+    public function InsertNewLessonPlan() {
+		try {
+			helper('url');
+
+			$id = $this->request->getVar('ID');
+			$lesson = $this->request->getVar('Lesson');
+			$file = $this->request->getFile('LP');
+
+            if (empty($id) || empty($lesson) || empty($file)) {
+				return $this->response->setStatusCode(400)->setJSON(['message' => 'Lesson Name, and LP File are required.']);
+			}
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 20 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+				$newName = uniqid('LessonPlan-', true) . '.' . $file->getExtension();
+				$file->move('./assets/lesson/', $newName); 
+
+				$this->StudentLP->CreateLessonPlan($id, $lesson, $newName);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated successfully']);
+			
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+
+                $this->StudentLP->CreateLessonPlan($id, $lesson, null);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated without changing the image.']);
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
+	}
 
 }
