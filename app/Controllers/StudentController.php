@@ -278,13 +278,20 @@ class StudentController extends BaseController
 					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
 				}
 
-				$allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+				$allowedTypes = ['application/pdf'];
 				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
 					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
 				}
 
-				$newName = uniqid('LessonPlan-', true) . '.' . $file->getExtension();
-				$file->move('./assets/lesson/', $newName); 
+                  $lessonFolderPath = './assets/lesson/' . $id;
+
+                  if (!is_dir($lessonFolderPath)) {
+                      mkdir($lessonFolderPath, 0755, true); 
+                  }
+      
+                  $newName = uniqid('LessonPlan-', true) . '.' . $file->getExtension();
+      
+                  $file->move($lessonFolderPath, $newName);
 
 				$this->StudentLP->CreateLessonPlan($id, $lesson, $newName);
 				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated successfully']);
@@ -309,5 +316,63 @@ class StudentController extends BaseController
 			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
 		}
 	}
+
+    public function UpdateLessonPlan() {
+        try {
+			helper('url');
+
+			$id = $this->request->getVar('ID');
+			$lesson = $this->request->getVar('Lesson');
+			$file = $this->request->getFile('LP');
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 20 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['application/pdf'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+                  $lessonFolderPath = './assets/lesson/' . $id;
+
+                  if (!is_dir($lessonFolderPath)) {
+                      mkdir($lessonFolderPath, 0755, true); 
+                  }
+      
+                  $newName = uniqid('LessonPlan-', true) . '.' . $file->getExtension();
+      
+                  $file->move($lessonFolderPath, $newName);
+
+				$this->StudentLP->UpdateLessonPlan($id, $lesson, $newName);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated successfully']);
+			
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+
+                $this->StudentLP->UpdateLessonPlan($id, $lesson, null);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated without changing the image.']);
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
+    }
+
+    public function GetLessonPlan() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->StudentLP->GetAllLessonPlan($ID);
+        return $this->response->setJSON($data);
+    }
 
 }

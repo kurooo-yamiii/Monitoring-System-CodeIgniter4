@@ -164,7 +164,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 			$('#DelName').text(name.toUpperCase());
         }
 
-        function updateConstruct(id, title, post) {
+        function updateConstruct(id, title, post, url) {
+            if(url != 0){
+                const imagePreview = document.getElementById('imagePreviewUpdate');
+                imagePreview.src = url;
+                imagePreview.style.display = 'block'; 
+            }
             $('#UpID').val('');
 			$('#uptitle').val('');
             $('#uppost').val('');
@@ -206,7 +211,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                                         <div>
                                         <button type="button" onclick="deleteContrsuct(${info.ID}, '${info.Title}')" class="btn btn-danger" data-target="#DelAnnounce"
                                          id="deleteAnnounce" data-toggle="modal"><span class="fas fa-trash"></span></button>
-                                        <button type="button" onclick="updateConstruct(${info.ID},'${info.Title}','${info.Post}')" class="btn btn-primary" data-target="#UpdateAnnouncement"
+                                        <button type="button" onclick="updateConstruct(${info.ID},'${info.Title}','${info.Post}', 0)" class="btn btn-primary" data-target="#UpdateAnnouncement"
                                           id="deleteAnnounce" data-toggle="modal"><span class="fa fa-edit"></span></button>
                                         
                                         </div>
@@ -237,7 +242,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                                    
                                         <button type="button" onclick="deleteContrsuct(${info.ID}, '${info.Title}')" class="btn btn-danger" data-target="#DelAnnounce"
                                          id="deleteAnnounce" data-toggle="modal"><span class="fas fa-trash"></span></button>
-                                         <button type="button" onclick="updateConstruct(${info.ID},'${info.Title}','${info.Post}')" class="btn btn-primary" data-target="#UpdateAnnouncement"
+                                         <button type="button" onclick="updateConstruct(${info.ID},'${info.Title}','${info.Post}','${imageUrl}')" class="btn btn-primary" data-target="#UpdateAnnouncement"
                                          id="deleteAnnounce" data-toggle="modal"><span class="fa fa-edit"></span></button>
                                       
                                         </div>

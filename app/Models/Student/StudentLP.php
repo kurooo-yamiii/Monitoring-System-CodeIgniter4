@@ -25,4 +25,19 @@ class StudentLP extends Model
         }
         return $this->db->query($query);
     }
+
+    public function UpdateLessonPlan($id, $lesson, $newName) {
+        if ($newName) {
+            $query = "UPDATE lessonplan SET Lesson = '$lesson', FilePath = '$newName' WHERE ID = $id";
+        } else {
+            $query = "UPDATE lessonplan SET Lesson = '$lesson' WHERE ID = $id";
+        }
+        return $this->db->query($query);
+    }
+
+    public function GetAllLessonPlan($ID){
+        $query = "SELECT * FROM lessonplan WHERE StudentID = ? ORDER BY ID DESC";
+        $builder = $this->db->query($query, [$ID]);
+        return $builder->getResult();
+    }
 }
