@@ -27,6 +27,14 @@ class StudentRequirements extends Model
         return $this->db->query($query);
     }
 
+    public function InsertECBAR($data) {
+        $currentDate = date('Y-m-d'); 
+        $query = "INSERT INTO requirements (StudentID, Title, FilePath, Date, Type) 
+        VALUES($data[0], '$data[1]', '$data[2]', '$currentDate', 'CBAR')";
+        return $this->db->query($query);
+    }
+
+
     public function InsertPortfolio($id, $lesson, $newName){
         $currentDate = date('Y-m-d'); 
         if ($newName) {
@@ -35,6 +43,18 @@ class StudentRequirements extends Model
         } else {
             $query = "INSERT INTO requirements (StudentID, Lesson, FilePath, Date, Type) 
                       VALUES($id, '$lesson', NULL, '$currentDate', 'Portfolio')";
+        }
+        return $this->db->query($query);
+    }
+
+    public function InsertCBAR($id, $lesson, $newName){
+        $currentDate = date('Y-m-d'); 
+        if ($newName) {
+            $query = "INSERT INTO requirements (StudentID, Title, FilePath, Date, Type) 
+                      VALUES($id, '$lesson', '$newName', '$currentDate', 'CBAR')";
+        } else {
+            $query = "INSERT INTO requirements (StudentID, Lesson, FilePath, Date, Type) 
+                      VALUES($id, '$lesson', NULL, '$currentDate', 'CBAR')";
         }
         return $this->db->query($query);
     }

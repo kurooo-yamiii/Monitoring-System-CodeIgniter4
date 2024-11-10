@@ -90,8 +90,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 							<button id="portfolioFile" style="display: none;" class="btn btn-primary" onclick="PortfolioFile()" type="button">Attach Portfolio File</button>
 							<button id="portfolioLink" style="display: none;" class="btn btn-primary" onclick="PortfolioLink()" type="button">Attach Portfolio Link</button>
-							<button id="CBARFile" style="display: none;" class="btn btn-primary" onclick="CBARFile()" type="button">Attach CBAR File</button>
-							<button id="CBARLink" style="display: none;" class="btn btn-primary" onclick="CBARLink()" type="button">Attach CBAR Link</button>
+							<button id="CBARFile" style="display: none;" class="btn btn-primary" onclick="InsertCBARFile()" type="button">Attach CBAR File</button>
+							<button id="CBARLink" style="display: none;" class="btn btn-primary" onclick="InsertCBARLink()" type="button">Attach CBAR Link</button>
                     </div>
                </div>
             </div>
@@ -104,6 +104,44 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	  $(function () {
 		GetRequirements();
 	  });
+
+	  function InsertCBARLink() {
+		const id = $('#id').val();
+		const title = $('#title').val();
+		const link = $('#chooseLink').val();
+
+		if(!isValidWebsiteUrl(link)){
+			message('error', 'Invalid Link, Please Atttach a Valid Website', 2000); 
+		}
+
+		$.ajax({
+            type: 'POST', 
+            url: '<?= site_url('StudentController/InsertCBARLink') ?>',
+			data: { ID: id, Title: title, Link: link }, 
+            dataType: 'json',
+            success: function(response) {    
+				$('#title').val('');
+				$('#chooseLink').val('');  
+                $('#chooseLesson').val('');
+                $('#lessonplanPDF').hide();
+                $('#CreateNewRequirements').modal('hide'); 
+                GetRequirements();
+                message('success', 'E-CBAR Attached Successfully', 2000); 
+            },
+			error: function(xhr, status, error) {
+                try {
+                    var errorResponse = JSON.parse(xhr.responseText);
+                    if (errorResponse.message) {
+                        message('error', errorResponse.message, 2000);
+                    } else {
+                        message('error', 'An unexpected error occurred. Please try again.', 2000);
+                    }
+                } catch (e) {
+                    message('error', 'An unexpected error occurred. Please try again.', 2000);
+                }
+            }
+            });
+	  }
 
 	  function PortfolioLink() {
 		const id = $('#id').val();
@@ -142,6 +180,45 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             }
             });
 	  }
+
+	  function InsertCBARFile() {
+        var formData = new FormData();
+        formData.append('ID', document.getElementById('id').value); 
+        formData.append('Title', document.getElementById('title').value);
+
+        var lessonplan = document.getElementById('chooseLesson');
+        if (lessonplan.files.length > 0) {
+            formData.append('CBAR', lessonplan.files[0]);
+        }
+
+        $.ajax({
+            url: '<?php echo site_url("StudentController/InsertCBARFile"); ?>',
+            type: 'POST',
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            success: function(response) {
+                $('#title').val(''); 
+                $('#chooseLesson').val('');
+                $('#lessonplanPDF').hide();
+                $('#CreateNewRequirements').modal('hide'); 
+                GetRequirements();
+                message('success', 'CBAR Attached Successfully', 2000); 
+            },
+            error: function(xhr, status, error) {
+                try {
+                    var errorResponse = JSON.parse(xhr.responseText);
+                    if (errorResponse.message) {
+                        message('error', errorResponse.message, 2000);
+                    } else {
+                        message('error', 'An unexpected error occurred. Please try again.', 2000);
+                    }
+                } catch (e) {
+                    message('error', 'An unexpected error occurred. Please try again.', 2000);
+                }
+            }
+        });
+    }
 
 	  function PortfolioFile() {
         var formData = new FormData();
@@ -357,10 +434,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 										</div>
 										<div style="width: auto;">
 											<button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Title}');" type="button" class="btn btn-danger" data-target="#DelLessonPlan" data-toggle="modal"><span class="fas fa-trash"></span></button>
-											<button type="button" onclick="updateConstruct(${info.ID}, '${info.Title}')" class="btn btn-primary" data-target="#UpdateLessonPlan" data-toggle="modal">
-												<span class="fas fa-redo"></span>
-											</button>
-											<button onclick="previewLessonPlan('${sourceView}')" class="btn btn-warning" type="button" id="PreviewEvaluation" data-toggle="modal"><span class="fas fa-eye"></span></button>
+											<button onclick="PreviewFile('${sourceView}')" class="btn btn-primary" type="button" id="PreviewEvaluation" data-toggle="modal"><span class="fas fa-eye"></span></button>
 										</div>
 									</div>
 								</div>
@@ -373,8 +447,14 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 						} else if (info.Type === 'CBAR') {
 							const formattedDate = formatDate(info.Date);
 							hasCBAR = true;
+							const fileCBAR = info.FilePath;
+							if(isValidPdfFilePath(fileCBAR)){
+								var fileName = `${id}/${info.FilePath}`;
+								var sourceView = `${baseUrl}${fileName}`;
+							}else{
+								var sourceView = fileCBAR;
+							}
 							var cbatFetch = $(`
-								<div style="width: 50%; padding-left: 10px;">
 									<p class="prof-title"> II. Action-Based Research</p>
 									<div class="todo-itemprof">
 										<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
@@ -384,18 +464,15 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 												<small>Date: ${formattedDate}</small>
 											</div>
 											<div style="width: auto;">
-												<button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Lesson}');" type="button" class="btn btn-danger" data-target="#DelLessonPlan" data-toggle="modal"><span class="fas fa-trash"></span></button>
-												<button type="button" onclick="updateConstruct(${info.ID}, '${info.Lesson}', '${updatePrev}')" class="btn btn-primary" data-target="#UpdateLessonPlan" data-toggle="modal">
-													<span class="fas fa-redo"></span>
-												</button>
-												<button onclick="previewLessonPlan('${baseUrl}${fileName}')" class="btn btn-warning" type="button" id="PreviewEvaluation" data-toggle="modal"><span class="fas fa-eye"></span></button>
+												<button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Title}');" type="button" class="btn btn-danger" data-target="#DelLessonPlan" data-toggle="modal"><span class="fas fa-trash"></span></button>
+												<button onclick="PreviewFile('${sourceView}')" class="btn btn-primary" type="button" id="PreviewEvaluation" data-toggle="modal"><span class="fas fa-eye"></span></button>
 											</div>
 										</div>
 									</div>
+									<div class="space"></div>
 									<div class="prof-center">
-										<iframe id="previewCBAR" style="display:none; width: 100%; height: 350px;"></iframe>
+										<iframe src="${sourceView}" style="width: 100%; height: 350px;"></iframe>
 									</div>
-								</div>
 							`);
 							cbarDiv.append(cbatFetch);
 						}
@@ -494,5 +571,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             return false;		
         }
 
+	function PreviewFile(url) {
+        window.open(url, '_blank');
+    }	
 
 </script>

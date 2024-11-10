@@ -412,6 +412,20 @@ class StudentController extends BaseController
         }
     }
 
+    public function InsertCBARLink() {
+        $ID = $this->request->getVar('ID');
+        $Title = $this->request->getVar('Title');
+        $Link = $this->request->getVar('Link');
+        $data = [ $ID, $Title, $Link ];
+
+        $result = $this->StudentRequirements->InsertECBAR($data);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'E-CBAR attached successfully generated.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Error attaching E-Portfolio.']);
+        }
+    }
+
     public function InsertPortfolioFile() {
         try {
 			helper('url');
@@ -461,6 +475,62 @@ class StudentController extends BaseController
 				}
 
                 $this->StudentRequirements->InsertPortfolio($id, $title, null);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated without changing the file.']);
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
+    }
+
+    public function InsertCBARFile() {
+        try {
+			helper('url');
+
+			$id = $this->request->getVar('ID');
+			$title = $this->request->getVar('Title');
+			$file = $this->request->getFile('CBAR');
+
+            if (empty($id) || empty($title) || empty($file)) {
+				return $this->response->setStatusCode(400)->setJSON(['message' => 'File Name, and CBAR File are required.']);
+			}
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 20 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['application/pdf'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+                  $lessonFolderPath = './assets/requirements/' . $id;
+
+                  if (!is_dir($lessonFolderPath)) {
+                      mkdir($lessonFolderPath, 0755, true); 
+                  }
+      
+                  $newName = uniqid('CBAR-', true) . '.' . $file->getExtension();
+      
+                  $file->move($lessonFolderPath, $newName);
+
+				$this->StudentRequirements->InsertCBAR($id, $title, $newName);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated successfully']);
+			
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+
+                $this->StudentRequirements->InsertCBAR($id, $title, null);
 				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated without changing the file.']);
 			}
 		} catch (\Exception $e) {
