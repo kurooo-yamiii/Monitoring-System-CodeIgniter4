@@ -19,6 +19,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
    <div class="divider"></div>
    <input type="text" name="id" id="id" value="<?php echo $_SESSION['ID']; ?>" hidden>
    <input type="text" name="name" id="name" value="<?php echo $_SESSION['Name']; ?>" hidden>
+        <div class="space"></div>
         <div id="todoContainer"></div>
         <p class="prof-title">Finished Tasks</p>
         <div id="updateSuccess"></div>

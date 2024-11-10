@@ -61,7 +61,7 @@ class StudentDTR extends Model
     public function getCurrentTotal($ID) {
         $query = $this->db->query("SELECT Total FROM student WHERE ID = ?", [$ID]);
         $row = $query->getRow();
-        $totalMinutes = $row && isset($row->Total) ? $row->Total : 0;
+        $totalMinutes = ($row && isset($row->Total) && $row->Total !== null) ? intval($row->Total) : 0; 
         return $this->formatOverallTime($totalMinutes);
     }
 
@@ -75,6 +75,9 @@ class StudentDTR extends Model
     }
 
     private function formatOverallTime($totalMinutes) {
+        if ($totalMinutes == 0) {
+            return "0 hours and 0 minutes";
+        }
         $hours = floor($totalMinutes / 60);
         $minutes = $totalMinutes % 60;
         return "{$hours} hours and {$minutes} minutes";

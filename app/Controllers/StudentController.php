@@ -11,6 +11,7 @@ use App\Models\Student\StudentAnnouncement;
 use App\Models\Student\ToDoList;
 use App\Models\Student\StudentProfile;
 use App\Models\Student\StudentLP;
+use App\Models\Student\StudentRequirements;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class StudentController extends BaseController
@@ -25,6 +26,7 @@ class StudentController extends BaseController
     private $ToDoList;
     private $StudentProfile;
     private $StudentLP;
+    private $StudentRequirements;
     protected $helper;
     protected $db;
 
@@ -41,6 +43,7 @@ class StudentController extends BaseController
         $this->ToDoList = new ToDoList();
         $this->StudentProfile = new StudentProfile();
         $this->StudentLP = new StudentLP();
+        $this->StudentRequirements = new StudentRequirements();
         helper('utility');
 	}
     
@@ -66,7 +69,7 @@ class StudentController extends BaseController
         return view('Student/StudentEvaluation');
     }
 
-    public function PreviewAnnouncment() {
+    public function PreviewAnnouncement() {
         return view('Student/StudentAnnouncement');
     }
 
@@ -81,6 +84,11 @@ class StudentController extends BaseController
     public function PreviewLessonPlan() {
         return view('Student/StudentLP');
     }
+
+    public function PreviewRequirements() {
+        return view('Student/StudentRequirements');
+    }
+
     public function PSTInfoChart() {
         $ID = $this->request->getVar('ID');
         $scores = $this->PSTDashboard->PSTRecentScores($ID);
@@ -294,7 +302,7 @@ class StudentController extends BaseController
                   $file->move($lessonFolderPath, $newName);
 
 				$this->StudentLP->CreateLessonPlan($id, $lesson, $newName);
-				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated successfully']);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated successfully']);
 			
 			} else {
 				if ($file && !$file->isValid()) {
@@ -310,7 +318,7 @@ class StudentController extends BaseController
 				}
 
                 $this->StudentLP->CreateLessonPlan($id, $lesson, null);
-				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated without changing the image.']);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated without changing the file.']);
 			}
 		} catch (\Exception $e) {
 			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
@@ -346,7 +354,7 @@ class StudentController extends BaseController
                   $file->move($lessonFolderPath, $newName);
 
 				$this->StudentLP->UpdateLessonPlan($id, $lesson, $newName);
-				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated successfully']);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated successfully']);
 			
 			} else {
 				if ($file && !$file->isValid()) {
@@ -362,7 +370,7 @@ class StudentController extends BaseController
 				}
 
                 $this->StudentLP->UpdateLessonPlan($id, $lesson, null);
-				return $this->response->setStatusCode(200)->setJSON(['message' => 'User profile updated without changing the image.']);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated without changing the file.']);
 			}
 		} catch (\Exception $e) {
 			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
@@ -382,6 +390,82 @@ class StudentController extends BaseController
         $ID = $this->request->getVar('ID');
         $data = $this->StudentLP->GetAllLessonPlan($ID);
         return $this->response->setJSON($data);
+    }
+
+    public function GetAllRequirements() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->StudentRequirements->GetAllRequirements($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function InsertPortfolioLink() {
+        $ID = $this->request->getVar('ID');
+        $Title = $this->request->getVar('Title');
+        $Link = $this->request->getVar('Link');
+        $data = [ $ID, $Title, $Link ];
+
+        $result = $this->StudentRequirements->InsertEPortfolio($data);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'E-Portfolio attached successfully generated.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Error attaching E-Portfolio.']);
+        }
+    }
+
+    public function InsertPortfolioFile() {
+        try {
+			helper('url');
+
+			$id = $this->request->getVar('ID');
+			$title = $this->request->getVar('Title');
+			$file = $this->request->getFile('Portfolio');
+
+            if (empty($id) || empty($title) || empty($file)) {
+				return $this->response->setStatusCode(400)->setJSON(['message' => 'File Name, and Portfolio File are required.']);
+			}
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 20 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['application/pdf'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+                  $lessonFolderPath = './assets/requirements/' . $id;
+
+                  if (!is_dir($lessonFolderPath)) {
+                      mkdir($lessonFolderPath, 0755, true); 
+                  }
+      
+                  $newName = uniqid('Portfolio-', true) . '.' . $file->getExtension();
+      
+                  $file->move($lessonFolderPath, $newName);
+
+				$this->StudentRequirements->InsertPortfolio($id, $title, $newName);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated successfully']);
+			
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+
+                $this->StudentRequirements->InsertPortfolio($id, $title, null);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated without changing the file.']);
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
     }
 
 }
