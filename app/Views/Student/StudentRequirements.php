@@ -6,7 +6,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 ?>
 <form>
 <div class="dashboard">
-		<p class="announce-para">List of  <span> Requirements</span></p>
+<p class="announce-para">Requirements of PST <span id="divForPSTName" style="margin-left: 5px; color: navy; font-weight: 700;"></span></p>
 		<div class="logos">
 			<div class="logo">
 				<img src="<?=base_url('assets/img/logo.png')?>" alt="Logo 1" width="50" />
@@ -19,6 +19,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	<div class="divider"></div>
     <div class="space"></div>
     <input type="text" name="id" id="id" value="<?php echo $_SESSION['ID']; ?>" hidden>
+	<input type="text" name="name" id="name" value="<?php echo $_SESSION['Name']; ?>" hidden>
 	
 	<div style="display: flex; justify-content: space-between; width: 100%;">
 		<div id="portfolioDiv" style="width: 50%; padding-right: 10px;">
@@ -98,12 +99,63 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
         </div>
     </div>
 
+	<!-- DELETE MODAL -->
+    <div class="modal fade" id="DelRequirements" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> <div class="logos">
+                                <div class="logo-right">
+                                    <img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
+                                </div>
+                                DELETE REQUIREMENTS
+                            </div></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="DelId" hidden>
+                    <p>Are you sure you want to delete <span id="DelName" style="color: red;"></span> Requirements?</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="ECashID">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="SaveUser" onclick="DeleteRequirements(event)">Delete Requirements</button>
+                </div>
+        </div>
+    </div>
+    </div>
 </form>
 <script>
 
 	  $(function () {
 		GetRequirements();
 	  });
+
+	  function DeleteRequirements(e){
+        const id = $('#DelId').val();
+        e.preventDefault();
+            $.ajax({
+            type: 'POST', 
+            data: { delID: id },
+            url: '<?= site_url('StudentController/DeleteRequirements') ?>',
+            success: function(response) {    
+                GetRequirements();
+                $('#DelRequirements').modal('hide');
+                message('success',`Requirements Deleted Successfully`, 2000);
+            },
+            error: function(error) {
+                message('error',`Something Went Wrong Try Again`, 2000);
+            }
+            });
+		}
+
+		function deleteQues(id, requirements) {
+			$('#DelName').text(requirements);
+			$('#DelId').val(id);
+		}
 
 	  function InsertCBARLink() {
 		const id = $('#id').val();
@@ -362,6 +414,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	  }
 
 	  function GetRequirements() {
+		const name = $('#name').val();
+        $('#divForPSTName').text(name);
 		var id = $('#id').val();
 		var baseUrl = '<?= base_url('assets/requirements/'); ?>';
 		$.ajax({
@@ -433,7 +487,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 											<small>Date: ${formattedDate}</small>
 										</div>
 										<div style="width: auto;">
-											<button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Title}');" type="button" class="btn btn-danger" data-target="#DelLessonPlan" data-toggle="modal"><span class="fas fa-trash"></span></button>
+											<button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Title}');" type="button" class="btn btn-danger" data-target="#DelRequirements" data-toggle="modal"><span class="fas fa-trash"></span></button>
 											<button onclick="PreviewFile('${sourceView}')" class="btn btn-primary" type="button" id="PreviewEvaluation" data-toggle="modal"><span class="fas fa-eye"></span></button>
 										</div>
 									</div>
@@ -464,7 +518,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 												<small>Date: ${formattedDate}</small>
 											</div>
 											<div style="width: auto;">
-												<button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Title}');" type="button" class="btn btn-danger" data-target="#DelLessonPlan" data-toggle="modal"><span class="fas fa-trash"></span></button>
+												<button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Title}');" type="button" class="btn btn-danger" data-target="#DelRequirements" data-toggle="modal"><span class="fas fa-trash"></span></button>
 												<button onclick="PreviewFile('${sourceView}')" class="btn btn-primary" type="button" id="PreviewEvaluation" data-toggle="modal"><span class="fas fa-eye"></span></button>
 											</div>
 										</div>

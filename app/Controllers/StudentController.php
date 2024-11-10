@@ -538,4 +538,14 @@ class StudentController extends BaseController
 		}
     }
 
+    public function DeleteRequirements() {
+        $ID = $this->request->getVar('delID');
+        $result = $this->StudentRequirements->RequirementsDeletion($ID);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Requirements Deleted']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
+        }
+    }
+
 }

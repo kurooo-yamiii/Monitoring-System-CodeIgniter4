@@ -58,4 +58,9 @@ class StudentRequirements extends Model
         }
         return $this->db->query($query);
     }
+
+    public function RequirementsDeletion($ID){
+        $query = "DELETE FROM requirements WHERE ID = $ID";
+        return $this->db->query($query);
+    }
 }

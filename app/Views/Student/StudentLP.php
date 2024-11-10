@@ -125,7 +125,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                                 <div class="logo-right">
                                     <img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
                                 </div>
-                                DELTE LESSON PLAN
+                                DELETE LESSON PLAN
                             </div></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
