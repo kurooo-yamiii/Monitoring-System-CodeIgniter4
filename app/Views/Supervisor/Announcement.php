@@ -148,7 +148,6 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-danger" id="SaveUser" onclick="announceDelete(event)">Delete Announcement</button>
                 </div>
-
         </div>
     </div>
     </div>

@@ -369,6 +369,15 @@ class StudentController extends BaseController
 		}
     }
 
+    public function DeleteLessonPlan(){
+        $ID = $this->request->getVar('delID');
+        $result = $this->StudentLP->DeleteLP($ID);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Lesson Plan Deleted']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
+        }
+    }
     public function GetLessonPlan() {
         $ID = $this->request->getVar('ID');
         $data = $this->StudentLP->GetAllLessonPlan($ID);

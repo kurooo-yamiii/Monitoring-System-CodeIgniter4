@@ -35,6 +35,11 @@ class StudentLP extends Model
         return $this->db->query($query);
     }
 
+    public function DeleteLP($ID){
+        $query = "DELETE FROM lessonplan WHERE ID = $ID";
+        return $this->db->query($query);
+    }
+
     public function GetAllLessonPlan($ID){
         $query = "SELECT * FROM lessonplan WHERE StudentID = ? ORDER BY ID DESC";
         $builder = $this->db->query($query, [$ID]);

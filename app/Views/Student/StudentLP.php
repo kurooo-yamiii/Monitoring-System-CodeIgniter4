@@ -114,6 +114,35 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             </div>
         </div>
     </div>
+
+    <!-- DELETE MODAL -->
+    <div class="modal fade" id="DelLessonPlan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> <div class="logos">
+                                <div class="logo-right">
+                                    <img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
+                                </div>
+                                DELTE LESSON PLAN
+                            </div></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="DelId" hidden>
+                    <p>Are you sure you want to delete <span id="DelName" style="color: red;"></span> Lesson Plan?</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="ECashID">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="SaveUser" onclick="DeleteLP(event)">Delete Lesson Plan</button>
+                </div>
+        </div>
+    </div>
+    </div>
 </form>
 
 <script>
@@ -157,7 +186,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                                     <small>Date: ${formattedDate}</small> 
                                </div>
                                <div style="width: auto;">
-                                <button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Lesson}');"type="button" class="btn btn-danger" data-target="#UpdateLessonPlan" data-toggle="modal"><span class="fas fa-trash"></span></button> 
+                                <button href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Lesson}');"type="button" class="btn btn-danger" data-target="#DelLessonPlan" data-toggle="modal"><span class="fas fa-trash"></span></button> 
                                 <button type="button" onclick="updateConstruct(${info.ID}, '${info.Lesson}', '${updatePrev}')" class="btn btn-primary" data-target="#UpdateLessonPlan" data-toggle="modal">
                                     <span class="fas fa-redo"></span>
                                 </button>
@@ -184,6 +213,30 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 console.error('Error fetching data:', error);
             }
         });
+    }
+
+    function deleteQues(id, lesson) {
+        $('#DelName').text(lesson);
+        $('#DelId').val(id);
+    }
+
+    function DeleteLP(e){
+        const id = $('#DelId').val();
+        e.preventDefault();
+            $.ajax({
+            type: 'POST', 
+            data: { delID: id },
+            url: '<?= site_url('StudentController/DeleteLessonPlan') ?>',
+            success: function(response) {    
+                $('#LessonPlanDiv').empty();
+                PopulateLessonPlan();
+                $('#DelLessonPlan').modal('hide');
+                message('success',`Lesson Plan Deleted Successfully`, 2000);
+            },
+            error: function(error) {
+                message('error',`Something Went Wrong Try Again`, 2000);
+            }
+            });
     }
 
     function updateConstruct(id, lesson, pdfPath) {
