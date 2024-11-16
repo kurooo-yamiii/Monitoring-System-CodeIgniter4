@@ -1739,3 +1739,28 @@
     .heart-button.active {
       color: #D50032; 
     }
+
+    .lessonplandemocontainer {
+      display: flex;
+      flex-direction: row; /* Align children (frame-lesson-plan and answer-sheet) horizontally */
+    }
+    
+    .frame-lesson-plan {
+      flex: 1; /* This takes 1 fraction of the available space */
+      padding: 10px;
+      border: 1px solid #ccc; /* Optional styling */
+      margin-right: 10px;
+    }
+    
+    .iframe-lesson-plan {
+      width: 100%; /* Occupies the full width of the parent */
+      height: 100%; /* Occupies the full height of the parent */
+      border: none;
+    }
+    
+    .answer-sheet {
+      flex: 3; /* This takes 3 fractions of the available space */
+      padding: 10px;
+      border: 1px solid #ccc; /* Optional styling */
+    }
+    

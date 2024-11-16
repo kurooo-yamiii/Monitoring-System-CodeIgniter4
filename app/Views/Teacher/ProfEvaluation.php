@@ -746,12 +746,20 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
         $('#lessonHolder').text(lesson);
         var table = $('#TableforEvalPreview').DataTable({
             ordering: false,
-            responsive: true,
-            retrieve: true,
-			pageLength: 5,
-			dom: '<"row"<"col-md-6"B><"col-md-6"f>>' + 
-             '<"row"<"col-md-12"tr>>' + 
-             '<"row"<"col-md-5"i><"col-md-7"p>>', 
+               responsive: true,
+               retrieve: true,
+               paging: false,  
+               info: false,    
+               pageLength: 5,  
+               dom: '<"row"<"col-md-6"B><"col-md-6"f>>' + 
+                     '<"row"<"col-md-12"tr>>',  
+               language: {
+                     info: "", 
+                     paginate: {
+                        next: 'Next',
+                        previous: 'Previous'
+                     }
+               },
                  buttons: [
                      {
                         extend: "pdfHtml5",

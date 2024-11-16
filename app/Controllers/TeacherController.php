@@ -10,6 +10,8 @@ use App\Models\Teacher\ApprovalDTR;
 use App\Models\Teacher\TeacherProfile;
 use App\Models\Teacher\ToDoProf;
 use App\Models\Teacher\ProfEvaluation;
+use App\Models\Teacher\FinalDemonstration;
+use App\Models\Teacher\TeacherLP;
 
 class TeacherController extends BaseController
 {
@@ -21,6 +23,8 @@ class TeacherController extends BaseController
     private $TeacherProfile;
     private $ToDoProf;
     private $ProfEvaluation;
+    private $FinalDemonstration;
+    private $TeacherLP;
     protected $helper;
     protected $db;
 
@@ -35,6 +39,8 @@ class TeacherController extends BaseController
         $this->TeacherProfile = new TeacherProfile();
         $this->ToDoProf = new ToDoProf();
         $this->ProfEvaluation = new ProfEvaluation();
+        $this->FinalDemonstration = new FinalDemonstration();
+        $this->TeacherLP = new TeacherLP();
         helper('utility');
 	}
     public function index()
@@ -66,6 +72,20 @@ class TeacherController extends BaseController
     public function PreviewEvaluation() {
         return view('Teacher/ProfEvaluation');
     }
+
+    public function PreviewFinalDemo() {
+        return view('Teacher/FinalDemonstration');
+    }
+
+    public function PreviewLessonPlan() {
+        return view('Teacher/TeacherLP');
+    }
+
+
+    public function FinalDemoForm() {
+        return view('Teacher/FinalDemoForm');
+    }
+
 
     public function StudentInfoChart() {
         $ID = $this->request->getVar('ID');
@@ -309,6 +329,65 @@ class TeacherController extends BaseController
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
         }
     } 
+
+    public function GenerateFinalDemo(){
+        $data = $this->request->getVar('data');
+        $result = $this->FinalDemonstration->FinalDemoCreation($data);
+
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'Final Demo Evaluation Recorded Successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Unknown Error Occure, Try Again']);
+        }
+    }
+
+    public function FinalDemoPDO() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->FinalDemonstration->FetchAllDemoRecord($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function UpdateFinalDemo(){
+        $data = $this->request->getVar('data');
+        $result = $this->FinalDemonstration->FinalDemoUpdate($data);
+
+        if ($result) {
+            echo json_encode(['status' => 'success', 'message' => 'Final Demo Evaluation Updated Successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Unknown Error Occure, Try Again']);
+        }
+    }
+
+    public function PreviewEvalFinalDemo() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->FinalDemonstration->FinalDemoPreview($ID);
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function DeleteFinalDemo() {
+        $ID = $this->request->getVar('ID');
+        $result = $this->FinalDemonstration->DeleteFinalDemo($ID);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Final Demo Evaluation Deleted.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
+        }
+    }
+
+    public function FinalDemoComputation() {
+        $ID = $this->request->getPost('ID'); 
+        if (!$ID) {
+            return $this->response->setJSON(['error' => 'Invalid Student ID']);
+        }
+        
+        $data = $this->FinalDemonstration->ComputeFinalAverage($ID);
+        
+        if ($data) {
+            return $this->response->setJSON(['grade' => $data]);
+        } else {
+            return $this->response->setJSON(['grade' => null]);
+        }
+    }
 
     public function logout() {
         $this->session->destroy();

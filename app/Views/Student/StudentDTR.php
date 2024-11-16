@@ -39,11 +39,11 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
    <div class="space"></div>
 		<div class="divider"></div>
 		  <div class="button-container" style="justify-content: space-between;">
-          <p class="announce-para">Overall Time <span id="fetchOverallTime" style="margin-left: 5px; color: navy; font-weight: 700;"> </span></p>
-		  		<button type="button" class="btn-shadow btn btn-warning" style="font-size: 14px;" data-target="#AddDTRModal"
+          <p class="btn-shadow  btn btn-warning">Overall Time <span id="fetchOverallTime"> </span></p>
+		  		<p type="button" class="btn-shadow btn btn-warning" data-target="#AddDTRModal"
                     id="CreatePST" data-toggle="modal">
                     <span class="fas fa-calendar"></span> Create Daily Log
-                </button>
+                </p>
 			</div>
 
 <!-- Add DTR Modal -->
@@ -120,7 +120,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 			ordering: false,
             responsive: true,
             retrieve: true,
-			pageLength: 5,
+			pageLength: 4,
 			dom: '<"row"<"col-md-6"B><"col-md-6"f>>' + 
              '<"row"<"col-md-12"tr>>' + 
              '<"row"<"col-md-5"i><"col-md-7"p>>', 

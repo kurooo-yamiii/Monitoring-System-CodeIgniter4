@@ -106,12 +106,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 					<p class="menu-spacing">FINAL DEMO / REQUIREMENTS</p>
 				</li>
 				<li id="accbtn">
-					<b onclick="loadView('PreviewProfile')">
+					<b onclick="loadView('PreviewLessonPlan')">
 						<a><i class="fa fa-book size-icon" aria-hidden="true"></i>LESSON PLAN</a>
 					</b>
 				</li>
 				<li id="accbtn">
-					<b onclick="loadView('PreviewProfile')">
+					<b onclick="loadView('PreviewFinalDemo')">
 						<a><i class="fa fa-file-text size-icon" aria-hidden="true"></i>FINAL DEMO</a>
 					</b>
 				</li>
