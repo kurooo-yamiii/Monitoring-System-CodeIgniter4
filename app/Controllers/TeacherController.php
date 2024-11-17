@@ -12,6 +12,7 @@ use App\Models\Teacher\ToDoProf;
 use App\Models\Teacher\ProfEvaluation;
 use App\Models\Teacher\FinalDemonstration;
 use App\Models\Teacher\TeacherLP;
+use App\Models\Teacher\TeacherRequirements;
 
 class TeacherController extends BaseController
 {
@@ -25,6 +26,7 @@ class TeacherController extends BaseController
     private $ProfEvaluation;
     private $FinalDemonstration;
     private $TeacherLP;
+    private $TeacherRequirements;
     protected $helper;
     protected $db;
 
@@ -41,6 +43,7 @@ class TeacherController extends BaseController
         $this->ProfEvaluation = new ProfEvaluation();
         $this->FinalDemonstration = new FinalDemonstration();
         $this->TeacherLP = new TeacherLP();
+        $this->TeacherRequirements = new TeacherRequirements();
         helper('utility');
 	}
     public function index()
@@ -81,6 +84,9 @@ class TeacherController extends BaseController
         return view('Teacher/TeacherLP');
     }
 
+    public function PreviewRequirements() {
+        return view('Teacher/TeacherRequirements');
+    }
 
     public function FinalDemoForm() {
         return view('Teacher/FinalDemoForm');
@@ -441,6 +447,18 @@ class TeacherController extends BaseController
         } else {
             return $this->response->setJSON(['grade' => null]);
         }
+    }
+
+    public function GetAllRequirements() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->TeacherRequirements->PSTRequirements($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function FetchStudentName() {
+        $ID = $this->request->getPost('ID'); 
+        $data = $this->TeacherRequirements->GetStudentName($ID);
+        return $this->response->setJSON( ['name' => $data]);
     }
 
     public function logout() {

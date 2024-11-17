@@ -1,6 +1,6 @@
 <?php 
 if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
-    header("Location: " . site_url("StudentController/logout"));
+    header("Location: " . site_url("TeacherController/logout"));
     exit();
 }
 ?>

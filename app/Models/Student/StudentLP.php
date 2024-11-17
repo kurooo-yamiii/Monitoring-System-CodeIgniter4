@@ -45,4 +45,18 @@ class StudentLP extends Model
         $builder = $this->db->query($query, [$ID]);
         return $builder->getResult();
     }
+
+    public function LessonPlanFinalGrade($ID) {
+        $query = "SELECT AVG(Grade) AS OverallAverage
+                    FROM lessonplan
+                    WHERE StudentID = ? AND Grade > 0";
+                  
+        $result = $this->db->query($query, [$ID]);
+    
+        if ($result->getNumRows() > 0) {
+            return $result->getRow()->OverallAverage; 
+        }
+    
+        return null; 
+    }
 }

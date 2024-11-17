@@ -392,6 +392,21 @@ class StudentController extends BaseController
         return $this->response->setJSON($data);
     }
 
+    public function LessonPlanEvaluate() {
+        $ID = $this->request->getPost('ID'); 
+        if (!$ID) {
+            return $this->response->setJSON(['error' => 'Invalid Student ID']);
+        }
+        
+        $data = $this->StudentLP->LessonPlanFinalGrade($ID);
+        
+        if ($data) {
+            return $this->response->setJSON(['grade' => $data]);
+        } else {
+            return $this->response->setJSON(['grade' => null]);
+        }
+    }
+
     public function GetAllRequirements() {
         $ID = $this->request->getVar('ID');
         $data = $this->StudentRequirements->GetAllRequirements($ID);

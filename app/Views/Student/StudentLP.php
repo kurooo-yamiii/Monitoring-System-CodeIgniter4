@@ -29,6 +29,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	<div class="space"></div>
     <div id="LessonPlanDiv"></div>
 
+    <div class="space"></div>
+		<div class="divider"></div>
+		  <div class="button-container" style="justify-content: space-between;">
+          <p class="btn-shadow  btn btn-primary">Total Average: <span id="fetchTransmutedGrade"> </span></p>
+	</div>
+
        <!-- ADD MODAL -->
        <div class="modal fade" id="CreateNewLessonPlan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -155,7 +161,30 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
         window.open(url, '_blank');
     }
 
+    function fetchTransmutedGrade() {
+      const id = $('#id').val();
+      $.ajax({
+         type: 'POST',
+         url: '<?php echo site_url('StudentController/LessonPlanEvaluate'); ?>',
+         data: { ID: id },
+         dataType: 'json',
+         success: function(response) {
+               if (response && response.grade) { 
+                const fixedGrade = parseFloat(response.grade).toFixed(2);
+                  $('#fetchTransmutedGrade').text(fixedGrade);
+               } else {
+                  $('#fetchTransmutedGrade').text('No Current Evaluation');
+               }
+         },
+         error: function(xhr, status, error) {
+               console.error("Error Details:", status, error, xhr.responseText); 
+               message('error', 'Something Went Wrong, Try Again', 2000);
+         }
+      });
+   }
+
     function PopulateLessonPlan() {
+        fetchTransmutedGrade();
         const id = $('#id').val();
         const name = $('#name').val();
         $('#divForPSTName').text(name);
