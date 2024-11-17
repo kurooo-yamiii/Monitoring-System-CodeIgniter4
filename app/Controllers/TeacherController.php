@@ -389,6 +389,60 @@ class TeacherController extends BaseController
         }
     }
 
+    public function GetStudentName() {
+        $ID = $this->request->getPost('ID'); 
+        $data = $this->TeacherLP->FetchStudentName($ID);
+        return $this->response->setJSON( ['name' => $data]);
+    }
+
+    public function GetPSTLessonPlan() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->TeacherLP->GetAllPSTLP($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function UpdateLessonGrade() {
+        $ID = $this->request->getVar('ID');
+        $Grade = $this->request->getVar('Grade');
+        $Remarks = $this->request->getVar('Remarks');
+    
+        if ($Grade < 60 || $Grade > 99) {
+            return $this->response->setJSON([
+                'status' => 'invalid',
+                'message' => 'Grade must be between 60 and 99.',
+            ]);
+        }
+
+        $isUpdated = $this->TeacherLP->UpdateLPRemarks($ID, $Grade, $Remarks);
+    
+        if ($isUpdated) {
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Lesson plan updated successfully.',
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Failed to update the lesson plan. Please try again.',
+            ]);
+        }
+    }
+    
+    public function LessonPlanEvaluate() {
+        $ID = $this->request->getPost('ID'); 
+        if (!$ID) {
+            return $this->response->setJSON(['error' => 'Invalid Student ID']);
+        }
+        
+        $data = $this->TeacherLP->LessonPlanFinalGrade($ID);
+        
+        if ($data) {
+            return $this->response->setJSON(['grade' => $data]);
+        } else {
+            return $this->response->setJSON(['grade' => null]);
+        }
+    }
+
     public function logout() {
         $this->session->destroy();
         return redirect()->to(base_url());
