@@ -143,6 +143,7 @@ class FinalDemonstration extends Model
         $builder = $this->db->query($query, [$ID, $ID, $ID, $ID, $ID, $ID, $ID]);
         return $builder->getResultArray();
     }
+    
     public function FinalDemoCreation($data) {
         $info = $data['info'];
         $firstSet = $data['firstSet'];

@@ -12,6 +12,7 @@ use App\Models\Student\ToDoList;
 use App\Models\Student\StudentProfile;
 use App\Models\Student\StudentLP;
 use App\Models\Student\StudentRequirements;
+use App\Models\Student\StudentFinalDemo;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class StudentController extends BaseController
@@ -27,6 +28,7 @@ class StudentController extends BaseController
     private $StudentProfile;
     private $StudentLP;
     private $StudentRequirements;
+    private $StudentFinalDemo;
     protected $helper;
     protected $db;
 
@@ -44,6 +46,7 @@ class StudentController extends BaseController
         $this->StudentProfile = new StudentProfile();
         $this->StudentLP = new StudentLP();
         $this->StudentRequirements = new StudentRequirements();
+        $this->StudentFinalDemo = new StudentFinalDemo();
         helper('utility');
 	}
     
@@ -87,6 +90,10 @@ class StudentController extends BaseController
 
     public function PreviewRequirements() {
         return view('Student/StudentRequirements');
+    }
+
+    public function PreviewFinalGrade() {
+        return view('Student/StudentFinalDemo');
     }
 
     public function PSTInfoChart() {
@@ -561,6 +568,33 @@ class StudentController extends BaseController
         } else {
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
         }
+    }
+    
+    public function StudentFetchAllDemo() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->StudentFinalDemo->StudentAllDemoRecords($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function ComputeFinalAverage() {
+        $ID = $this->request->getPost('ID'); 
+        if (!$ID) {
+            return $this->response->setJSON(['error' => 'Invalid Student ID']);
+        }
+        
+        $data = $this->StudentFinalDemo->GetFinalAverage($ID);
+        
+        if ($data) {
+            return $this->response->setJSON(['grade' => $data]);
+        } else {
+            return $this->response->setJSON(['grade' => null]);
+        }
+    }
+
+    public function FinalDemoScores() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->StudentFinalDemo->PreviewFinalEvaluation($ID);
+        return $this->response->setJSON(['data' => $data]);
     }
 
 }

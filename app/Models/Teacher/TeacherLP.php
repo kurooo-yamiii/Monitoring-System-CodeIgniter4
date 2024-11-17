@@ -27,7 +27,7 @@ class TeacherLP extends Model
     }
 
     public function GetAllPSTLP($ID){
-        $query = "SELECT * FROM lessonplan WHERE StudentID = ? ORDER BY ID DESC";
+        $query = "SELECT * FROM lessonplan WHERE StudentID = ? AND Final = 0 ORDER BY ID DESC";
         $builder = $this->db->query($query, [$ID]);
         return $builder->getResult();
     }

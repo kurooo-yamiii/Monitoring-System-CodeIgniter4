@@ -118,13 +118,13 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 					</b>
 				</li>
 				<li id="accbtn">
-					<b onclick="loadView('PreviewProfile')">
+					<b onclick="loadView('PreviewFinalGrade')">
 						<a><i class="fa fa-file-text size-icon" aria-hidden="true"></i>FINAL DEMO</a>
 					</b>
 				</li>
 				<li id="accbtn">
 					<b onclick="loadView('PreviewRequirements')">
-						<a><i class="fa fa-list-ul size-icon" aria-hidden="true"></i>REQUIREMENTS</a>
+						<a><i class="fa fa-upload size-icon" aria-hidden="true"></i>REQUIREMENTS</a>
 					</b>
 				</li>
 				<li>
