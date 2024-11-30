@@ -484,6 +484,33 @@ class SupervisorController extends BaseController
         return $this->response->setJSON($data);
     }
 
+    public function GetAllStudentLP() {
+        $data = $this->SupervisorLP->FetchAllLessonLP();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function SpecificStudentLP() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->SupervisorLP->SelectedStudentLP($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function LPTotalAverage() {
+        $ID = $this->request->getPost('ID'); 
+        if (!$ID) {
+            return $this->response->setJSON(['error' => 'Invalid Student ID']);
+        }
+        
+        $data = $this->SupervisorLP->LPFinalEvaluation($ID);
+        
+        if ($data) {
+            return $this->response->setJSON(['grade' => $data]);
+        } else {
+            return $this->response->setJSON(['grade' => null]);
+        }
+    }
+
+
     public function logout() {
         $this->session->destroy();
         return redirect()->to(base_url());
