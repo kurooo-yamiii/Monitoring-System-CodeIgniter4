@@ -106,7 +106,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				  <div class="col-md-6">
                       <label><span style="color: red;">*</span>PROGRAM</label>
                        <select class="chosen-select" id="Program">
-                        		<option>Select Program</option>
+                        		<option value="" selected>Select Program</option>
                             	<option value="BTVTED-CSS">BTVTED-CSS</option>
                                 <option value="BTVTED-VGD">BTVTED-VGD</option>
                                 <option value="BTVTED-Animation">BTVTED-Animation</option>
@@ -121,7 +121,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				<div class="col-md-6">
                       <label><span style="color: red;">*</span>SECTION</label>
                        <select class="chosen-select" id="Section">
-                        		<option>Select Section</option>
+                        		<option value="" selected>Select Section</option>
 								<option value="PCED-13-101P">PCED-13-101P</option>
 								<option value="PCED-13-201P">PCED-13-201P</option>
 								<option value="PCED-13-301P">PCED-13-301P</option>
@@ -273,10 +273,17 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             url: '<?= site_url('SupervisorController/CreatePST') ?>',
 			data: { Supervisor: $('#Supervisor').val(), ID: $('#ID').val(), Email: $('#Email').val(), Name: $('#Name').val(), Contact: $('#Contact').val(), Program: $('#Program').val(), Section: $('#Section').val() }, 
             dataType: 'json',
-            success: function(response) {    
+            success: function(response) {   
+                if(response.invalid){
+                    message('error', response.invalid, 2000);
+                }else if(response.missing){
+                    message('error', response.missing, 2000);
+                }else{ 
 				message('success',`PST Succesfully Generated`, 2000);
+                ClearAllFields();
 				fetchRecentDep();
 				$('#CreateModal').modal('hide');
+                }
             },
             error: function(error) {
 				message('error',`Try Again! Invalid Credentials`, 2000);
@@ -284,6 +291,19 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             }
             });
 		}
+
+        function ClearAllFields(){
+            $('#Email').val('');
+            $('#Name').val('');
+            $('#Contact').val(''); 
+            $('#Program').val('');          
+            $('#Section').val('');       
+            $('.chosen-select').trigger('chosen:updated');
+        }
+
+        $('#CreateModal').on('hidden.bs.modal', function () {
+            ClearAllFields();
+        });
 
 		function deleteQues(id, name) {
 			$('#DelId').val(id);

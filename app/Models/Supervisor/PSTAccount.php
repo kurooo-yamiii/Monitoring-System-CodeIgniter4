@@ -36,4 +36,10 @@ class PSTAccount extends Model
         return $this->db->query($query);
     }
 
+    public function CheckExistingPST($email) {
+        $query = "SELECT * FROM student WHERE Username = ?";
+        $builder = $this->db->query($query, [$email]);
+        return $builder->getNumRows() > 0;
+    }
+
 }

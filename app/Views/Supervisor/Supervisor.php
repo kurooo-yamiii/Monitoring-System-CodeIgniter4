@@ -102,7 +102,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				<p class="menu-spacing">FINAL DEMO / REQUIREMENTS</p>
 			</li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewProfile')">
+				<b onclick="loadView('PreviewSupervisorLP')">
 					<a><i class="fa fa-book size-icon" aria-hidden="true"></i>LESSON PLAN</a>
 				</b>
 			</li>

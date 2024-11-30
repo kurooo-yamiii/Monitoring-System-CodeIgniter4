@@ -164,4 +164,41 @@ class StudentFinalDemo extends Model
     
         return null; 
     }
+
+    public function GetStudentFinalDemo($id) {
+        $query = "SELECT * FROM lessonplan WHERE Final = 1 AND StudentID = ?";
+        $builder = $this->db->query($query, [$id]);
+        return $builder->getNumRows() > 0;
+    }
+
+    public function AddFinalLessonPlan($id, $lesson, $newName){
+        $currentDate = date('Y-m-d'); 
+        if ($newName) {
+            $query = "INSERT INTO lessonplan (StudentID, Lesson, FilePath, Date, Final) 
+                      VALUES($id, '$lesson', '$newName', '$currentDate', 1)";
+        } else {
+            $query = "INSERT INTO lessonplan (StudentID, Lesson, FilePath, Date, Final) 
+                      VALUES($id, '$lesson', NULL, '$currentDate', 1)";
+        }
+        return $this->db->query($query);
+    }
+
+    public function UpdateFinalLessonPlan($id, $lesson, $newName){
+        $currentDate = date('Y-m-d'); 
+        if ($newName) {
+            $query = "UPDATE lessonplan SET Lesson = '$lesson', FilePath = '$newName', 
+                      Date = '$$currentDate' WHERE StudentID = $id AND Final = 1";
+        } else {
+            $query = "UPDATE lessonplan SET Lesson = '$lesson', Date = '$$currentDate' 
+                      WHERE StudentID = $id AND Final = 1";
+        }
+        return $this->db->query($query);
+    }
+
+    public function LessonPlanExisting($id) {
+        $query = "SELECT * FROM lessonplan WHERE Final = 1 AND StudentID = ?";
+        $builder = $this->db->query($query, [$id]);
+        return $builder->getResultArray();
+    }
+
 }

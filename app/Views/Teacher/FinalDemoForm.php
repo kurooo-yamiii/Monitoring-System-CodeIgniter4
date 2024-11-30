@@ -17,9 +17,7 @@
             </div>
             <div class="modal-body" style="display: flex; flex-direction: row;">
                 <div class="frame-lesson-plan">
-                    <iframe  src="<?= base_url('assets/lesson/1/LessonPlan-672f64bfd58310.97362496.pdf') ?>" 
-                    class="iframe-lesson-plan" 
-                    frameborder="0">></iframe>
+                    <iframe  id="DiplayFinalLP" class="iframe-lesson-plan" frameborder="0">></iframe>
                 </div>
         <div class="answer-sheet">
                 <input type="text" name="EvalID" id="EvalID" hidden>

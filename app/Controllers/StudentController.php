@@ -597,4 +597,125 @@ class StudentController extends BaseController
         return $this->response->setJSON(['data' => $data]);
     }
 
+    public function FinalDemoLP(){
+        $id = $this->request->getVar('ID');
+		$lesson = $this->request->getVar('Lesson');
+		$file = $this->request->getFile('LP');
+
+        $CheckFinalDemo = $this->StudentFinalDemo->GetStudentFinalDemo($id);
+
+        return $CheckFinalDemo ? $this->UpdateFinalDemoLP($id, $lesson, $file) : $this->AddFinalDemoLP($id, $lesson, $file);
+            
+    }
+
+    public function GetExsitingLessonPlan() {
+        $id = $this->request->getVar('ID');
+        $data = $this->StudentFinalDemo->LessonPlanExisting($id);
+        return $this->response->setJSON(['data' => $data ?: null]);
+    }
+
+    private function AddFinalDemoLP($id, $lesson, $file) {
+		try {
+			helper('url');
+
+            if (empty($id) || empty($lesson) || empty($file)) {
+				return $this->response->setStatusCode(400)->setJSON(['message' => 'Lesson Name, and LP File are required.']);
+			}
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 20 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['application/pdf'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+                  $lessonFolderPath = './assets/lesson/' . $id;
+
+                  if (!is_dir($lessonFolderPath)) {
+                      mkdir($lessonFolderPath, 0755, true); 
+                  }
+      
+                  $newName = uniqid('LessonPlan-', true) . '.' . $file->getExtension();
+      
+                  $file->move($lessonFolderPath, $newName);
+
+				$this->StudentFinalDemo->AddFinalLessonPlan($id, $lesson, $newName);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File created successfully']);
+			
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+
+                $this->StudentFinalDemo->AddFinalLessonPlan($id, $lesson, null);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated without changing the file.']);
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
+	}
+
+    private function UpdateFinalDemoLP($id, $lesson, $file) {
+		try {
+			helper('url');
+
+            if (empty($id) || empty($lesson) || empty($file)) {
+				return $this->response->setStatusCode(400)->setJSON(['message' => 'Lesson Name, and LP File are required.']);
+			}
+
+			if ($file && $file->isValid()) {
+				if ($file->getSize() > 20 * 1024 * 1024) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+				}
+
+				$allowedTypes = ['application/pdf'];
+				if (!in_array($file->getClientMimeType(), $allowedTypes)) {
+					return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: Invalid file type.']);
+				}
+
+                  $lessonFolderPath = './assets/lesson/' . $id;
+
+                  if (!is_dir($lessonFolderPath)) {
+                      mkdir($lessonFolderPath, 0755, true); 
+                  }
+      
+                  $newName = uniqid('LessonPlan-', true) . '.' . $file->getExtension();
+      
+                  $file->move($lessonFolderPath, $newName);
+
+				$this->StudentFinalDemo->UpdateFinalLessonPlan($id, $lesson, $newName);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated successfully']);
+			
+			} else {
+				if ($file && !$file->isValid()) {
+					switch ($file->getError()) {
+						case UPLOAD_ERR_INI_SIZE:
+						case UPLOAD_ERR_FORM_SIZE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: The uploaded file is too large.']);
+						case UPLOAD_ERR_NO_FILE:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'No file was uploaded.']);
+						default:
+							return $this->response->setStatusCode(400)->setJSON(['message' => 'File upload failed: ' . $file->getErrorString()]);
+					}
+				}
+
+                $this->StudentFinalDemo->UpdateFinalLessonPlan($id, $lesson, null);
+				return $this->response->setStatusCode(200)->setJSON(['message' => 'File updated without changing the file.']);
+			}
+		} catch (\Exception $e) {
+			return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred: ' . $e->getMessage()]);
+		}
+	}
+
 }

@@ -11,6 +11,7 @@ use App\Models\Supervisor\Deployment;
 use App\Models\Supervisor\Announcement;
 use App\Models\Supervisor\Profile;
 use App\Models\Supervisor\Statistic;
+use App\Models\Supervisor\SupervisorLP;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class SupervisorController extends BaseController
@@ -25,6 +26,7 @@ class SupervisorController extends BaseController
     private $Announcement;
     private $Profile;
     private $Statistic;
+    private $SupervisorLP;
     protected $helper;
     protected $db;
 
@@ -41,6 +43,7 @@ class SupervisorController extends BaseController
         $this->Announcement = new Announcement();
         $this->Profile = new Profile();
         $this->Statistic = new Statistic();
+        $this->SupervisorLP = new SupervisorLP();
         helper('utility');
 	}
 
@@ -71,6 +74,11 @@ class SupervisorController extends BaseController
     public function PreviewStatistic() {
         return view('Supervisor/Statistic');
     }
+
+    public function PreviewSupervisorLP() {
+        return view('Supervisor/SupervisorLP');
+    }
+
 
     public function index()
     {
@@ -128,7 +136,18 @@ class SupervisorController extends BaseController
         $program = $this->request->getVar('Program');
         $section = $this->request->getVar('Section');
 
+        if (empty($email) || empty($name) || empty($supervisor) || empty($contact) || empty($program) || empty($section)) {
+            return $this->response->setStatusCode(200)->setJSON(['missing' => 'Please Fill Up All the Missing Field']);
+        }
+
         $data = [ $supervisor, $email . "@rtu.ced.com", $name, $contact, $program, $section ];
+
+        $mergedEmail = $email . "@rtu.ced.com";
+        $emailExisting = $this->PSTAccount->CheckExistingPST($mergedEmail);
+
+        if($emailExisting){
+            return $this->response->setStatusCode(200)->setJSON(['invalid' => 'This Institutional Email is Already Used']);
+        }
 
         $result = $this->PSTAccount->insertStudent($data);
         if ($result) {
@@ -171,11 +190,22 @@ class SupervisorController extends BaseController
         $division = $this->request->getVar('Division');
         $grade = $this->request->getVar('Grade');
 
+        if (empty($email) || empty($name) || empty($coordinator) || empty($school) || empty($division) || empty($grade)) {
+            return $this->response->setStatusCode(200)->setJSON(['missing' => 'Please Fill Up All the Missing Field']);
+        }
+
         $data = [ $grade, $email . "@rtu.ced.com", $name, $coordinator, $school, $division ];
+        
+        $mergedEmail = $email . "@rtu.ced.com";
+        $emailExisting = $this->RTAccount->CheckExistingRT($mergedEmail);
+
+        if($emailExisting){
+            return $this->response->setStatusCode(200)->setJSON(['invalid' => 'This Institutional Email is Already Used']);
+        }
 
         $result = $this->RTAccount->insertProfessor($data);
         if ($result) {
-            return $this->response->setStatusCode(200)->setJSON(['message' => 'RT successfully generated.']);
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'RT Successfully Generated.']);
         } else {
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Invalid credentials or error inserting data.']);
         }

@@ -94,7 +94,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				  <div class="col-md-12">
                       <label><span style="color: red;">*</span>SCHOOL</label>
                        <select class="chosen-select" id="School">
-                        		<option>Select School</option>
+                        		<option value="" selected>Select School</option>
                                 <option value="Andres Bonifacio Integrated School">Andres Bonifacio Integrated School (ABIS)</option>
                                 <option value="City of Mandaluyong Science High School">City of Mandaluyong Science High School</option>
                                 <option value="Eulogio Rodriguez Integrated School">Eulogio Rodriguez Integrated School (ERIS)</option>
@@ -124,7 +124,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 <div class="col-md-6">
                       <label><span style="color: red;">*</span>DIVISION</label>
                        <select class="chosen-select" id="Division">
-                        		<option>Select Division</option>
+                        		<option value="" selected>Select Division</option>
 								<option value="CSS-TLE">CSS (TLE)</option>
                                 <option value="CCS-TLE">CCS (TLE)</option>
                                 <option value="Drafting-TLE">Drafting (TLE)</option>
@@ -144,7 +144,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 <div class="col-md-6">
                       <label><span style="color: red;">*</span>GRADE</label>
                        <select class="chosen-select" id="Grade">
-                        		<option>Select Grade</option>
+                        		<option value="" selected>Select Grade</option>
                                 <option value="Grade 6">Grade 6 JHS</option>
                                 <option value="Grade 7">Grade 7 JHS</option>
                                 <option value="Grade 8">Grade 8 JHS</option>
@@ -306,9 +306,16 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 }, 
             dataType: 'json',
             success: function(response) {    
-				message('success',`RT Succesfully Generated`, 2000);
-				fetchRecentDep();
-				$('#CreateModal').modal('hide');
+                if(response.invalid){
+                    message('error', response.invalid, 2000);
+                }else if(response.missing){
+                    message('error', response.missing, 2000);
+                }else{
+                    message('success',`RT Succesfully Generated`, 2000);
+                    ClearAllFields();
+                    fetchRecentDep();
+                    $('#CreateModal').modal('hide');
+                }
             },
             error: function(error) {
 				message('error',`Try Again! Invalid Credentials`, 2000);
@@ -316,6 +323,19 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             }
             });
 		}
+
+        function ClearAllFields(){
+            $('#Email').val('');
+            $('#Name').val('');
+            $('#Coordinator').val(''); 
+            $('#School').val('');          
+            $('#Division').val('');       
+            $('.chosen-select').trigger('chosen:updated');
+        }
+
+        $('#CreateModal').on('hidden.bs.modal', function () {
+            ClearAllFields();
+        });
 
 		function deleteQues(id, name) {
 			$('#DelId').val(id);

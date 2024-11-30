@@ -277,4 +277,10 @@ class FinalDemonstration extends Model
         $total = array_sum($set);
         return $total / 5; 
     }
+
+    public function GetStudentLessonPlan($id) {
+        $query = "SELECT * FROM lessonplan WHERE Final = 1 AND StudentID = ?";
+        $builder = $this->db->query($query, [$id]);
+        return $builder->getResultArray();
+    }
 }

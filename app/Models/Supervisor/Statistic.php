@@ -9,7 +9,7 @@ class Statistic extends Model
     protected $db;
     protected $CU_Model;
     protected $KeyBindings;
-    protected $table            = 'student';
+    protected $table            = 'supervisor';
     protected $primaryKey       = 'ID';
     protected $useAutoIncrement = true;
     protected $allowedFields = ['Name', 'Resource', 'Program']; 

@@ -28,8 +28,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 		<div class="divider"></div>
 		  <div class="button-container" style="justify-content: space-between;">
           <p class="btn-shadow  btn btn-primary">Final Transmuted Grade: <span id="fetchTransmutedGrade"> </span></p>
-		  		<p type="button" class="btn-shadow btn btn-warning" data-target="#AttachFinalLessonPlan"
-                    id="CreatePST" data-toggle="modal">
+		  		<p type="button" class="btn-shadow btn btn-success" data-target="#AttachFinalLessonPlan"
+                    id="CreatePST" data-toggle="modal" onclick="GetFinalLP()">
                     <span class="fas fa-plus"></span> Attach Lesson Plan (Final Demo)
                 </p>
 			</div>
@@ -103,6 +103,10 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="post-group">
+                        <label for="lesson" id="plab1">Lesson:</label>
+                        <input name="lesson" id="lesson" type="text" placeholder="Lesson Plan Title" required></input>
+                    </div>
                         <div class="prof-center">
                             <iframe id="lessonplanPDF" style="display:none; width: 100%; height: 500px;"></iframe>
                         </div>
@@ -127,6 +131,75 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
    $(document).ready(function() {
         StudentFinalDemo()
     });
+
+    function GetFinalLP() {
+        const id = $('#id').val();
+        const lessonplanPDF = document.getElementById('lessonplanPDF');
+        var baseUrl = '<?= base_url('assets/lesson/'); ?>';
+        $.ajax({
+         type: 'POST',
+         url: '<?php echo site_url('StudentController/GetExsitingLessonPlan'); ?>',
+         data: { ID: id },
+         dataType: 'json',
+         success: function(response) {
+            if (response.data && response.data.length > 0) {
+                const lessonPlan = response.data[0]; 
+                var fileName = `${id}/${lessonPlan.FilePath}`;
+		        var sourceView = `${baseUrl}${fileName}`;
+                lessonplanPDF.src = sourceView || ''; 
+                $('#lesson').val(lessonPlan.Lesson || '');
+                $('#lessonplanPDF').show(); 
+            } else {
+                $('#lesson').val('');
+                $('#chooseLesson').val('');
+                $('#lessonplanPDF').hide();
+            }
+         },
+         error: function(xhr, status, error) {
+               console.error("Error Details:", status, error, xhr.responseText); 
+               message('error', 'Something Went Wrong, Try Again', 2000);
+         }
+      });
+    }
+
+    function AttachLessonPLan() {
+        var formData = new FormData();
+        formData.append('ID', document.getElementById('id').value); 
+        formData.append('Lesson', document.getElementById('lesson').value);
+
+        var lessonplan = document.getElementById('chooseLesson');
+        if (lessonplan.files.length > 0) {
+            formData.append('LP', lessonplan.files[0]);
+        }
+
+        $.ajax({
+            url: '<?php echo site_url("StudentController/FinalDemoLP"); ?>',
+            type: 'POST',
+            data: formData,
+            contentType: false, 
+            processData: false, 
+            success: function(response) {
+                $('#lesson').val(''); 
+                $('#chooseLesson').val('');
+                $('#lessonplanPDF').hide();
+                $('#AttachFinalLessonPlan').modal('hide'); 
+                StudentFinalDemo();
+                message('success', 'Final Demo Lesson Plan Attached Successfully', 2000); 
+            },
+            error: function(xhr, status, error) {
+                try {
+                    var errorResponse = JSON.parse(xhr.responseText);
+                    if (errorResponse.message) {
+                        message('error', errorResponse.message, 2000);
+                    } else {
+                        message('error', 'An unexpected error occurred. Please try again.', 2000);
+                    }
+                } catch (e) {
+                    message('error', 'An unexpected error occurred. Please try again.', 2000);
+                }
+            }
+        });
+    }
 
     function StudentFinalDemo() {
         const id = $('#id').val();

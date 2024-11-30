@@ -395,6 +395,12 @@ class TeacherController extends BaseController
         }
     }
 
+    public function GetStudentFinalLP() {
+        $id = $this->request->getVar('ID');
+        $data = $this->FinalDemonstration->GetStudentLessonPlan($id);
+        return $this->response->setJSON(['data' => $data ?: null]);
+    }
+
     public function GetStudentName() {
         $ID = $this->request->getPost('ID'); 
         $data = $this->TeacherLP->FetchStudentName($ID);
@@ -465,4 +471,5 @@ class TeacherController extends BaseController
         $this->session->destroy();
         return redirect()->to(base_url());
     }
+
 }

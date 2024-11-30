@@ -146,9 +146,43 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
          }
       });
    }
+
+   function GetStudentLessonPlan() {
+        const id = $('#StudentID').val();
+        const lessonplanPDF = document.getElementById('DiplayFinalLP');
+        var baseUrl = '<?= base_url('assets/lesson/'); ?>';
+        $.ajax({
+         type: 'POST',
+         url: '<?php echo site_url('TeacherController/GetStudentFinalLP'); ?>',
+         data: { ID: id },
+         dataType: 'json',
+         success: function(response) {
+            if (response.data && response.data.length > 0) {
+                const lessonPlan = response.data[0]; 
+                var fileName = `${id}/${lessonPlan.FilePath}`;
+		        var sourceView = `${baseUrl}${fileName}`;
+                lessonplanPDF.src = sourceView || ''; 
+                $('#lesson').val(lessonPlan.Lesson || '');
+            } else {
+                const noDemoMessage = "No Final Demo Lesson Plan Attached";
+                const doc = lessonplanPDF.contentDocument || lessonplanPDF.contentWindow.document;
+                doc.open();
+                doc.write(`<html><body style="font-family:Arial, sans-serif; text-align:center; padding:20px;">
+                            <h3>${noDemoMessage}</h3>
+                        </body></html>`);
+                doc.close();
+            }
+         },
+         error: function(xhr, status, error) {
+               console.error("Error Details:", status, error, xhr.responseText); 
+               message('error', 'Something Went Wrong, Try Again', 2000);
+         }
+      });
+   }
    
 
    function openAddEvaluation() {
+        GetStudentLessonPlan();
         const firstSection = document.getElementById('firstSet');
         firstSection.style.display = 'block';
 
@@ -588,6 +622,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                }
          }
 
+         GetStudentLessonPlan();
          const firstSection = document.getElementById('firstSet');
          firstSection.style.display = 'block';
 

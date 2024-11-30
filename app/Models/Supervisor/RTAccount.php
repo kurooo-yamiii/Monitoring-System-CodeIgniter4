@@ -36,4 +36,10 @@ class RTAccount extends Model
         return $this->db->query($query);
     }
 
+    public function CheckExistingRT($email) {
+        $query = "SELECT * FROM teacher WHERE Username = ?";
+        $builder = $this->db->query($query, [$email]);
+        return $builder->getNumRows() > 0;
+    }
+
 }
