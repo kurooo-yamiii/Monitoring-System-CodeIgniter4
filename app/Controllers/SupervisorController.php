@@ -12,6 +12,7 @@ use App\Models\Supervisor\Announcement;
 use App\Models\Supervisor\Profile;
 use App\Models\Supervisor\Statistic;
 use App\Models\Supervisor\SupervisorLP;
+use App\Models\Supervisor\SPRequirements;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class SupervisorController extends BaseController
@@ -27,6 +28,7 @@ class SupervisorController extends BaseController
     private $Profile;
     private $Statistic;
     private $SupervisorLP;
+    private $SPRequirements;
     protected $helper;
     protected $db;
 
@@ -44,6 +46,7 @@ class SupervisorController extends BaseController
         $this->Profile = new Profile();
         $this->Statistic = new Statistic();
         $this->SupervisorLP = new SupervisorLP();
+        $this->SPRequirements = new SPRequirements();
         helper('utility');
 	}
 
@@ -77,6 +80,10 @@ class SupervisorController extends BaseController
 
     public function PreviewSupervisorLP() {
         return view('Supervisor/SupervisorLP');
+    }
+
+    public function PreviewRequirements() {
+        return view('Supervisor/SPRequirements');
     }
 
 
@@ -510,7 +517,29 @@ class SupervisorController extends BaseController
         }
     }
 
+    public function RequirementsStatus() {
+        $data = $this->SPRequirements->FetchAllRequirementsGrade();
+        return $this->response->setJSON(['data' => $data]);
+    }
 
+    public function UpdateRequirements() {
+        $ID = $this->request->getPost('ID'); 
+        $Grade = $this->request->getPost('Grade'); 
+
+        if($Grade > 100 || $Grade < 60){
+            return $this->response->setStatusCode(200)->setJSON(['invalid' => 'This is an Invalid Grade']);
+        }else{
+            $this->SPRequirements->UpdateStudentGrade($ID, $Grade); 
+			return $this->response->setStatusCode(200)->setJSON(['message' => 'Requirements Graded Successfully']);
+        }
+    }
+
+    public function PSTGetAllRequirements() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->SPRequirements->RequirementsOfPST($ID);
+        return $this->response->setJSON($data);
+    }
+    
     public function logout() {
         $this->session->destroy();
         return redirect()->to(base_url());
