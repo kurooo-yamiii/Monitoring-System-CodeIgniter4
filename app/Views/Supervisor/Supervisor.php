@@ -93,11 +93,6 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 					<a><i class="fa fa-bullhorn size-icon" aria-hidden="true"></i>ANNOUNCEMENT</a>
 				</b>
 			</li>
-			<li id="accbtn">
-				<b onclick="loadView('PreviewProfile')">
-					<a><i class="fa fa-address-card size-icon" aria-hidden="true"></i>PROFILE</a>
-				</b>
-			</li>
 			<li class="menutitle">
 				<p class="menu-spacing">FINAL DEMO / REQUIREMENTS</p>
 			</li>
@@ -114,6 +109,65 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 			<li id="accbtn">
 				<b onclick="loadView('PreviewRequirements')">
 					<a><i class="fa fa-list-ul size-icon" aria-hidden="true"></i>REQUIREMENTS</a>
+				</b>
+			</li>
+			<li class="menutitle">
+				<p class="menu-spacing">GRADES / COMPUTATION</p>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewRequirements')">
+					<a><i class="fa fa-bar-chart size-icon" aria-hidden="true"></i>FINAL GRADE</a>
+				</b>
+		    </li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewRequirements')">
+					<a><i class="fa fa-table size-icon" aria-hidden="true"></i>TRANSMUTATION</a>
+				</b>
+		    </li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewRequirements')">
+					<a><i class="fa fa-calculator size-icon" aria-hidden="true"></i>GRADE COMPUTATION</a>
+				</b>
+		    </li>
+			<li class="menutitle">
+				<p class="menu-spacing">MAINTENANCE / MODIFICATION</p>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewRequirements')">
+					<a><i class="fa fa-flag size-icon" aria-hidden="true"></i>LIST OF SCHOOL (PASIG)</a>
+				</b>
+		    </li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewRequirements')">
+					<a><i class="fa fa-flag size-icon" aria-hidden="true"></i>LIST OF SCHOOL (MANDA)</a>
+				</b>
+		    </li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewSupervisorLP')">
+					<a><i class="fa fa-folder size-icon" aria-hidden="true"></i>LIST OF PROGRAM</a>
+				</b>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewFinalDemo')">
+					<a><i class="fa fa-list-alt size-icon" aria-hidden="true"></i>LIST OF BLOCK</a>
+				</b>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewRequirements')">
+					<a><i class="fa fa-tasks size-icon" aria-hidden="true"></i>LIST OF DIVISION</a>
+				</b>
+		    </li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewRequirements')">
+					<a><i class="fa fa-th-list size-icon" aria-hidden="true"></i>LIST OF GRADE</a>
+				</b>
+		    </li>
+			<li class="menutitle">
+				<p class="menu-spacing">PROFILE / SETTINGS</p>
+			</li>
+			<li id="accbtn">
+				<b onclick="loadView('PreviewProfile')">
+					<a><i class="fa fa-address-card size-icon" aria-hidden="true"></i>PROFILE</a>
 				</b>
 			</li>
 			<li>

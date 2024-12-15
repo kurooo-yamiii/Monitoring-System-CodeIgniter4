@@ -82,11 +82,32 @@ color: #e3b154;
 
 /* Side Bar Format */
 .side-bar {
-  background: #041b5a;
+  background: #041b5a; /* Navy background */
   display: flex;
   flex-direction: column;
   width: auto;
   padding: 0;
+  overflow-y: auto; /* Add vertical scrollbar when needed */
+  scrollbar-width: thin; /* For Firefox: super-thin scrollbar */
+  scrollbar-color: #1a3264 #041b5a; /* Thumb and track color for Firefox */
+}
+
+/* Webkit (Chrome, Edge, Safari) Scrollbar Styling */
+.side-bar::-webkit-scrollbar {
+  width: 4px; /* Super thin scrollbar */
+}
+
+.side-bar::-webkit-scrollbar-thumb {
+  background: #1a3264; /* Slightly lighter navy thumb */
+  border-radius: 6px; /* Rounded edges for thumb */
+}
+
+.side-bar::-webkit-scrollbar-thumb:hover {
+  background: #2a3f75; /* Lighter navy on hover */
+}
+
+.side-bar::-webkit-scrollbar-track {
+  background: #041b5a; /* Navy track matching sidebar */
 }
 
 .side-bar ul {
