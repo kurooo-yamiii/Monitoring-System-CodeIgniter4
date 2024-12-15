@@ -4,7 +4,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
     exit();
 }
 ?>
-<form id="statistic">
+<form id="requirements">
    <div class="dashboard">
    <p class="announce-para">Pre-Service Teacher <span> E-Portfolio & CBAR</span></p>
    <div class="logos">
@@ -21,11 +21,11 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
    <table class="table table-striped" id="RequirementsTable">
 			  <thead>
 			    <tr>
-                    <th scope="col">STUDENT</t>
-			        <th scope="col">RESOURCE TEACHER</th>
+                <th scope="col">STUDENT</t>
+			       <th scope="col">RESOURCE TEACHER</th>
 				    <th scope="col">SCHOOL</th>
-                    <th scope="col">BLOCK</th>
-                    <th scope="col">RESEARCH (CBAR)</th>
+                <th scope="col">BLOCK</th>
+                <th scope="col">RESEARCH (CBAR)</th>
 				    <th scope="col">E-PORTFOLIO</th>
 				    <th scope="col">GRADE</th>
 			    </tr>

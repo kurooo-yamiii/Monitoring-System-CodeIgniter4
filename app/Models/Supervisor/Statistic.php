@@ -93,9 +93,9 @@ class Statistic extends Model
 
     public function FetchByMajor($major) {
         if($major == 'FetchAll'){
-            $query = "SELECT * FROM student WHERE Resource != ''";
+            $query = "SELECT * FROM student WHERE Resource IS NOT NULL";
         }else{
-            $query = "SELECT * FROM student WHERE Resource != '' AND (Program LIKE '%$major%')";
+            $query = "SELECT * FROM student WHERE Resource IS NOT NULL AND (Program LIKE '%$major%')";
         }
         $builder = $this->db->query($query);
         return $builder->getResult();

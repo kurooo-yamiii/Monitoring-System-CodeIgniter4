@@ -13,6 +13,7 @@ use App\Models\Supervisor\Profile;
 use App\Models\Supervisor\Statistic;
 use App\Models\Supervisor\SupervisorLP;
 use App\Models\Supervisor\SPRequirements;
+use App\Models\Supervisor\SPFinalDemo;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class SupervisorController extends BaseController
@@ -29,6 +30,7 @@ class SupervisorController extends BaseController
     private $Statistic;
     private $SupervisorLP;
     private $SPRequirements;
+    private $SPFinalDemo;
     protected $helper;
     protected $db;
 
@@ -47,6 +49,7 @@ class SupervisorController extends BaseController
         $this->Statistic = new Statistic();
         $this->SupervisorLP = new SupervisorLP();
         $this->SPRequirements = new SPRequirements();
+        $this->SPFinalDemo = new SPFinalDemo();
         helper('utility');
 	}
 
@@ -85,6 +88,11 @@ class SupervisorController extends BaseController
     public function PreviewRequirements() {
         return view('Supervisor/SPRequirements');
     }
+
+    public function PreviewFinalDemo() {
+        return view('Supervisor/SPFinalDemo');
+    }
+
 
 
     public function index()
@@ -537,6 +545,50 @@ class SupervisorController extends BaseController
     public function PSTGetAllRequirements() {
         $ID = $this->request->getVar('ID');
         $data = $this->SPRequirements->RequirementsOfPST($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function FetchAllSTScores() {
+        $data = $this->SPFinalDemo->FetchSTScoresAndInfo();
+        return $this->response->setJSON($data);
+    }
+
+    public function FinalDemoPreview() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->SPFinalDemo->AllStudentFinalDemo($ID);
+        return $this->response->setJSON($data);
+    }
+
+    public function GenerateFinalAverage() {
+        $ID = $this->request->getPost('ID'); 
+        if (!$ID) {
+            return $this->response->setJSON(['error' => 'Invalid Student ID']);
+        }
+        
+        $data = $this->SPFinalDemo->GetOverallAverage($ID);
+        
+        if ($data) {
+            return $this->response->setJSON(['grade' => $data]);
+        } else {
+            return $this->response->setJSON(['grade' => null]);
+        }
+    }
+
+    public function DemoScores() {
+        $ID = $this->request->getVar('ID');
+        $data = $this->SPFinalDemo->ViewDemonstrationEvaluation($ID);
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function FindhDeployedPST() {
+        $search = $this->request->getVar(index: 'search');
+        $data = $this->SPFinalDemo->FindSearchData($search);
+        return $this->response->setJSON($data);
+    }
+
+    public function FindByMajor() {
+        $major = $this->request->getVar(index: 'major');
+        $data = $this->SPFinalDemo->FindByMajor($major);
         return $this->response->setJSON($data);
     }
     

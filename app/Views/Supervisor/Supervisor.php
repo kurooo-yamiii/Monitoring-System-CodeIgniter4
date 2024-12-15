@@ -107,7 +107,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				</b>
 			</li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewProfile')">
+				<b onclick="loadView('PreviewFinalDemo')">
 					<a><i class="fa fa-file-text size-icon" aria-hidden="true"></i>FINAL DEMO</a>
 				</b>
 			</li>
