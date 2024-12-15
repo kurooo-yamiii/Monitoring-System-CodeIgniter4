@@ -38,7 +38,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
       <div class="space"></div>
 		<div class="divider"></div>
 		  <div class="button-container">
-		  		<button type="button" class="btn-shadow btn btn-success" style="font-size: 14px;" data-target="#CreateModal"
+		  		<button onclick="onSelectLoad()" type="button" class="btn-shadow btn btn-success" style="font-size: 14px;" data-target="#CreateModal"
                     id="CreatePST" data-toggle="modal">
                     <span class="fas fa-plus"></span> RT Account
                 </button>
@@ -94,28 +94,6 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				  <div class="col-md-12">
                       <label><span style="color: red;">*</span>SCHOOL</label>
                        <select class="chosen-select" id="School">
-                        		<option value="" selected>Select School</option>
-                                <option value="Andres Bonifacio Integrated School">Andres Bonifacio Integrated School (ABIS)</option>
-                                <option value="City of Mandaluyong Science High School">City of Mandaluyong Science High School</option>
-                                <option value="Eulogio Rodriguez Integrated School">Eulogio Rodriguez Integrated School (ERIS)</option>
-                                <option value="Eusebio High School">Eusebio High School</option>
-                                <option value="Highway Hills Itegrated School">Highway Hills Itegrated School (HHIS)</option>
-                                <option value="Hulo Integrated School">Hulo Integrated School (HIS)</option>
-                                <option value="Ilaya Barangka Integrated School">Ilaya Barangka Integrated School (IBIS)</option>
-                                <option value="Isaac Lopez Integrated School">Isaac Lopez Integrated School (ILIS)</option>
-                                <option value="Jose Fabella Memorial School">Jose Fabella Memorial School (JFMS)</option>
-                                <option value="Mandaluyong High School">Mandaluyong High School (MHS)</option>
-                                <option value="Manggahan High School">Manggahan High School</option>
-                                <option value="Mataas na Paaralang Neptali A. Gonzales">Mataas na Paaralang Neptali A. Gonzales</option>
-                                <option value="Nagpayong High School">Nagpayong High School</option>
-                                <option value="Pinagbuhatan High School">Pinagbuhatan High School</option>
-                                <option value="Rizal Experimental Station and Pilot School">Rizal Experimental Station and Pilot School (REPSCI)</option>
-                                <option value="Rizal High School">Rizal High School</option>
-                                <option value="Rizal Technological University">Rizal Technological University (RTU)</option>
-                                <option value="Sagad High School">Sagad High School</option>
-                                <option value="San Joaquin-Kalawaan High School">San Joaquin-Kalawaan High School</option>
-                                <option value="Santolan High School">Santolan High School</option>
-                                <option value="Sta. Lucia High School">Sta. Lucia High School</option>
                       </select>
                 </div>
 				</div>
@@ -124,34 +102,11 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 <div class="col-md-6">
                       <label><span style="color: red;">*</span>DIVISION</label>
                        <select class="chosen-select" id="Division">
-                        		<option value="" selected>Select Division</option>
-								<option value="CSS-TLE">CSS (TLE)</option>
-                                <option value="CCS-TLE">CCS (TLE)</option>
-                                <option value="Drafting-TLE">Drafting (TLE)</option>
-                                <option value="Electrical-TLE">Electrical (TLE)</option>
-                                <option value="Electronics-TLE">Electronics (TLE)</option>
-                                <option value="Cookery-TLE">Cookery (TLE)</option>
-                                <option value="Cosmetics-TLE">Cosmetics (TLE)</option>
-                                <option value="ICT-STRAND">ICT (STRAND)</option>
-                                <option value="Programming-STRAND">Programming (STRAND)</option>
-                                <option value="ABM-STRAND">ABM (STRAND)</option>
-                                <option value="HUMMS-STRAND">HUMMS (STRAND)</option>
-                                <option value="STEM-STRAND">STEM (STRAND)</option>
-                                <option value="GAS-STRAND">GAS (STRAND)</option>
-                                <option value="Automotive-STRAND">Automotive (STRAND)</option>
                       </select>
                 </div>
                 <div class="col-md-6">
                       <label><span style="color: red;">*</span>GRADE</label>
                        <select class="chosen-select" id="Grade">
-                        		<option value="" selected>Select Grade</option>
-                                <option value="Grade 6">Grade 6 JHS</option>
-                                <option value="Grade 7">Grade 7 JHS</option>
-                                <option value="Grade 8">Grade 8 JHS</option>
-                                <option value="Grade 9">Grade 9 JHS</option>
-                                <option value="Grade 10">Grade 10 JHS</option>
-                                <option value="Grade 11">Grade 11 SHS</option>
-                                <option value="Grade 12">Grade 12 SHS</option>
                       </select>
                 </div>
                 </div>
@@ -195,11 +150,83 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	<script>
 		   $(document).ready(function() {
 			fetchRecentDep();
-			$(".chosen-select").chosen({
-				no_results_text: "No results matched",
-				width: "100%" 
-				});
+            getSchool();
+            getDivision();
+            getGrade();
        		})
+
+        function onSelectLoad() {
+            $(".chosen-select").chosen({
+                no_results_text: "No results matched",
+                width: "100%" 
+            });
+        }    
+            
+        function getSchool(){
+            const schoolSelect = $('#School');
+            schoolSelect.empty(); 
+            schoolSelect.append('<option value="">Select School/University</option>');
+                $.ajax({
+                type: 'GET', 
+                url: '<?= site_url('SupervisorController/GetAllSchool') ?>',
+                dataType: 'json',
+                success: function(response) {    
+                    const res = response.data;
+                    if (res.length > 0) {
+                        res.forEach(function(info) {
+                            schoolSelect.append(`<option value="${info.School}">${info.School} - ${info.Branch}</option>`);
+                        });
+                    }
+                    },
+                error: function(error) {
+                    message('error',`Failed to Fetch Program, Try Again`, 2000);
+                }
+                });
+		}
+
+        function getDivision(){
+            const divisionSelect = $('#Division');
+            divisionSelect.empty(); 
+            divisionSelect.append('<option value="">Select Division</option>');
+                $.ajax({
+                type: 'GET', 
+                url: '<?= site_url('SupervisorController/GetAllDivision') ?>',
+                dataType: 'json',
+                success: function(response) {    
+                    const res = response.data;
+                    if (res.length > 0) {
+                        res.forEach(function(info) {
+                            divisionSelect.append(`<option value="${info.Division}-${info.Type}">${info.Division} - ${info.Type}</option>`);
+                        });
+                    }
+                    },
+                error: function(error) {
+                    message('error',`Failed to Fetch Program, Try Again`, 2000);
+                }
+                });
+		}
+
+        function getGrade(){
+            const gradeSelect = $('#Grade');
+            gradeSelect.empty(); 
+            gradeSelect.append('<option value="">Select Grade Level</option>');
+                $.ajax({
+                type: 'GET', 
+                url: '<?= site_url('SupervisorController/GetAllGrade') ?>',
+                dataType: 'json',
+                success: function(response) {    
+                    const res = response.data;
+                    if (res.length > 0) {
+                        res.forEach(function(info) {
+                            gradeSelect.append(`<option value="${info.Grade}-${info.Level}">${info.Grade} - ${info.Level}</option>`);
+                        });
+                    }
+                    },
+                error: function(error) {
+                    message('error',`Failed to Fetch Program, Try Again`, 2000);
+                }
+                });
+		}
 
 		 function fetchRecentDep() { // Table Fetch
 			var table = $('#startuptable').DataTable({
@@ -329,7 +356,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             $('#Name').val('');
             $('#Coordinator').val(''); 
             $('#School').val('');          
-            $('#Division').val('');       
+            $('#Division').val('');
+            $('#Grade').val('');        
             $('.chosen-select').trigger('chosen:updated');
         }
 

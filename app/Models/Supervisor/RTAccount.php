@@ -20,6 +20,28 @@ class RTAccount extends Model
         return $builder->getResult();
     }
 
+    public function FetchAllSchool(){
+        $query = "SELECT School, Abbreviation, 'PASIG' AS Branch
+            FROM school1st
+            UNION
+            SELECT School, Abbreviation, 'MANDALUYONG' AS Branch
+            FROM school2nd";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
+
+    public function FetchAllDivision() {
+        $query = "SELECT * FROM division";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
+
+    public function FetchAllGrade() {
+        $query = "SELECT * FROM grade";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
+
     public function insertProfessor($data) {
         $query = "INSERT INTO teacher(Username, Password, Name, Student, School, Division, Grade, Coordinator, Profile) 
                VALUES('$data[1]', '123456789', '$data[2]', '', '$data[4]', '$data[5]', '$data[0]', '$data[3]','')";

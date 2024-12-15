@@ -20,6 +20,18 @@ class PSTAccount extends Model
         return $builder->getResult();
     }
 
+    public function FetchAllProgram(){
+        $query = "SELECT * FROM program";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
+
+    public function FetchAllSection(){
+        $query = "SELECT * FROM block";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
+
     public function insertStudent($data) {
         $query = "INSERT INTO student(Username, Password, Name, Program, Section, Supervisor, Contact, Total, Coordinator, School, Resource, Division, Grade, Profile, EvalID) 
                VALUES('$data[1]', '123456789', '$data[2]', '$data[4]', '$data[5]', '$data[0]', '$data[3]', '', '', '', '', '', '','','')";

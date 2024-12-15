@@ -27,15 +27,6 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
       <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
          <label class="search-input" style="margin-bottom: 0px !important;">Major</label>
             <select class="chosen-select search-input" id="School" onchange="searchByMajor()">
-                <option value="FetchAll">All of Majors</option>
-                <option value="BSE-Math">BSE-Math</option>
-				<option value="BSE-Filipino">BSE-Filipino</option>
-				<option value="BSE-English">BSE-English</option>
-				<option value="BSE-Science">BSE-Science</option>
-                <option value="BSE-Social-Studies">BSE-Social-Studies</option>
-				<option value="BTVTED-CSS">BTVTED-CSS</option>
-				<option value="BTVTED-VGD">BTVTED-VGD</option>
-				<option value="BTVTED-Animation">BTVTED-Animation</option>
 			</select>
           </div>
    </div>
@@ -242,10 +233,37 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 <script>
 	$(document).ready(function() {
 		onloadStudent();
+		getSchool();
 	})
 
 	let barChart;
 	let lineChart;
+	     
+	function getSchool(){
+            const schoolSelect = $('#School');
+            schoolSelect.empty(); 
+            schoolSelect.append('<option value="FetchAll">All of Majors</option>');
+                $.ajax({
+                type: 'GET', 
+                url: '<?= site_url('SupervisorController/SearchProgramFetch') ?>',
+                dataType: 'json',
+                success: function(response) {    
+                    const res = response.data;
+                    if (res.length > 0) {
+                        res.forEach(function(info) {
+                            schoolSelect.append(`<option value="${info.Program}">${info.Program}</option>`);
+                        });
+                    }
+					 $(".chosen-select").chosen({
+						no_results_text: "No results matched",
+						width: "100%" 
+					});
+                    },
+                error: function(error) {
+                    message('error',`Failed to Fetch Program, Try Again`, 2000);
+                }
+                });
+		}
 
 	function onloadStudent() {
 		var pstHolder = $('#showstats');
@@ -303,12 +321,14 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 
 	function searchDeployed() {
 		var searchTerm = $('#statpst').val().trim();
+		var major = $('#School').val().trim();
 		var pstHolder = $('#showstats');
 		$.ajax({
 			type: 'GET',
 			url: '<?= site_url('SupervisorController/SearchDeployedPST ') ?>',
 			data: {
-				search: searchTerm
+				search: searchTerm,
+				major: major,
 			},
 			dataType: 'json',
 			success: function(response) {

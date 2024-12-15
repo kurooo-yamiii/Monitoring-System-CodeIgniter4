@@ -102,7 +102,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 const overallCount = Object.values(response).reduce((acc, curr) => {
                     return acc + Number(curr); // Convert current value to a number
                 }, 0);
-                $('#secondOverall').text(overallCount);
+                $('#thirdOverall').text(overallCount);
             createVerticalBars('chart2', response);
             },
             error: function(error) {
@@ -120,7 +120,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 const overallCount = Object.values(response).reduce((acc, curr) => {
                     return acc + Number(curr); // Convert current value to a number
                 }, 0);
-                $('#thirdOverall').text(overallCount);
+                $('#secondOverall').text(overallCount);
             createVerticalBars('chart3', response);
             },
             error: function(error) {

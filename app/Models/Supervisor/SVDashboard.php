@@ -23,22 +23,20 @@ class SVDashboard extends Model
     }
 
     public function getStudentProgram() {
-        $program = [
-            'BSE-Math' => 'MTH', 
-            'BSE-English' => 'ENG', 
-            'BSE-Filipino' => 'FIL', 
-            'BSE-Science' => 'SCI', 
-            'BSE-Social-Studies' => 'SOC', 
-            'BTVTED-VGD' => 'VGD', 
-            'BTVTED-CSS' => 'CSS', 
-            'BTVTED-Animation' => 'ANI'
-        ];
+
+        $programQuery = "SELECT Program, Abbreviation FROM program";
+        $programBuilder = $this->db->query($programQuery);
+        $programResults = $programBuilder->getResult();
+
+        $program = [];
+        foreach ($programResults as $row) {
+            $program[$row->Program] = $row->Abbreviation;
+        }
         
         $query = "SELECT Program, COUNT(*) AS count FROM student WHERE Program IN ('" . implode("','", array_keys($program)) . "') GROUP BY Program";
         $builder = $this->db->query($query);
         $results = $builder->getResult();
         
-        // Map the results to their abbreviations
         $abbreviatedResults = array_fill_keys(array_values($program), 0);
         foreach ($results as $result) {
             $abbreviation = $program[$result->Program] ?? 0;
@@ -51,19 +49,14 @@ class SVDashboard extends Model
     }
 
     public function getMandaCoop() {
-        $schools = [
-            'Andres Bonifacio Integrated School' => 'AB1',
-            'City of Mandaluyong Science High School' => 'CMS',
-            'Eulogio Rodriguez Integrated School' => 'ERI',
-            'Highway Hills Integrated School' => 'HHS',
-            'Hulo Integrated School' => 'HIS',
-            'Ilaya Barangka Integrated School' => 'IBS',
-            'Isaac Lopez Integrated School' => 'ILS',
-            'Jose Fabella Memorial School' => 'JFM',
-            'Manggahan High School' => 'MHS',
-            'Mataas na Paaralang Neptali A. Gonzales' => 'MPG',
-            'Rizal Technological University' => 'RTU'
-        ];
+        $schoolQuery = "SELECT School, Abbreviation FROM school2nd";
+        $schoolBuilder = $this->db->query($schoolQuery);
+        $schoolResults = $schoolBuilder->getResult();
+
+        $schools = [];
+        foreach ($schoolResults as $row) {
+            $schools[$row->School] = $row->Abbreviation;
+        }
 
         $query = "SELECT School, COUNT(*) AS count FROM teacher WHERE School IN ('" . implode("','", array_keys($schools)) . "') GROUP BY School"; 
         $builder = $this->db->query($query);
@@ -80,18 +73,14 @@ class SVDashboard extends Model
     }
 
     public function getPasigCoop() {
-        $schools = [
-            'Eusebio High School' => 'EHS',
-            'Mandaluyong High School' => 'MHS',
-            'Nagpayong High School' => 'NHS',
-            'Pinagbuhatan High School' => 'PHS',
-            'Rizal Experimental Station and Pilot School' => 'REPS',
-            'Rizal High School' => 'RHS',
-            'Sagad High School' => 'SHS',
-            'San Joaquin-Kalawaan High School' => 'SJK',
-            'Santolan High School' => 'SH',
-            'Sta. Lucia High School' => 'SLS'
-        ];
+        $schoolQuery = "SELECT School, Abbreviation FROM school1st";
+        $schoolBuilder = $this->db->query($schoolQuery);
+        $schoolResults = $schoolBuilder->getResult();
+
+        $schools = [];
+        foreach ($schoolResults as $row) {
+            $schools[$row->School] = $row->Abbreviation;
+        }
 
         $abbreviatedResults = array_fill_keys(array_values($schools), 0);
         $query = "SELECT School, COUNT(*) AS count FROM teacher WHERE School IN ('" . implode("','", array_keys($schools)) . "') GROUP BY School"; 

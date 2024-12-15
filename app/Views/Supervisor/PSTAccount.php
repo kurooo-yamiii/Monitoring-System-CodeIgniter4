@@ -37,7 +37,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
       <div class="space"></div>
 		<div class="divider"></div>
 		  <div class="button-container">
-		  		<button type="button" class="btn-shadow btn btn-success" style="font-size: 14px;" data-target="#CreateModal"
+		  		<button onclick="onSelectLoad()" type="button" class="btn-shadow btn btn-success" style="font-size: 14px;" data-target="#CreateModal"
                     id="CreatePST" data-toggle="modal">
                     <span class="fas fa-plus"></span> PST Account
                 </button>
@@ -106,29 +106,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				  <div class="col-md-6">
                       <label><span style="color: red;">*</span>PROGRAM</label>
                        <select class="chosen-select" id="Program">
-                        		<option value="" selected>Select Program</option>
-                            	<option value="BTVTED-CSS">BTVTED-CSS</option>
-                                <option value="BTVTED-VGD">BTVTED-VGD</option>
-                                <option value="BTVTED-Animation">BTVTED-Animation</option>
-                                <option value="BSE-Math">BSE-Math</option>
-                                <option value="BSE-English">BSE-English</option>
-                                <option value="BSE-Science">BSE-Science</option>
-                                <option value="BSE-Social-Studies">BSE-Social-Studies</option>
-                                <option value="BSE-Filipino">BSE-Filipino</option>
                       </select>
                 </div>
 
 				<div class="col-md-6">
                       <label><span style="color: red;">*</span>SECTION</label>
                        <select class="chosen-select" id="Section">
-                        		<option value="" selected>Select Section</option>
-								<option value="PCED-13-101P">PCED-13-101P</option>
-								<option value="PCED-13-201P">PCED-13-201P</option>
-								<option value="PCED-13-301P">PCED-13-301P</option>
-								<option value="PCED-13-401P">PCED-13-401P</option>
-								<option value="PCED-13-501P">PCED-13-501P</option>
-								<option value="PCED-13-601P">PCED-13-601P</option>
-								<option value="PCED-13-701P">PCED-13-701P</option>
                       </select>
                 </div>
 
@@ -170,12 +153,61 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	</form>
 	<script>
 		   $(document).ready(function() {
+            getProgram();
+            getSection();
 			fetchRecentDep();
-			$(".chosen-select").chosen({
-				no_results_text: "No results matched",
-				width: "100%" 
-				});
        		})
+
+        function onSelectLoad() {
+            $(".chosen-select").chosen({
+                no_results_text: "No results matched",
+                width: "100%" 
+            });
+        }    
+            
+        function getProgram(){
+            const programSelect = $('#Program');
+            programSelect.empty(); 
+            programSelect.append('<option value="">Select Student Program</option>');
+                $.ajax({
+                type: 'GET', 
+                url: '<?= site_url('SupervisorController/GetAllProgram') ?>',
+                dataType: 'json',
+                success: function(response) {    
+                    const res = response.data;
+                    if (res.length > 0) {
+                        res.forEach(function(info) {
+                            programSelect.append(`<option value="${info.Program}">${info.Program}</option>`);
+                        });
+                    }
+                    },
+                error: function(error) {
+                    message('error',`Failed to Fetch Program, Try Again`, 2000);
+                }
+                });
+		}
+
+        function getSection(){
+            const sectionSelect = $('#Section');
+            sectionSelect.empty(); 
+            sectionSelect.append('<option value="">Select Student Section</option>');
+                $.ajax({
+                type: 'GET', 
+                url: '<?= site_url('SupervisorController/GetAllSection') ?>',
+                dataType: 'json',
+                success: function(response) {    
+                    const res = response.data;
+                    if (res.length > 0) {
+                        res.forEach(function(info) {
+                            sectionSelect.append(`<option value="${info.Section}">${info.Section}</option>`);
+                        });
+                    }
+                    },
+                error: function(error) {
+                    message('error',`Failed to Fetch Program, Try Again`, 2000);
+                }
+                });
+		}
 
 		 function fetchRecentDep() { // Table Fetch
 			var table = $('#startuptable').DataTable({

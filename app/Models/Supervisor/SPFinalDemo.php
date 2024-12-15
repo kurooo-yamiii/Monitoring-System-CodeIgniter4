@@ -33,18 +33,93 @@ class SPFinalDemo extends Model
         return $builder->getResult();
     }
 
-    public function FindSearchData($search) {
-        $query = "SELECT * FROM student WHERE Resource != '' AND (Name LIKE '%$search%' OR Program LIKE '%$search%' OR School LIKE '%$search%' OR Section LIKE '%$search%')";
+    public function FindSearchData($search, $major) {
+        if ($major == 'FetchAll') {
+            $query = "
+                SELECT 
+                    ST.*, 
+                    COALESCE(TM.Grade, 'N/A') AS TotalGrade,
+                    FORMAT(FD.AvgAverage, 2) AS ComputedAverage
+                FROM student ST
+                LEFT JOIN (
+                    SELECT 
+                        StudentID, 
+                        AVG(Average) AS AvgAverage
+                    FROM finaldemo
+                    GROUP BY StudentID
+                ) FD ON FD.StudentID = ST.ID
+                LEFT JOIN transmutation TM ON FD.AvgAverage BETWEEN TM.score_start AND TM.score_end
+                WHERE ST.Resource != '' 
+                  AND (ST.Name LIKE '%$search%' OR ST.Program LIKE '%$search%' OR ST.School LIKE '%$search%' OR ST.Section LIKE '%$search%')
+            ";
+        } else {
+            $query = "
+                SELECT 
+                    ST.*, 
+                    COALESCE(TM.Grade, 'N/A') AS TotalGrade,
+                    FORMAT(FD.AvgAverage, 2) AS ComputedAverage
+                FROM student ST
+                LEFT JOIN (
+                    SELECT 
+                        StudentID, 
+                        AVG(Average) AS AvgAverage
+                    FROM finaldemo
+                    GROUP BY StudentID
+                ) FD ON FD.StudentID = ST.ID
+                LEFT JOIN transmutation TM ON FD.AvgAverage BETWEEN TM.score_start AND TM.score_end
+                WHERE ST.Resource != '' 
+                  AND ST.Program = '$major' 
+                  AND (ST.Name LIKE '%$search%' OR ST.School LIKE '%$search%' OR ST.Section LIKE '%$search%')
+            ";
+        }        
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
+
+    
+    public function FetchByProg() {
+        $query = "SELECT * FROM program";
         $builder = $this->db->query($query);
         return $builder->getResult();
     }
 
     public function FindByMajor($major) {
-        if($major == 'FetchAll'){
-            $query = "SELECT * FROM student WHERE Resource IS NOT NULL";
-        }else{
-            $query = "SELECT * FROM student WHERE Resource IS NOT NULL AND (Program LIKE '%$major%')";
-        }
+        if ($major == 'FetchAll') {
+            $query = "
+                SELECT 
+                    ST.*, 
+                    COALESCE(TM.Grade, 'N/A') AS TotalGrade,
+                    FORMAT(FD.AvgAverage, 2) AS ComputedAverage
+                FROM student ST
+                LEFT JOIN (
+                    SELECT 
+                        StudentID, 
+                        AVG(Average) AS AvgAverage
+                    FROM finaldemo
+                    GROUP BY StudentID
+                ) FD ON FD.StudentID = ST.ID
+                LEFT JOIN transmutation TM ON FD.AvgAverage BETWEEN TM.score_start AND TM.score_end
+                WHERE ST.Resource IS NOT NULL
+            ";
+        } else {
+            $query = "
+                SELECT 
+                    ST.*, 
+                    COALESCE(TM.Grade, 'N/A') AS TotalGrade,
+                    FORMAT(FD.AvgAverage, 2) AS ComputedAverage
+                FROM student ST
+                LEFT JOIN (
+                    SELECT 
+                        StudentID, 
+                        AVG(Average) AS AvgAverage
+                    FROM finaldemo
+                    GROUP BY StudentID
+                ) FD ON FD.StudentID = ST.ID
+                LEFT JOIN transmutation TM ON FD.AvgAverage BETWEEN TM.score_start AND TM.score_end
+                WHERE ST.Resource IS NOT NULL
+                  AND (ST.Program LIKE '%$major%')
+            ";
+        }        
         $builder = $this->db->query($query);
         return $builder->getResult();
     }

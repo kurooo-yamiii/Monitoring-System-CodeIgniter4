@@ -19,6 +19,12 @@ class Statistic extends Model
         $builder = $this->db->query($query);
         return $builder->getResult();
     }
+
+    public function FetchSearchProgram() {
+        $query = "SELECT * FROM program";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
 	
 	public function GetThreeDTR($ID){
 		$query = "SELECT * FROM dtr WHERE AccID = $ID ORDER BY ID DESC LIMIT 3";
@@ -85,8 +91,13 @@ class Statistic extends Model
         return $builder->getResult();
     }
 
-    public function GetSearchData($search) {
-        $query = "SELECT * FROM student WHERE Resource != '' AND (Name LIKE '%$search%' OR Program LIKE '%$search%' OR School LIKE '%$search%' OR Section LIKE '%$search%')";
+    public function GetSearchData($search, $major) {
+        if($major == 'FetchAll'){
+            $query = "SELECT * FROM student WHERE Resource != '' AND (Name LIKE '%$search%' OR Program LIKE '%$search%' OR School LIKE '%$search%' OR Section LIKE '%$search%')";
+        }else{
+            $query = "SELECT * FROM student WHERE Resource != '' AND Program = '$major' AND (Name LIKE '%$search%' OR School LIKE '%$search%' OR Section LIKE '%$search%')";
+        }
+        
         $builder = $this->db->query($query);
         return $builder->getResult();
     }

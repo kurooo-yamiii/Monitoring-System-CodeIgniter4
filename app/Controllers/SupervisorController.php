@@ -143,6 +143,16 @@ class SupervisorController extends BaseController
         return $this->response->setJSON(['data' => $data]);
     }
 
+    public function GetAllProgram() {
+        $data = $this->PSTAccount->FetchAllProgram();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+     public function GetAllSection() {
+        $data = $this->PSTAccount->FetchAllSection();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
     public function CreatePST() {
         $supervisor = $this->request->getVar('Supervisor');
         $email = $this->request->getVar('Email');
@@ -194,6 +204,21 @@ class SupervisorController extends BaseController
 
     public function AllProfessorAcc() {
         $data = $this->RTAccount->getTeacherAcc();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function GetAllSchool() {
+        $data = $this->RTAccount->FetchAllSchool();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function GetAllDivision() {
+        $data = $this->RTAccount->FetchAllDivision();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+     public function GetAllGrade() {
+        $data = $this->RTAccount->FetchAllGrade();
         return $this->response->setJSON(['data' => $data]);
     }
 
@@ -443,6 +468,11 @@ class SupervisorController extends BaseController
         return $this->response->setJSON($data);
     }
 	
+    public function SearchProgramFetch() {
+        $data = $this->Statistic->FetchSearchProgram();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
 	 public function GetInfoChart() {
         $ID = $this->request->getVar('ID');
         $scores = $this->Statistic->getRecentScores($ID);
@@ -489,7 +519,8 @@ class SupervisorController extends BaseController
 
     public function SearchDeployedPST() {
         $search = $this->request->getVar(index: 'search');
-        $data = $this->Statistic->GetSearchData($search);
+        $major = $this->request->getVar(index: 'major');
+        $data = $this->Statistic->GetSearchData($search, $major);
         return $this->response->setJSON($data);
     }
 
@@ -582,7 +613,8 @@ class SupervisorController extends BaseController
 
     public function FindhDeployedPST() {
         $search = $this->request->getVar(index: 'search');
-        $data = $this->SPFinalDemo->FindSearchData($search);
+        $major = $this->request->getVar(index: 'major');
+        $data = $this->SPFinalDemo->FindSearchData($search, $major);
         return $this->response->setJSON($data);
     }
 
@@ -590,6 +622,11 @@ class SupervisorController extends BaseController
         $major = $this->request->getVar(index: 'major');
         $data = $this->SPFinalDemo->FindByMajor($major);
         return $this->response->setJSON($data);
+    }
+
+    public function FetchProgramSearch() {
+        $data = $this->SPFinalDemo->FetchByProg();
+        return $this->response->setJSON(['data' => $data]);
     }
     
     public function logout() {
