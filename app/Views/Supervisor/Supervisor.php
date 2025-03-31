@@ -52,8 +52,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
   <h2 class="u-name">RIZAL<b> TECHNOLOGICAL UNIVERSITY</b>
 		</h2>
     <div class="dashboardstats">
-    <span onclick="loadView('PreviewStatistic')" class="material-icons-outlined">bar_chart</span>
-		<span onclick="loadView('PreviewDashboard')" class="material-icons-outlined">home</span>
+    <span onclick="loadView('SupervisorController/PreviewStatistic')" class="material-icons-outlined">bar_chart</span>
+		<span onclick="loadView('SupervisorController/PreviewDashboard')" class="material-icons-outlined">home</span>
       </div>
 	</header>
 	<div class="body">
@@ -74,22 +74,22 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				<p class="menu-spacing">MONITORING / DEPLOYMENT</p>
 			</li>
 			<li id="studlistbut">
-				<b onclick="loadView('PreviewPST')">
+				<b onclick="loadView('SupervisorController/PreviewPST')">
 					<a><i class="fa fa-graduation-cap size-icon" aria-hidden="true"></i>PST ACCOUNT</a>
 				</b>
 			</li>
 			<li id="teachlistbut">
-				<b onclick="loadView('PreviewRT')">
+				<b onclick="loadView('SupervisorController/PreviewRT')">
 					<a><i class="fa fa-users size-icon" aria-hidden="true"></i>RT ACCOUNT</a>
 				</b>
 			</li>
 			<li id="deploybtn">
-				<b onclick="loadView('PreviewDeployment')">
+				<b onclick="loadView('SupervisorController/PreviewDeployment')">
 					<a><i class="fa fa-tags size-icon" aria-hidden="true"></i>DEPLOYMENT</a>
 				</b>
 			</li>
 			<li id="annbtn">
-				<b onclick="loadView('PreviewAnnouncement')">
+				<b onclick="loadView('SupervisorController/PreviewAnnouncement')">
 					<a><i class="fa fa-bullhorn size-icon" aria-hidden="true"></i>ANNOUNCEMENT</a>
 				</b>
 			</li>
@@ -97,17 +97,17 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				<p class="menu-spacing">FINAL DEMO / REQUIREMENTS</p>
 			</li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewSupervisorLP')">
+				<b onclick="loadView('SupervisorController/PreviewSupervisorLP')">
 					<a><i class="fa fa-book size-icon" aria-hidden="true"></i>LESSON PLAN</a>
 				</b>
 			</li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewFinalDemo')">
+				<b onclick="loadView('SupervisorController/PreviewFinalDemo')">
 					<a><i class="fa fa-file-text size-icon" aria-hidden="true"></i>FINAL DEMO</a>
 				</b>
 			</li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewRequirements')">
+				<b onclick="loadView('SupervisorController/PreviewRequirements')">
 					<a><i class="fa fa-list-ul size-icon" aria-hidden="true"></i>REQUIREMENTS</a>
 				</b>
 			</li>
@@ -133,7 +133,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				<p class="menu-spacing">MAINTENANCE / MODIFICATION</p>
 			</li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewRequirements')">
+				<b onclick="loadView('Maintenance/PreviewListOfSchool')">
 					<a><i class="fa fa-flag size-icon" aria-hidden="true"></i>LIST OF SCHOOL (PASIG)</a>
 				</b>
 		    </li>
@@ -166,7 +166,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				<p class="menu-spacing">PROFILE / SETTINGS</p>
 			</li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewProfile')">
+				<b onclick="loadView('SupervisorController/PreviewProfile')">
 					<a><i class="fa fa-address-card size-icon" aria-hidden="true"></i>PROFILE</a>
 				</b>
 			</li>
@@ -206,14 +206,14 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 	<script src="<?=base_url('assets/sweetalert2/dist/sweetalert2.all.js')?>"></script>
 
 <script>
-      const baseUrl = '<?= site_url("SupervisorController/") ?>';
+      const baseUrl = '<?= site_url("") ?>';
 
       function getViewUrl(viewName) {
           return baseUrl + viewName;
       }
 
       $(document).ready(function() {
-        loadView('PreviewDashboard'); 
+        loadView('SupervisorController/PreviewDashboard'); 
       });
 
     function loadView(viewName) {
