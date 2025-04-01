@@ -8,6 +8,7 @@ use App\Models\Maintenance\ListOfSchoolPasig;
 use App\Models\Maintenance\ListOfSchoolManda;
 use App\Models\Maintenance\ListOfDivision;
 use App\Models\Maintenance\ListOfLevel;
+use App\Models\Maintenance\ListOfBlock;
 
 class Maintenance extends BaseController
 {
@@ -17,6 +18,7 @@ class Maintenance extends BaseController
     private $ListOfSchoolManda;
     private $ListOfDivision;
     private $ListOfLevel;
+    private $ListOfBlock;
     protected $helper;
     protected $db;
 
@@ -29,6 +31,7 @@ class Maintenance extends BaseController
         $this->ListOfSchoolManda = new ListOfSchoolManda();
         $this->ListOfDivision = new ListOfDivision();
         $this->ListOfLevel = new ListOfLevel();
+        $this->ListOfBlock = new ListOfBlock();
         helper('utility');
 	}
 
@@ -47,6 +50,11 @@ class Maintenance extends BaseController
     public function PreviewListOfGrade() {
         return view('Maintenance/ListOfLevel');
     }
+
+    public function PreviewListOfBlock() {
+        return view('Maintenance/ListOfBlock');
+    }
+
 
     public function GetAllSchoolPasig() {
         $data = $this->ListOfSchoolPasig->GetListOfSchoolPasig();
@@ -265,6 +273,62 @@ class Maintenance extends BaseController
         $result = $this->ListOfLevel->DeleteGrade($ID);
         if ($result) {
             return $this->response->setStatusCode(200)->setJSON(['message' => 'School Grade Level Successfully Deleted.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
+        }
+    }
+
+    public function GetAllSection() {
+        $data = $this->ListOfBlock->GetListofBlock();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function CreateSection() {
+        $section = strtoupper($this->request->getVar('Section'));
+        $branch = strtoupper($this->request->getVar('Branch'));
+
+        $validation = $this->ListOfBlock->CheckExistingSection($section);
+
+        if (empty($branch) || empty($section)) {
+            return $this->response->setStatusCode(200)->setJSON(['missing' => 'Please Fill Up all the Fields']);
+        } else if ($validation) {
+            return $this->response->setStatusCode(200)->setJSON(['existing' => 'This Section is Currently Existing']);
+        }
+
+        $result = $this->ListOfBlock->GenerateNewSection($section, $branch);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'New Section Succesfully Generated.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong, Try Again']);
+        }
+    }
+
+    public function UpdateSchoolSection() {
+        $section = strtoupper($this->request->getVar('Section'));
+        $branch = strtoupper($this->request->getVar('Branch'));
+        $ID = strtoupper($this->request->getVar('ID'));
+
+        $validation = $this->ListOfBlock->CheckExistingSection($section);
+
+        if (empty($branch) || empty($section)) {
+            return $this->response->setStatusCode(200)->setJSON(['missing' => 'Please Fill Up all the Fields']);
+        } else if ($validation) {
+            return $this->response->setStatusCode(200)->setJSON(['existing' => 'This Section is Currently Existing']);
+        }
+
+        $result = $this->ListOfBlock->UpdateSchoolGrade($ID, $section, $branch);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'New Section Succesfully Updated.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong, Try Again']);
+        }
+    }
+
+    public function DeleteSchoolSection() {
+        $ID = $this->request->getVar('ID');
+        $result = $this->ListOfBlock->DeleteSection($ID);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Section Successfully Deleted.']);
         } else {
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
         }

@@ -148,7 +148,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				</b>
 			</li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewFinalDemo')">
+				<b onclick="loadView('Maintenance/PreviewListOfBlock')">
 					<a><i class="fa fa-list-alt size-icon" aria-hidden="true"></i>LIST OF BLOCK</a>
 				</b>
 			</li>
