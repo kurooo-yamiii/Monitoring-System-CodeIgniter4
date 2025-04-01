@@ -6,7 +6,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 ?>
 <form>
    <div class="dashboard">
-   <p class="announce-para">List of School <span> DIVISION</span></p>
+   <p class="announce-para">List of School <span> Grade</span></p>
    <div class="logos">
       <div class="logo">
          <img src="<?=base_url('assets/img/logo.png')?>" alt="Logo 1" width="50" />
@@ -19,12 +19,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
    <div class="divider"></div>
    <div class="space"></div>
 
-   <table class="table table-striped" id="ListofDivision">
+   <table class="table table-striped" id="ListofLevel">
 	    <thead>
 		    <tr>
 			    <th scope="col">ID</th>
-			    <th scope="col">DIVISION</th>
-				<th scope="col">TYPE</th>
+			    <th scope="col">GRADE</th>
+				<th scope="col">LEVEL</th>
 				<th scope="col">ACTION</th>
 		    </tr>
 		</thead>
@@ -35,14 +35,14 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
     <div class="space"></div>
 		<div class="divider"></div>
 		  <div class="button-container">
-		  		<button type="button" onclick="ClearAllFields()" class="btn-shadow btn btn-success" style="font-size: 14px;" data-target="#CreateNewDivisionModal"
+		  		<button type="button" onclick="ClearAllFields()" class="btn-shadow btn btn-success" style="font-size: 14px;" data-target="#CreateNewGradeModal"
                     id="CreateDeployingSchool" data-toggle="modal">
-                    <span class="fas fa-plus"></span> ADD NEW DIVISION
+                    <span class="fas fa-plus"></span> ADD NEW LEVEL
                 </button>
 			</div>
 
     <!-- ADD MODAL -->
-    <div class="modal fade" id="CreateNewDivisionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="CreateNewGradeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -51,7 +51,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                                 <div class="logo-right">
                                     <img src="<?=base_url('assets/img/ced.jpg')?>" alt="Logo 2" width="50">
                                 </div>
-                                CREATE/UPDATE NEW DIVISION
+                                CREATE/UPDATE NEW LEVEL
                             </div>	
                         </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -62,24 +62,25 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                      <input type="text" class="form-control" id="UpdateID" hidden>
                 <div class="row">
                     <div class="col-md-8">
-                        <label><span style="color: red;">*</span>DIVSION</label>
-                        <input type="text" class="form-control" id="Division">
+                        <label><span style="color: red;">*</span>GRADE</label>
+                        <input type="text" class="form-control" id="Grade">
                     </div>
                     <div class="col-md-4">
-                            <label><span style="color: red;">TYPE</span></label>
-                             <select class="chosen-select" id="Type">
-                                <option value="">Select Division Type</option>
-                                <option value="STRAND">STRAND</option>
-                                <option value="TLE">TLE</option>
-                                <option value="SUBJECT">SUBJECT</option>
+                            <label><span style="color: red;">LEVEL</span></label>
+                             <select class="chosen-select" id="Level">
+                                <option value="">Select Grade Level</option>
+                                <option value="ELEMENTARY">Elementary</option>
+                                <option value="JHS">JHS</option>
+                                <option value="SHS">SHS</option>
+                                <option value="COLLEGIATE">Collegiate</option>
                             </select>
                     </div>
                 </div>
                 </div>
                 <div class="modal-footer" style="margin-top: 5%;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="AddDivision" onclick="CreateDivision(event)">Create Division</button>
-                    <button type="button" class="btn btn-primary" id="UpdateDivision" onclick="UpdateSchoolDivision()">Update Division</button>
+                    <button type="button" class="btn btn-primary" id="AddGrade" onclick="CreateGrade(event)">Create Grade</button>
+                    <button type="button" class="btn btn-primary" id="UpdateGrade" onclick="UpdateSchoolGrade()">Update Grade</button>
                 </div>
             </div>
         </div>
@@ -87,7 +88,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="DeleteSchoolDivision" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="DeleteSchoolGrade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 
@@ -106,12 +107,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 </div>
                 <div class="modal-body">
                     <input type="text" id="DelId" hidden>
-                    <p>Are you sure you want to delete the <span id="DelName" style="color: red;"></span> in the list of Division?</p>
+                    <p>Are you sure you want to delete the <span id="DelName" style="color: red;"></span> in the list of Grade?</p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="ECashID">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" id="SaveUser" onclick="DeletePasigSchool(event)">Delete Division</button>
+                    <button type="button" class="btn btn-danger" id="SaveUser" onclick="DeleteGradeLevel(event)">Delete Grade</button>
                 </div>
 
         </div>
@@ -121,12 +122,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 <script>
 
     $(document).ready(function() {
-        FetchAllDivision();
+        FetchAllGrade();
     })
 
         function ClearAllFields(){
-            const AddButton = document.getElementById("AddDivision");
-            const UpdateButton = document.getElementById("UpdateDivision");
+            const AddButton = document.getElementById("AddGrade");
+            const UpdateButton = document.getElementById("UpdateGrade");
             AddButton.style.display = 'block';
             UpdateButton.style.display = 'none';
             $(".chosen-select").chosen({
@@ -134,42 +135,42 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 width: "100%" 
             });
             $('.chosen-select').trigger('chosen:updated');
-            $('#Division').val('');
-            $('#Type').val('');
+            $('#Grade').val('');
+            $('#Level').val('');
         }
 
-        function DeletePasigSchool(e){
+        function DeleteGradeLevel(e){
 			e.preventDefault();
 			$.ajax({
-            type: 'POST', 
-            url: '<?= site_url('Maintenance/DeleteSchoolDivision') ?>',
+            Level: 'POST', 
+            url: '<?= site_url('Maintenance/DeleteSchoolGrade') ?>',
 			data: { ID: $('#DelId').val() }, 
-            dataType: 'json',
+            dataLevel: 'json',
             success: function(response) {    
-				message('success',`Division Succesfully Deleted`, 2000);
-				FetchAllDivision();
-				$('#DeleteSchoolDivision').modal('hide');
+				message('success',`Grade Succesfully Deleted`, 2000);
+				FetchAllGrade();
+				$('#DeleteSchoolGrade').modal('hide');
             },
             error: function(error) {
 				message('error',`Something Went Wrong, Try Again`, 2000);
-				$('#DeleteSchoolDivision').modal('hide');
+				$('#DeleteSchoolGrade').modal('hide');
             }
             });
 		}
 
-        $('#CreateNewDivisionModal').on('hidden.bs.modal', function () {
-            $('#Division').val('');
-            $('#Type').val('');
+        $('#CreateNewGradeModal').on('hidden.bs.modal', function () {
+            $('#Grade').val('');
+            $('#Level').val('');
         });
 
-        function UpdateCreateButton(id, div, type) {
-            const AddButton = document.getElementById("AddDivision");
-            const UpdateButton = document.getElementById("UpdateDivision");
+        function UpdateCreateButton(id, grade, level) {
+            const AddButton = document.getElementById("AddGrade");
+            const UpdateButton = document.getElementById("UpdateGrade");
             AddButton.style.display = 'none';
             UpdateButton.style.display = 'block';
             $('#UpdateID').val(id);
-            $('#Division').val(div);
-            $('#Type').val(type);
+            $('#Grade').val(grade);
+            $('#Level').val(level);
             $(".chosen-select").chosen({
                 no_results_text: "No results matched",
                 width: "100%" 
@@ -177,12 +178,12 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
             $('.chosen-select').trigger('chosen:updated');
         }
 
-        function UpdateSchoolDivision() {
+        function UpdateSchoolGrade() {
             $.ajax({
-            type: 'POST', 
-            url: '<?= site_url('Maintenance/UpdateSchoolDivision') ?>',
-			data: { ID: $('#UpdateID').val(), Division: $('#Division').val(), Type: $('#Type').val() }, 
-            dataType: 'json',
+            Level: 'POST', 
+            url: '<?= site_url('Maintenance/UpdateSchoolGrade') ?>',
+			data: { ID: $('#UpdateID').val(), Grade: $('#Grade').val(), Level: $('#Level').val() }, 
+            dataLevel: 'json',
             success: function(response) {   
                 if(response.missing){
                     message('error', response.missing, 2000);
@@ -190,46 +191,46 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                     message('error', response.existing, 2000);
                 }else{
                     message('success',`Deploying School Succesfully Updated`, 2000);
-                    FetchAllDivision();
-                    $('#CreateNewDivisionModal').modal('hide');
+                    FetchAllGrade();
+                    $('#CreateNewGradeModal').modal('hide');
                 }
             },
             error: function(error) {
 				message('error',`Something Went Wrong, Try Again`, 2000);
-				$('#CreateNewDivisionModal').modal('hide');
+				$('#CreateNewGradeModal').modal('hide');
             }
             });
 
         }
 
-        function CreateDivision(e) {
+        function CreateGrade(e) {
 			e.preventDefault();
 			$.ajax({
-            type: 'POST', 
-            url: '<?= site_url('Maintenance/CreateDivision') ?>',
-			data: { Division: $('#Division').val(), Type: $('#Type').val() }, 
-            dataType: 'json',
+            Level: 'POST', 
+            url: '<?= site_url('Maintenance/CreateGrade') ?>',
+			data: { Grade: $('#Grade').val(), Level: $('#Level').val() }, 
+            dataLevel: 'json',
             success: function(response) {   
                 if(response.missing){
                     message('error', response.missing, 2000);
                 } else if (response.existing) {
                     message('error', response.existing, 2000);
                 }else{
-                    message('success',`New Division Succesfully Generated`, 2000);
-                    FetchAllDivision();
-                    $('#CreateNewDivisionModal').modal('hide');
+                    message('success',`New Grade Succesfully Generated`, 2000);
+                    FetchAllGrade();
+                    $('#CreateNewGradeModal').modal('hide');
                 }
             },
             error: function(error) {
 				message('error',`Something Went Wrong, Try Again`, 2000);
-				$('#CreateNewDivisionModal').modal('hide');
+				$('#CreateNewGradeModal').modal('hide');
             }
             });
 		}
 
         
-		 function FetchAllDivision() { 
-			var table = $('#ListofDivision').DataTable({
+		 function FetchAllGrade() { 
+			var table = $('#ListofLevel').DataTable({
             ordering: false,
             responsive: true,
             retrieve: true,
@@ -286,9 +287,9 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 			});
 
             $.ajax({
-            type: 'GET', 
-            url: '<?= site_url('Maintenance/GetAllDivision') ?>', 
-            dataType: 'json',
+            Level: 'GET', 
+            url: '<?= site_url('Maintenance/GetAllGrade') ?>', 
+            dataLevel: 'json',
             success: function(response) {    
                 table.clear().draw();
                     const res = response.data;
@@ -296,11 +297,11 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                             res.forEach(function(info) {
                                 var rowData = $(`<tr id="${info.ID}">
                                 <td>${info.ID}</td>
-                                <td>${info.Division}</td>
-                                <td>${info.Type}</td>
-								<td><a href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Division}');"type="button" class="red-button" data-target="#DeleteSchoolDivision" data-toggle="modal"><span class="fas fa-trash"></span></a> 
-								<a href="javascript:void(0);" onclick="UpdateCreateButton(${info.ID}, '${info.Division}', '${info.Type}');"
-									class="blue-button" data-target="#CreateNewDivisionModal" data-toggle="modal"><span class="fa fa-pencil"></span></a>
+                                <td>${info.Grade}</td>
+                                <td>${info.Level}</td>
+								<td><a href="javascript:void(0);" onclick="deleteQues(${info.ID}, '${info.Grade}');"Level="button" class="red-button" data-target="#DeleteSchoolGrade" data-toggle="modal"><span class="fas fa-trash"></span></a> 
+								<a href="javascript:void(0);" onclick="UpdateCreateButton(${info.ID}, '${info.Grade}', '${info.Level}');"
+									class="blue-button" data-target="#CreateNewGradeModal" data-toggle="modal"><span class="fa fa-pencil"></span></a>
 								</td>
                                 </tr>
                                 `);  
@@ -316,9 +317,9 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
         }
 
         
-		function deleteQues(id, division) {
+		function deleteQues(id, Grade) {
 			$('#DelId').val(id);
-			$('#DelName').text(division.toUpperCase());
+			$('#DelName').text(Grade.toUpperCase());
 		}
 
         function message(icon,message,duration){

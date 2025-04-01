@@ -158,7 +158,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
 				</b>
 		    </li>
 			<li id="accbtn">
-				<b onclick="loadView('PreviewRequirements')">
+				<b onclick="loadView('Maintenance/PreviewListOfGrade')">
 					<a><i class="fa fa-th-list size-icon" aria-hidden="true"></i>LIST OF GRADE</a>
 				</b>
 		    </li>

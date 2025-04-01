@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Maintenance\ListOfSchoolPasig;
 use App\Models\Maintenance\ListOfSchoolManda;
 use App\Models\Maintenance\ListOfDivision;
+use App\Models\Maintenance\ListOfLevel;
 
 class Maintenance extends BaseController
 {
@@ -15,6 +16,7 @@ class Maintenance extends BaseController
     private $ListOfSchoolPasig;
     private $ListOfSchoolManda;
     private $ListOfDivision;
+    private $ListOfLevel;
     protected $helper;
     protected $db;
 
@@ -26,6 +28,7 @@ class Maintenance extends BaseController
         $this->ListOfSchoolPasig = new ListOfSchoolPasig();
         $this->ListOfSchoolManda = new ListOfSchoolManda();
         $this->ListOfDivision = new ListOfDivision();
+        $this->ListOfLevel = new ListOfLevel();
         helper('utility');
 	}
 
@@ -39,6 +42,10 @@ class Maintenance extends BaseController
 
     public function PreviewListOfDivision() {
         return view('Maintenance/ListOfDivision');
+    }
+
+    public function PreviewListOfGrade() {
+        return view('Maintenance/ListOfLevel');
     }
 
     public function GetAllSchoolPasig() {
@@ -202,6 +209,62 @@ class Maintenance extends BaseController
         $result = $this->ListOfDivision->DeleteDivision($ID);
         if ($result) {
             return $this->response->setStatusCode(200)->setJSON(['message' => 'School Division Successfully Deleted.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
+        }
+    }
+
+    public function GetAllGrade() {
+        $data = $this->ListOfLevel->GetListOfGrade();
+        return $this->response->setJSON(['data' => $data]);
+    }
+
+    public function CreateGrade() {
+        $grade = strtoupper($this->request->getVar('Grade'));
+        $level = strtoupper($this->request->getVar('Level'));
+
+        $validation = $this->ListOfLevel->CheckExistingGrade($grade);
+
+        if (empty($level) || empty($grade)) {
+            return $this->response->setStatusCode(200)->setJSON(['missing' => 'Please Fill Up all the Fields']);
+        } else if ($validation) {
+            return $this->response->setStatusCode(200)->setJSON(['existing' => 'This Grade is Currently Existing']);
+        }
+
+        $result = $this->ListOfLevel->GenerateNewGrade($grade, $level);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'New Grade Succesfully Generated.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong, Try Again']);
+        }
+    }
+
+    public function UpdateSchoolGrade() {
+        $grade = strtoupper($this->request->getVar('Grade'));
+        $level = strtoupper($this->request->getVar('Level'));
+        $ID = strtoupper($this->request->getVar('ID'));
+
+        $validation = $this->ListOfLevel->CheckExistingGrade($grade);
+
+        if (empty($grade) || empty($level)) {
+            return $this->response->setStatusCode(200)->setJSON(['missing' => 'Please Fill Up all the Fields']);
+        } else if ($validation) {
+            return $this->response->setStatusCode(200)->setJSON(['existing' => 'This Grade is Currently Existing']);
+        }
+
+        $result = $this->ListOfLevel->UpdateGradeLevel($ID, $grade, $level);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Grade Succesfully Updated.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong, Try Again']);
+        }
+    } 
+
+    public function DeleteSchoolGrade() {
+        $ID = $this->request->getVar('ID');
+        $result = $this->ListOfLevel->DeleteGrade($ID);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'School Grade Level Successfully Deleted.']);
         } else {
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
         }
