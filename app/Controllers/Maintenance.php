@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\Maintenance\ListOfSchoolPasig;
 use App\Models\Maintenance\ListOfSchoolManda;
+use App\Models\Maintenance\ListOfDivision;
 
 class Maintenance extends BaseController
 {
@@ -13,6 +14,7 @@ class Maintenance extends BaseController
 	private $postRequest;
     private $ListOfSchoolPasig;
     private $ListOfSchoolManda;
+    private $ListOfDivision;
     protected $helper;
     protected $db;
 
@@ -23,6 +25,7 @@ class Maintenance extends BaseController
         $this->postRequest = \Config\Services::request();
         $this->ListOfSchoolPasig = new ListOfSchoolPasig();
         $this->ListOfSchoolManda = new ListOfSchoolManda();
+        $this->ListOfDivision = new ListOfDivision();
         helper('utility');
 	}
 
@@ -34,7 +37,11 @@ class Maintenance extends BaseController
         return view('Maintenance/ListOfSchoolManda');
     }
 
-    public function GerAllSchoolPasig() {
+    public function PreviewListOfDivision() {
+        return view('Maintenance/ListOfDivision');
+    }
+
+    public function GetAllSchoolPasig() {
         $data = $this->ListOfSchoolPasig->GetListOfSchoolPasig();
         return $this->response->setJSON(['data' => $data]);
     }
@@ -144,6 +151,60 @@ class Maintenance extends BaseController
         }
     }
 
+    public function GetAllDivision() {
+        $data = $this->ListOfDivision->GetListofDivision();
+        return $this->response->setJSON(['data' => $data]);
+    }
 
+    public function CreateDivision() {
+        $division = strtoupper($this->request->getVar('Division'));
+        $type = strtoupper($this->request->getVar('Type'));
+
+        $validation = $this->ListOfDivision->CheckExistingDivision($division);
+
+        if (empty($type) || empty($division)) {
+            return $this->response->setStatusCode(200)->setJSON(['missing' => 'Please Fill Up all the Fields']);
+        } else if ($validation) {
+            return $this->response->setStatusCode(200)->setJSON(['existing' => 'This Division is Currently Existing']);
+        }
+
+        $result = $this->ListOfDivision->GenerateNewDivision($division, $type);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'New Division Succesfully Generated.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong, Try Again']);
+        }
+    }
+
+    public function UpdateSchoolDivision() {
+        $division = strtoupper($this->request->getVar('Division'));
+        $type = strtoupper($this->request->getVar('Type'));
+        $ID = strtoupper($this->request->getVar('ID'));
+
+        $validation = $this->ListOfDivision->CheckExistingDivision($division);
+
+        if (empty($division) || empty($type)) {
+            return $this->response->setStatusCode(200)->setJSON(['missing' => 'Please Fill Up all the Fields']);
+        } else if ($validation) {
+            return $this->response->setStatusCode(200)->setJSON(['existing' => 'This Division is Currently Existing']);
+        }
+
+        $result = $this->ListOfDivision->UpdateSchoolDivision($ID, $division, $type);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Division Succesfully Updated.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong, Try Again']);
+        }
+    }
+
+    public function DeleteSchoolDivision() {
+        $ID = $this->request->getVar('ID');
+        $result = $this->ListOfDivision->DeleteDivision($ID);
+        if ($result) {
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'School Division Successfully Deleted.']);
+        } else {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Something Went Wrong Try Again']);
+        }
+    }
 
 }

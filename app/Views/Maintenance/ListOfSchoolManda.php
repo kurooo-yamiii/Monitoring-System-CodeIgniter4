@@ -101,7 +101,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['Name'])) {
                 </div>
                 <div class="modal-body">
                     <input type="text" id="DelId" hidden>
-                    <p>Are you sure you want to delete deploying school <span id="DelName" style="color: red;"></span> in Pasig Branch?</p>
+                    <p>Are you sure you want to delete deploying school <span id="DelName" style="color: red;"></span> in Manda Branch?</p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="ECashID">

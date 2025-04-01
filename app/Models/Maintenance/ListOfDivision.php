@@ -6,41 +6,43 @@ use CodeIgniter\Model;
 
 class ListOfDivision extends Model
 {
-    protected $table            = 'listofdivisions';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $db;
+    protected $CU_Model;
+    protected $KeyBindings;
+    protected $table = 'division'; 
+    protected $primaryKey = 'ID';   
+    protected $allowedFields = [
+        'Type',    
+        'Division',
+    ];
 
-    protected bool $allowEmptyInserts = false;
-    protected bool $updateOnlyChanged = true;
+    public function GetListofDivision(){
+        $query = "SELECT * FROM division";
+        $builder = $this->db->query($query);
+        return $builder->getResult();
+    }
 
-    protected array $casts = [];
-    protected array $castHandlers = [];
+    public function CheckExistingDivision($division) {
+        $query = "SELECT * FROM division WHERE Division = ?";
+        $builder = $this->db->query($query, [$division]);
+        return $builder->getNumRows() > 0;
+    }
 
-    // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    public function GenerateNewDivision($division, $type) {
+        $query = "INSERT INTO division(Division, Type) 
+               VALUES('$division', '$type')";
+        return $this->db->query($query);
+    }
 
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+    public function UpdateSchoolDivision($ID, $division, $type) {
+        $query = "UPDATE division SET Division = '$division', Type = '$type'
+                    WHERE ID = $ID";
+        return $this->db->query($query);
+    }
 
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    public function DeleteDivision($ID) {
+        $query = "DELETE FROM division WHERE ID = $ID";
+        return $this->db->query($query);
+    }
+
 }
